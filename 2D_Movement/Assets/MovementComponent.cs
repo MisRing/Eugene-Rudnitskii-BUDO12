@@ -1,3 +1,4 @@
+using Unity.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -6,6 +7,9 @@ public class MovementComponent : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float _speed = 1;
     private Vector2 _movement;
+
+    [Header("Jump")]
+    [SerializeField] private bool _bIsGrounded = false;
 
     [Header("Face")]
     [SerializeField] private bool _bIsRight = true;
@@ -42,6 +46,5 @@ public class MovementComponent : MonoBehaviour
     {
         _bIsRight = !_bIsRight;
         _sprite.flipX = !_bIsRight;
-
     }
 }
