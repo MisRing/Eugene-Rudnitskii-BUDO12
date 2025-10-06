@@ -7,6 +7,7 @@ public class NegativeCount : MonoBehaviour
 
     [SerializeField] private int[] array = new int[12] {9, 12, 0, -22, 135, -21, -12, 2356, 222, -1, 2, 99};
 
+
     void Start()
     {
         Debug.Log($"Array: {string.Join(", ", array)}");
