@@ -12,13 +12,15 @@ public class MovementComponent : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private bool _isGrounded = false;
     [SerializeField] private bool _isOnWallLeft = false, _isOnWallRight = false;
-    [SerializeField] private float _jumpForce = 3f;
-    [SerializeField] private float _gravity = 5f;
+    [SerializeField] private float _jumpForce = 3f, _wallJumpForce = 3f;
+    [SerializeField] private float _gravity = 5f, _onWallGravity = 0.75f;
     [SerializeField] private bool _secondJump = true;
     [SerializeField] private Transform _groundTarget;
     [SerializeField] private Transform _wallTargetLeft, _wallTargetRight;
     [SerializeField] private float _rayDistance = 0.15f;
     [SerializeField] private LayerMask _jumpLayers;
+    private Vector2 _jumpVelocity;
+
 
     [Header("Face")]
     [SerializeField] private bool _lookRight = true;
@@ -39,15 +41,18 @@ public class MovementComponent : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _rb.velocity = new Vector2(_movement.x * _speed, _rb.velocity.y);
+        _jumpVelocity.x = Mathf.Sign(_jumpVelocity.x) * Mathf.Clamp(Mathf.Abs(_jumpVelocity.x) - Time.deltaTime * 10, 0, float.MaxValue);
+
+        _rb.velocity = new Vector2((_movement.x + _jumpVelocity.x) * _speed, _rb.velocity.y);
 
         _isGrounded = Physics2D.Raycast(_groundTarget.position, Vector2.down, _rayDistance, _jumpLayers);
         _isOnWallLeft = Physics2D.Raycast(_wallTargetLeft.position, Vector2.left, _rayDistance, _jumpLayers);
         _isOnWallRight = Physics2D.Raycast(_wallTargetRight.position, Vector2.right, _rayDistance, _jumpLayers);
 
-        if (((_isOnWallLeft && Input.GetAxisRaw("Horizontal") < 0) || (_isOnWallRight && Input.GetAxisRaw("Horizontal") > 0)) && _rb.velocity.y <= 0)
+        if (((_isOnWallLeft && Input.GetAxisRaw("Horizontal") < 0)|| (_isOnWallRight && Input.GetAxisRaw("Horizontal") > 0))
+            && _rb.velocity.y <= 0)
         {
-            _rb.gravityScale = _gravity * 0.15f;
+            _rb.gravityScale = _onWallGravity;
         }
         else
         {
@@ -76,11 +81,11 @@ public class MovementComponent : MonoBehaviour
             }
             else if(_isOnWallLeft)
             {
-                WallJump(Vector2.up + Vector2.right);
+                Jump(Vector2.up + Vector2.right);
             }
             else if(_isOnWallRight)
             {
-                WallJump(Vector2.up + Vector2.left);
+                Jump(Vector2.up + Vector2.left);
             }
             else if (_secondJump)
             {
@@ -95,9 +100,10 @@ public class MovementComponent : MonoBehaviour
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
     }
 
-    private void WallJump(Vector2 _direction)
+    private void Jump(Vector2 _direction)
     {
-        _rb.velocity = new Vector2(_direction.x * _jumpForce, _direction.y * _jumpForce);
+        _rb.velocity = new Vector2(_rb.velocity.x, _direction.y * _jumpForce);
+        _jumpVelocity.x = _direction.x * _wallJumpForce;
     }
 
     private void Flip()
