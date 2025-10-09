@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Unity.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -10,15 +8,13 @@ public class MovementComponent : MonoBehaviour
     private Vector2 _movement;
 
     [Header("Jump")]
-    [SerializeField] private bool _isGrounded = false;
-    [SerializeField] private bool _isOnWallLeft = false, _isOnWallRight = false;
-    [SerializeField] private float _jumpForce = 3f, _wallJumpForce = 3f;
+    [SerializeField] private float _jumpForce = 3f;
+    [SerializeField] private float _wallJumpForce = 3f;
+    [SerializeField] private float _jumpAffectSpeed = 10f;
     [SerializeField] private float _gravity = 5f, _onWallGravity = 0.75f;
     [SerializeField] private bool _secondJump = true;
-    [SerializeField] private Transform _groundTarget;
-    [SerializeField] private Transform _wallTargetLeft, _wallTargetRight;
-    [SerializeField] private float _rayDistance = 0.15f;
-    [SerializeField] private LayerMask _jumpLayers;
+    [SerializeField] private GroundChecker _groundChecker, _leftWallChecker, _rightWallChecher;
+
     private Vector2 _jumpVelocity;
 
 
@@ -41,28 +37,15 @@ public class MovementComponent : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _jumpVelocity.x = Mathf.Sign(_jumpVelocity.x) * Mathf.Clamp(Mathf.Abs(_jumpVelocity.x) - Time.deltaTime * 10, 0, float.MaxValue);
+        _jumpVelocity.x = AffectToZero(_jumpVelocity.x, _jumpAffectSpeed);
 
         _rb.velocity = new Vector2((_movement.x + _jumpVelocity.x) * _speed, _rb.velocity.y);
 
-        _isGrounded = Physics2D.Raycast(_groundTarget.position, Vector2.down, _rayDistance, _jumpLayers);
-        _isOnWallLeft = Physics2D.Raycast(_wallTargetLeft.position, Vector2.left, _rayDistance, _jumpLayers);
-        _isOnWallRight = Physics2D.Raycast(_wallTargetRight.position, Vector2.right, _rayDistance, _jumpLayers);
+        //_rb.velocity = new Vector2((_movement.x) * _speed, _rb.velocity.y);
 
-        if (((_isOnWallLeft && Input.GetAxisRaw("Horizontal") < 0)|| (_isOnWallRight && Input.GetAxisRaw("Horizontal") > 0))
-            && _rb.velocity.y <= 0)
-        {
-            _rb.gravityScale = _onWallGravity;
-        }
-        else
-        {
-            _rb.gravityScale = _gravity;
-        }
+        CheckGravity();
 
-        if (_isGrounded || _isOnWallLeft || _isOnWallRight)
-        {
-            _secondJump = true;
-        }
+        CheckSecondJump();
     }
 
     private void LateUpdate()
@@ -72,26 +55,50 @@ public class MovementComponent : MonoBehaviour
             Flip();
         }
 
-
         if (Input.GetButtonDown("Jump"))
         {
-            if (_isGrounded)
-            {
-                Jump();
-            }
-            else if(_isOnWallLeft)
-            {
-                Jump(Vector2.up + Vector2.right);
-            }
-            else if(_isOnWallRight)
-            {
-                Jump(Vector2.up + Vector2.left);
-            }
-            else if (_secondJump)
-            {
-                _secondJump = false;
-                Jump();
-            }
+            TryJump();
+        }
+    }
+
+    private void CheckGravity()
+    {
+        if (((_leftWallChecker._isGrounded && _movement.x < 0) || (_rightWallChecher._isGrounded && _movement.x > 0)) && _rb.velocity.y <= 0)
+        {
+            _rb.gravityScale = _onWallGravity;
+        }
+        else
+        {
+            _rb.gravityScale = _gravity;
+        }
+    }
+
+    private void CheckSecondJump()
+    {
+        if (_groundChecker._isGrounded || _leftWallChecker._isGrounded || _rightWallChecher._isGrounded)
+        {
+            _secondJump = true;
+        }
+    }
+
+    private void TryJump()
+    {
+        if (_groundChecker._isGrounded)
+        {
+            Jump();
+        }
+        else if (_leftWallChecker._isGrounded)
+        {
+            Jump(Vector2.up + Vector2.right);
+        }
+        else if (_rightWallChecher._isGrounded)
+        {
+            Jump(Vector2.up + Vector2.left);
+        }
+        else if (_secondJump)
+        {
+            _secondJump = false;
+            Jump();
         }
     }
 
@@ -106,21 +113,19 @@ public class MovementComponent : MonoBehaviour
         _jumpVelocity.x = _direction.x * _wallJumpForce;
     }
 
+    //private void Jump(Vector2 _direction)
+    //{
+    //    _rb.velocity = new Vector2(_direction.x * _wallJumpForce, _direction.y * _jumpForce);
+    //}
+
     private void Flip()
     {
         _lookRight = !_lookRight;
         _sprite.flipX = !_lookRight;
     }
 
-    private void OnDrawGizmosSelected()
+    private float AffectToZero(float _value, float _affectSpeed)
     {
-        Gizmos.color = _isGrounded ? Color.green : Color.red;
-        Gizmos.DrawRay(_groundTarget.position, Vector2.down * _rayDistance);
-
-        Gizmos.color = _isOnWallLeft ? Color.green : Color.red;
-        Gizmos.DrawRay(_wallTargetLeft.position, Vector2.left * _rayDistance);
-
-        Gizmos.color = _isOnWallRight ? Color.green : Color.red;
-        Gizmos.DrawRay(_wallTargetRight.position, Vector2.right * _rayDistance);
+        return Mathf.Sign(_value) * Mathf.Clamp(Mathf.Abs(_value) - _affectSpeed * Time.deltaTime, 0, float.MaxValue);
     }
 }
