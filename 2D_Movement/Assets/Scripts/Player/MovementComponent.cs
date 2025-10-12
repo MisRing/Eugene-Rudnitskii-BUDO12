@@ -5,6 +5,7 @@ public class MovementComponent : MonoBehaviour
 {
     [Header("Movement")]
     [SerializeField] private float _speed = 1;
+    [HideInInspector] public float Speed { get => _speed;}
     private Vector2 _movement;
 
     [Header("Jump")]
