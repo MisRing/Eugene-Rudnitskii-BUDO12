@@ -974,7 +974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: {x: 0, y: -1}
-  _rayDistance: 0.15
+  _rayDistance: 0.03
   _groundLayers:
     serializedVersion: 2
     m_Bits: 192
@@ -7145,7 +7145,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8, y: 1.35}
+  m_Size: {x: 0.8, y: 1.3}
   m_Direction: 0
 --- !u!1001 &1724673364
 PrefabInstance:
@@ -7296,8 +7296,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1907324949}
-  _maxGap: 1
-  _minSpeedPercent: 0.8
+  _maxGap: 2
+  _minSpeedPercent: 0.6
 --- !u!4 &1781567489
 Transform:
   m_ObjectHideFlags: 0
@@ -7482,7 +7482,8 @@ MonoBehaviour:
   _secondJump: 1
   _groundChecker: {fileID: 539657538}
   _leftWallChecker: {fileID: 1920726255}
-  _rightWallChecher: {fileID: 1983577339}
+  _rightWallChecker: {fileID: 1983577339}
+  _onWall: 0
   _lookRight: 1
   _sprite: {fileID: 1712367358}
 --- !u!50 &1907324948
@@ -7581,7 +7582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: {x: -1, y: 0}
-  _rayDistance: 0.15
+  _rayDistance: 0.075
   _groundLayers:
     serializedVersion: 2
     m_Bits: 192
@@ -7757,7 +7758,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _direction: {x: 1, y: 0}
-  _rayDistance: 0.15
+  _rayDistance: 0.075
   _groundLayers:
     serializedVersion: 2
     m_Bits: 192

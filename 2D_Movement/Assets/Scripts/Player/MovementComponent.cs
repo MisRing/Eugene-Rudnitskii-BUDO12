@@ -14,7 +14,8 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private float _jumpAffectSpeed = 10f;
     [SerializeField] private float _gravity = 5f, _onWallGravity = 0.75f;
     [SerializeField] private bool _secondJump = true;
-    [SerializeField] private GroundChecker _groundChecker, _leftWallChecker, _rightWallChecher;
+    [SerializeField] private GroundChecker _groundChecker, _leftWallChecker, _rightWallChecker;
+    [SerializeField] private bool _onWall = false;
 
     private Vector2 _jumpVelocity;
 
@@ -51,7 +52,12 @@ public class MovementComponent : MonoBehaviour
 
     private void LateUpdate()
     {
-        if ((_lookRight && _movement.x < 0) || (!_lookRight && _movement.x > 0))
+        if(_onWall)
+        {
+            if((_lookRight && _rightWallChecker._isGrounded) || (!_lookRight && _leftWallChecker._isGrounded))
+                Flip();
+        }
+        else if ((_lookRight && _movement.x < 0) || (!_lookRight && _movement.x > 0))
         {
             Flip();
         }
@@ -64,19 +70,21 @@ public class MovementComponent : MonoBehaviour
 
     private void CheckGravity()
     {
-        if (((_leftWallChecker._isGrounded && _movement.x < 0) || (_rightWallChecher._isGrounded && _movement.x > 0)) && _rb.velocity.y <= 0)
+        if ((_leftWallChecker._isGrounded || _rightWallChecker._isGrounded) && _rb.velocity.y <= 0 && !_groundChecker._isGrounded)
         {
             _rb.gravityScale = _onWallGravity;
+            _onWall = true;
         }
         else
         {
             _rb.gravityScale = _gravity;
+            _onWall = false;
         }
     }
 
     private void CheckSecondJump()
     {
-        if (_groundChecker._isGrounded || _leftWallChecker._isGrounded || _rightWallChecher._isGrounded)
+        if (_groundChecker._isGrounded || _leftWallChecker._isGrounded || _rightWallChecker._isGrounded)
         {
             _secondJump = true;
         }
@@ -92,7 +100,7 @@ public class MovementComponent : MonoBehaviour
         {
             Jump(Vector2.up + Vector2.right);
         }
-        else if (_rightWallChecher._isGrounded)
+        else if (_rightWallChecker._isGrounded)
         {
             Jump(Vector2.up + Vector2.left);
         }
