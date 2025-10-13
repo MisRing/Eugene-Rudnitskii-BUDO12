@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimatorComponent : MonoBehaviour
 {
+    [SerializeField] private float _minFallSpeed = 5f;
     private Animator _animator;
 
     private void Awake()
@@ -12,12 +13,16 @@ public class AnimatorComponent : MonoBehaviour
 
     public void SetWalkState(float movement)
     {
-        movement = Mathf.Abs(movement);
-        _animator.SetBool("Walk", movement > 0);
+        _animator.SetBool("Walk", movement != 0);
     }
 
     public void SetVerticalVelocity(float velocityY)
     {
         _animator.SetFloat("VerticalVelocity", velocityY);
+    }
+
+    public void StartJump()
+    {
+        _animator.SetTrigger("Jump");
     }
 }

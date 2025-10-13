@@ -3283,7 +3283,7 @@ Transform:
   m_GameObject: {fileID: 539657536}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.65, z: 0}
+  m_LocalPosition: {x: 0, y: -0.66, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9478,7 +9478,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.8, y: 1.3}
+  m_Size: {x: 0.7, y: 1.33}
   m_Direction: 0
 --- !u!212 &1907324953
 SpriteRenderer:
@@ -9521,7 +9521,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 15
-  m_Sprite: {fileID: 21300000, guid: 765d72eb593d3804b9f6f7b0a2c47ef9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 097737625e3c0e8419ccfffab34674a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9544,6 +9544,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47095f673c1cb1f418fd3b1342fb7411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _minFallSpeed: 5
 --- !u!4 &1910094051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7706187825234666681, guid: dd7a39f141f3b974eb9600ff10e331df, type: 3}
@@ -9575,7 +9576,7 @@ Transform:
   m_GameObject: {fileID: 1920726253}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.4, y: -0.1, z: 0}
+  m_LocalPosition: {x: -0.34, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9751,7 +9752,7 @@ Transform:
   m_GameObject: {fileID: 1983577337}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.34, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

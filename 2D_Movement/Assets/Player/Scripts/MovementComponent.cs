@@ -15,6 +15,7 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private GroundChecker _groundChecker, _leftWallChecker, _rightWallChecker;
     private bool _secondJump = true;
     private bool _onWall = false;
+    private float jumpTimer = 0f;
 
     //[Header("Face")]
     private bool _lookRight = true;
@@ -34,16 +35,25 @@ public class MovementComponent : MonoBehaviour
     private void Update()
     {
         _movement.x = Input.GetAxis("Horizontal");
+
+        CheckGravity();
+
+        CheckSecondJump();
+
+        SetAnimations();
     }
 
     private void FixedUpdate()
     {
         //Движение
-        _rb.velocity = new Vector2(_movement.x * _speed, _rb.velocity.y);
-
-        CheckGravity();
-
-        CheckSecondJump();
+        if (jumpTimer <= 0)
+        {
+            _rb.velocity = new Vector2(_movement.x * _speed, _rb.velocity.y);
+        }
+        else
+        {
+            jumpTimer -= Time.fixedDeltaTime;
+        }
     }
 
     private void LateUpdate()
@@ -56,15 +66,15 @@ public class MovementComponent : MonoBehaviour
         if (_onWall)
         {
             //Взгляд от стены при зацеплении на ней
-            if((_lookRight && _rightWallChecker._isGrounded) || (!_lookRight && _leftWallChecker._isGrounded))
+            if ((_lookRight && _rightWallChecker._isGrounded) || (!_lookRight && _leftWallChecker._isGrounded))
+            {
                 Flip();
+            }
         }
         else if ((_lookRight && _movement.x < 0) || (!_lookRight && _movement.x > 0))
         {
             Flip();
         }
-
-        SetAnimations();
     }
 
     private void CheckGravity()
@@ -97,11 +107,11 @@ public class MovementComponent : MonoBehaviour
         }
         else if (_leftWallChecker._isGrounded)
         {
-            WallJump(Vector2.up + Vector2.right);
+            WallJump(Vector2.up * 2 + Vector2.right);
         }
         else if (_rightWallChecker._isGrounded)
         {
-            WallJump(Vector2.up + Vector2.left);
+            WallJump(Vector2.up * 2 + Vector2.left);
         }
         else if (_secondJump)
         {
@@ -112,11 +122,15 @@ public class MovementComponent : MonoBehaviour
 
     private void Jump()
     {
+        _animator.StartJump();
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
     }
 
     private void WallJump(Vector2 _direction)
     {
+        jumpTimer = 0.3f;
+        _animator.StartJump();
+        _rb.velocity = Vector2.zero;
         _rb.AddForce(_direction * _wallJumpForce, ForceMode2D.Impulse);
     }
 
