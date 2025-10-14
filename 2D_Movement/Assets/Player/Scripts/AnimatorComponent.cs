@@ -25,4 +25,9 @@ public class AnimatorComponent : MonoBehaviour
     {
         _animator.SetTrigger("Jump");
     }
+
+    public void SetGroundState(bool _isGrounded)
+    {
+        _animator.SetBool("Grounded", _isGrounded);
+    }
 }

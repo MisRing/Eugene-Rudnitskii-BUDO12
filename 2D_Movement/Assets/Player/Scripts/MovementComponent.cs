@@ -15,7 +15,6 @@ public class MovementComponent : MonoBehaviour
     [SerializeField] private GroundChecker _groundChecker, _leftWallChecker, _rightWallChecker;
     private bool _secondJump = true;
     private bool _onWall = false;
-    private float jumpTimer = 0f;
 
     //[Header("Face")]
     private bool _lookRight = true;
@@ -46,14 +45,7 @@ public class MovementComponent : MonoBehaviour
     private void FixedUpdate()
     {
         //Движение
-        if (jumpTimer <= 0)
-        {
-            _rb.velocity = new Vector2(_movement.x * _speed, _rb.velocity.y);
-        }
-        else
-        {
-            jumpTimer -= Time.fixedDeltaTime;
-        }
+        _rb.velocity = new Vector2(_movement.x * _speed, _rb.velocity.y);
     }
 
     private void LateUpdate()
@@ -128,7 +120,6 @@ public class MovementComponent : MonoBehaviour
 
     private void WallJump(Vector2 _direction)
     {
-        jumpTimer = 0.3f;
         _animator.StartJump();
         _rb.velocity = Vector2.zero;
         _rb.AddForce(_direction * _wallJumpForce, ForceMode2D.Impulse);
@@ -144,5 +135,6 @@ public class MovementComponent : MonoBehaviour
     {
         _animator.SetWalkState(_movement.x);
         _animator.SetVerticalVelocity(_rb.velocity.y);
+        _animator.SetGroundState(_groundChecker._isGrounded);
     }
 }
