@@ -9446,7 +9446,7 @@ Transform:
   m_GameObject: {fileID: 1907324946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -3.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9576,7 +9576,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47095f673c1cb1f418fd3b1342fb7411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minFallSpeed: 5
   _effectTarget: {fileID: 812567817}
   _DoubleJumpEffectPref: {fileID: 1957195579491942172, guid: f3c9f9e3a169d7447b05b759a1db5826, type: 3}
 --- !u!4 &1910094051 stripped
