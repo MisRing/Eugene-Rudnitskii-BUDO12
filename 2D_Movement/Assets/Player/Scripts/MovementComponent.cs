@@ -108,13 +108,13 @@ public class MovementComponent : MonoBehaviour
         else if (_secondJump)
         {
             _secondJump = false;
-            Jump();
+            Jump(true);
         }
     }
 
-    private void Jump()
+    private void Jump(bool isDoubleJump = false)
     {
-        _animator.StartJump();
+        _animator.StartJump(isDoubleJump);
         _rb.velocity = new Vector2(_rb.velocity.x, _jumpForce);
     }
 

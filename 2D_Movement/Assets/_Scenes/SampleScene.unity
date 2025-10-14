@@ -3616,6 +3616,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7706187825234666681, guid: b4b86cd73d23bef43853c7739a46714c, type: 3}
   m_PrefabInstance: {fileID: 2055538392}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &812567816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 812567817}
+  m_Layer: 3
+  m_Name: EffectPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &812567817
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812567816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.675, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1907324949}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &909563433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9422,6 +9453,7 @@ Transform:
   - {fileID: 539657537}
   - {fileID: 1920726254}
   - {fileID: 1983577338}
+  - {fileID: 812567817}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1907324951
@@ -9526,7 +9558,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.66, y: 0.92}
+  m_Size: {x: 3.6571429, y: 1.8285714}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -9545,6 +9577,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _minFallSpeed: 5
+  _effectTarget: {fileID: 812567817}
+  _DoubleJumpEffectPref: {fileID: 1957195579491942172, guid: f3c9f9e3a169d7447b05b759a1db5826, type: 3}
 --- !u!4 &1910094051 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7706187825234666681, guid: dd7a39f141f3b974eb9600ff10e331df, type: 3}
