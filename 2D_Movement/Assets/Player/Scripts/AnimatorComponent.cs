@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class AnimatorComponent : MonoBehaviour
 {
-    [SerializeField] private float _minFallSpeed = 5f;
     [SerializeField] private Transform _effectTarget;
     [SerializeField] private GameObject _DoubleJumpEffectPref;
     private Animator _animator;
@@ -16,11 +15,6 @@ public class AnimatorComponent : MonoBehaviour
     public void SetWalkState(float movement)
     {
         _animator.SetBool("Walk", movement != 0);
-    }
-
-    public void SetVerticalVelocity(float velocityY)
-    {
-        _animator.SetFloat("VerticalVelocity", velocityY);
     }
 
     public void StartJump(bool isDoubleJump = false)

@@ -134,7 +134,6 @@ public class MovementComponent : MonoBehaviour
     private void SetAnimations()
     {
         _animator.SetWalkState(_movement.x);
-        _animator.SetVerticalVelocity(_rb.velocity.y);
         _animator.SetGroundState(_groundChecker._isGrounded);
     }
 }
