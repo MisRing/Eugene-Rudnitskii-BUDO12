@@ -23,6 +23,8 @@ public class MovementComponent : MonoBehaviour
     private Rigidbody2D _rb;
     private AnimatorComponent _animator;
 
+    [SerializeField] private BulletPool _bulletPool;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -40,6 +42,11 @@ public class MovementComponent : MonoBehaviour
         CheckSecondJump();
 
         SetAnimations();
+
+        if(Input.GetMouseButtonDown(0))
+        {
+            _bulletPool.GetBullet();
+        }
     }
 
     private void FixedUpdate()
