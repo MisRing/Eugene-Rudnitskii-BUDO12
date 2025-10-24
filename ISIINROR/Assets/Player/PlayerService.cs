@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,17 @@ public class PlayerService : MonoBehaviour
     [HideInInspector]
     public PlayerAnimator Animator;
 
+    public event Action OnHightFall;
 
     private void Awake()
     {
         Stats = GetComponent<PlayerStats>();
         MovementComponent = GetComponent<MovementComponent>();
         Animator = GetComponent<PlayerAnimator>();
+    }
+
+    public void InvokeOnHightFall()
+    {
+        OnHightFall?.Invoke();
     }
 }

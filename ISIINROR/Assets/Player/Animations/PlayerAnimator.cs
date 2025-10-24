@@ -44,6 +44,11 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetTrigger("DoubleJump");
     }
 
+    public void SetHightFall()
+    {
+        Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
+    }
+
     public void SetVerticalVelocity(float yVelocity)
     {
         _animator.SetFloat("VerticalVelocity", yVelocity);

@@ -8,10 +8,13 @@ public class MovementComponent : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 3f;
     [SerializeField] private float _hangTime = 0.1f;
+    [SerializeField, Range(5f, 50f)] private float _hightFallVelocity = 40f;
+    [SerializeField, Range(5f, 100f)] private float _yVelocityLimit = 50f;
     [SerializeField] private GroundChecker _groundChecker;
 
     private float _hangTimeCounter = 0f;
     private bool _secondJump = true;
+    private float _lastFrameVelocityY = 0;
 
     private bool _lookRight = true;
 
@@ -39,7 +42,9 @@ public class MovementComponent : MonoBehaviour
     private void FixedUpdate()
     {
         //Движение
-        _rb.velocity = new Vector2(_movement.x * _playerService.Stats.MoveSpeed.Value, _rb.velocity.y);
+        _rb.velocity = new Vector2(_movement.x * _playerService.Stats.MoveSpeed.Value,
+                                    Mathf.Clamp(_rb.velocity.y, -_yVelocityLimit, _yVelocityLimit));
+
     }
 
     private void LateUpdate()
@@ -62,6 +67,13 @@ public class MovementComponent : MonoBehaviour
 
     private void CheckJumpParameters()
     {
+        if(_groundChecker._isGrounded && _lastFrameVelocityY <= -_hightFallVelocity && _rb.velocity.y > -_hightFallVelocity)
+        {
+            _playerService.InvokeOnHightFall();
+            _playerService.Animator.SetHightFall();
+        }
+        _lastFrameVelocityY = _rb.velocity.y;
+
         if (_groundChecker._isGrounded)
         {
             _secondJump = true;
