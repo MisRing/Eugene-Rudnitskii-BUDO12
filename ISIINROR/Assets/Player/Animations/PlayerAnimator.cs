@@ -7,6 +7,11 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator _animator;
 
+    [SerializeField]
+    private Transform _bottomSpawnPoint;
+    [SerializeField]
+    private GameObject _jumpEffectPref;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -34,6 +39,8 @@ public class PlayerAnimator : MonoBehaviour
 
     public void SetDoubleJump()
     {
+        Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
+
         _animator.SetTrigger("DoubleJump");
     }
 

@@ -7,7 +7,10 @@ public class MovementComponent : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 3f;
+    [SerializeField] private float _hangTime = 0.1f;
     [SerializeField] private GroundChecker _groundChecker;
+
+    private float _hangTimeCounter = 0f;
     private bool _secondJump = true;
 
     private bool _lookRight = true;
@@ -28,7 +31,7 @@ public class MovementComponent : MonoBehaviour
     {
         _movement.x = Input.GetAxis("Horizontal");
 
-        CheckSecondJump();
+        CheckJumpParameters();
 
         UpdateAnimations();
     }
@@ -57,17 +60,22 @@ public class MovementComponent : MonoBehaviour
         }
     }
 
-    private void CheckSecondJump()
+    private void CheckJumpParameters()
     {
         if (_groundChecker._isGrounded)
         {
             _secondJump = true;
+            _hangTimeCounter = _hangTime;
+        }
+        else
+        {
+            _hangTimeCounter -= Time.deltaTime;
         }
     }
 
     private void TryJump()
     {
-        if (_groundChecker._isGrounded)
+        if (_hangTimeCounter > 0)
         {
             Jump();
         }
@@ -80,6 +88,8 @@ public class MovementComponent : MonoBehaviour
 
     private void Jump(bool isDoubleJump = false)
     {
+        _hangTimeCounter = 0f;
+
         if(isDoubleJump)
         {
             _playerService.Animator.SetDoubleJump();
