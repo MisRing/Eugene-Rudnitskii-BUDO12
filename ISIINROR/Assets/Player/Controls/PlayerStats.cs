@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
+    [Header("Player character")]
+    [SerializeField] private string _name = "nameless";
+    [SerializeField] private string _characterTitle = "One nameless hero";
+    public string Name { get { return _name; } }
+    public string CharacterTitle { get { return _characterTitle; } }
+
     [Header("Player stats")]
     public StatProperty Damage = new StatProperty(12, false, true, true);
     public StatProperty AttackSpeed = new StatProperty(0.5f, true);

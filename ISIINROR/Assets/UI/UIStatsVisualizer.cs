@@ -5,6 +5,9 @@ public class UIStatsVisualizer : MonoBehaviour
 {
     [SerializeField] private PlayerService _playerService;
 
+    [Header("Names")]
+    [SerializeField] private Text _characterName;
+
     [Header("Stat text")]
     [SerializeField] private Text _damageText;
     [SerializeField] private Text _attackSpeedText;
@@ -19,6 +22,7 @@ public class UIStatsVisualizer : MonoBehaviour
     public void Start()
     {
         ForceStatUpdate();
+        _characterName.text = _playerService.Stats.Name;
     }
 
     private void OnEnable()
