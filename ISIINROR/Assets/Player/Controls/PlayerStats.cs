@@ -39,7 +39,7 @@ public class PlayerStats : MonoBehaviour
         _attackCooldown -= Time.deltaTime;
     }
 
-    public bool CanAttack(bool tryAttack = true)
+    public bool CheckAttackCooldown(bool tryAttack = true)
     {
         if(_attackCooldown <= 0)
         {

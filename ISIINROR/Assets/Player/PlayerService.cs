@@ -1,13 +1,18 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerStats)), RequireComponent(typeof(MovementComponent)), RequireComponent(typeof(PlayerAnimator))]
+[RequireComponent(typeof(PlayerStats))]
+[RequireComponent(typeof(PlayerAnimator))]
+[RequireComponent(typeof(MovementComponent))]
+[RequireComponent(typeof(BulletPool))]
+[RequireComponent(typeof(PlayerCombat))]
 public class PlayerService : MonoBehaviour
 {
     [HideInInspector] public PlayerStats Stats;
     [HideInInspector] public MovementComponent MovementComponent;
     [HideInInspector] public PlayerAnimator Animator;
     [HideInInspector] public BulletPool BulletPool;
+    [HideInInspector] public PlayerCombat PlayerCombat;
 
     [HideInInspector] public UIStatsVisualizer StatsVisualizer;
 
@@ -19,38 +24,9 @@ public class PlayerService : MonoBehaviour
         MovementComponent = GetComponent<MovementComponent>();
         Animator = GetComponent<PlayerAnimator>();
         BulletPool = GetComponent<BulletPool>();
+        PlayerCombat = GetComponent<PlayerCombat>();
 
         StatsVisualizer.SubscribeStats();
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButton(0) && Stats.CanAttack())
-        {
-            Attack();
-        }
-
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            GetHit(UnityEngine.Random.Range(3, 20));
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Stats.Heal(UnityEngine.Random.Range(3, 20));
-        }
-    }
-
-    private void Attack()
-    {
-        BulletPool.GetBullet(Stats.Damage.Value, 30f, false, 3f);
-    }
-
-    public void GetHit(int damage)
-    {
-        Stats.TakeDamage(damage);
-        Animator.SetHit();
-        MovementComponent.InterruptVelocity(0.1f);
     }
 
     public void InvokeOnHightFall()
