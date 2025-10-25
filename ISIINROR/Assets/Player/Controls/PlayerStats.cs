@@ -1,17 +1,20 @@
+using System;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
     [Header("Player stats")]
-    public StatProperty Damage = new StatProperty(12);
+    public StatProperty Damage = new StatProperty(12, false, true, true);
     public StatProperty AttackSpeed = new StatProperty(0.5f, true);
     public StatProperty MoveSpeed = new StatProperty(30);
-    public StatProperty MaxHealth = new StatProperty(200);
-    public StatProperty Armor = new StatProperty(10);
-    public StatProperty Jumps = new StatProperty(1);
+    public StatProperty MaxHealth = new StatProperty(200, false, true, true);
+    public StatProperty Armor = new StatProperty(10, false, false, true);
+    public StatProperty Jumps = new StatProperty(1, false, true, true);
 
     private float _attackCooldown = 0;
-    private float _currentHealth = 0;
+    private int _currentHealth = 0;
+    public int CurrentHealth { get { return _currentHealth; } }
+    public event Action<int, int> OnHPChanged;
 
 
     private void Awake()
@@ -22,7 +25,7 @@ public class PlayerStats : MonoBehaviour
         MaxHealth.UpdateStat();
         Jumps.UpdateStat();
 
-        _currentHealth = MaxHealth.Value;
+        _currentHealth = Mathf.FloorToInt(MaxHealth.Value);
     }
 
     private void Update()
@@ -46,16 +49,39 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
-        float realDamage = damage * GetDamageMultiplayer(Armor.Value);
+        int realDamage = GetRealDamage(damage, GetDamageMultiplier(Armor.Value));
 
         _currentHealth -= realDamage;
 
-        _currentHealth = Mathf.Clamp(_currentHealth, 0f, MaxHealth.Value);
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, Mathf.FloorToInt(MaxHealth.Value));
+
+        OnHPChanged?.Invoke(_currentHealth, Mathf.FloorToInt(MaxHealth.Value));
     }
 
-    private float GetDamageMultiplayer(float armor)
+    public void Heal(int heal)
+    {
+        _currentHealth += heal;
+
+        _currentHealth = Mathf.Clamp(_currentHealth, 0, Mathf.FloorToInt(MaxHealth.Value));
+
+        OnHPChanged?.Invoke(_currentHealth, Mathf.FloorToInt(MaxHealth.Value));
+    }
+
+    private int GetRealDamage(int damage, float damageMultiplier)
+    {
+        int realDamage = Mathf.FloorToInt(damage * damageMultiplier);
+
+        if(realDamage < 1)
+        {
+            realDamage = 1;
+        }
+
+        return realDamage;
+    }
+
+    private float GetDamageMultiplier(float armor)
     {
         return 100f / (100f + armor);
     }

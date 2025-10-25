@@ -5,13 +5,16 @@ public class UIStatsVisualizer : MonoBehaviour
 {
     [SerializeField] private PlayerService _playerService;
 
-    [Header("Text Objects")]
+    [Header("Stat text")]
     [SerializeField] private Text _damageText;
     [SerializeField] private Text _attackSpeedText;
     [SerializeField] private Text _movementSpeedText;
     [SerializeField] private Text _jumpsText;
     [SerializeField] private Text _maxHealthText;
     [SerializeField] private Text _armorText;
+
+    [Header("Bars")]
+    [SerializeField] private UIBarComponent _hpBar;
 
     public void Start()
     {
@@ -44,6 +47,8 @@ public class UIStatsVisualizer : MonoBehaviour
         _playerService.Stats.Jumps.OnStatChanged += StatJMUpdate;
         _playerService.Stats.MaxHealth.OnStatChanged += StatHPUpdate;
         _playerService.Stats.Armor.OnStatChanged += StatARUpdate;
+
+        _playerService.Stats.OnHPChanged += BarHPUpdate;
     }
 
     private void UnsubscriveStats()
@@ -54,6 +59,8 @@ public class UIStatsVisualizer : MonoBehaviour
         _playerService.Stats.Jumps.OnStatChanged -= StatJMUpdate;
         _playerService.Stats.MaxHealth.OnStatChanged -= StatHPUpdate;
         _playerService.Stats.Armor.OnStatChanged -= StatARUpdate;
+
+        _playerService.Stats.OnHPChanged -= BarHPUpdate;
     }
 
     public void ForceStatUpdate()
@@ -64,6 +71,11 @@ public class UIStatsVisualizer : MonoBehaviour
         StatJMUpdate(_playerService.Stats.Jumps.Value);
         StatHPUpdate(_playerService.Stats.MaxHealth.Value);
         StatARUpdate(_playerService.Stats.Armor.Value);
+    }
+
+    private void BarHPUpdate(int currentValue, int maxValue)
+    {
+        _hpBar.ChangeBar(currentValue, maxValue);
     }
 
     private void StatDMUpdate(float value)
@@ -89,11 +101,12 @@ public class UIStatsVisualizer : MonoBehaviour
     private void StatHPUpdate(float value)
     {
         _maxHealthText.text = Mathf.RoundToInt(value).ToString();
+
+        BarHPUpdate(_playerService.Stats.CurrentHealth, Mathf.FloorToInt(value));
     }
 
     private void StatARUpdate(float value)
     {
         _armorText.text = Mathf.RoundToInt(value).ToString();
-
     }
 }

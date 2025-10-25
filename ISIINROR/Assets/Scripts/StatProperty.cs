@@ -6,36 +6,59 @@ using UnityEngine;
 [System.Serializable]
 public class StatProperty
 {
-    [SerializeField]
-    private bool _isInverted;
-    [SerializeField]
-    private bool _isAllwaysPositive;
+    [SerializeField] private bool _isInverted;
+    [SerializeField] private bool _isAllwaysPositive;
+    [SerializeField] private bool _isAllwaysInt;
 
-    [HideInInspector]
-    public bool IsInverted { get { return _isInverted; } }
+    [HideInInspector] public bool IsInverted { get { return _isInverted; } }
 
-    [SerializeField]
-    private float _baseValue;
-    public float BaseValue { get { return _baseValue; } }
+    [SerializeField] private float _baseValue;
+    public float BaseValue
+    {
+        get
+        {
+            if (_isAllwaysInt)
+            {
+                return Mathf.FloorToInt(_baseValue);
 
-    [SerializeField]
-    private float _value;
-    public float Value { get { return _value; } }
+            }
+            else
+            {
+                return _baseValue;
+            }
+        }
+    }
+
+    [SerializeField] private float _value;
+    public float Value 
+    {
+        get
+        {
+            if(_isAllwaysInt)
+            {
+                return Mathf.FloorToInt(_value);
+
+            }
+            else
+            {
+                return _value;
+            }
+        }
+    }
 
 
-    [SerializeField]
-    private List<float> _percentBuffs = new List<float>();
+    [SerializeField] private List<float> _percentBuffs = new List<float>();
 
-    [SerializeField]
-    private List<float> _trueBuffs = new List<float>();
+    [SerializeField] private List<float> _trueBuffs = new List<float>();
 
     public event Action<float> OnStatChanged;
 
-    public StatProperty(float baseValue, bool isInverted = false, bool isAllwaysPositive = true)
+    public StatProperty(float baseValue, bool isInverted = false, bool isAllwaysPositive = true, bool isAllwaysInt = false)
     {
         _baseValue = baseValue;
         _isInverted = isInverted;
         _isAllwaysPositive = isAllwaysPositive;
+        _isAllwaysInt = isAllwaysInt;
 
         UpdateStat();
     }

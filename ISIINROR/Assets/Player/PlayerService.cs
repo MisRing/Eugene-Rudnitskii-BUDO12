@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerStats)), RequireComponent(typeof(MovementComponent)), RequireComponent(typeof(PlayerAnimator))]
@@ -34,12 +32,12 @@ public class PlayerService : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GetHit(7f);
+            GetHit(UnityEngine.Random.Range(3, 20));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-
+            Stats.Heal(UnityEngine.Random.Range(3, 20));
         }
     }
 
@@ -48,7 +46,7 @@ public class PlayerService : MonoBehaviour
         BulletPool.GetBullet(Stats.Damage.Value, 30f, false, 3f);
     }
 
-    public void GetHit(float damage)
+    public void GetHit(int damage)
     {
         Stats.TakeDamage(damage);
         Animator.SetHit();
