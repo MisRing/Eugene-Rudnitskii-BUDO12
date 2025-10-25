@@ -29,7 +29,7 @@ public class StatProperty
     [SerializeField]
     private List<float> _trueBuffs = new List<float>();
 
-    public event Action<float> StatChanged;
+    public event Action<float> OnStatChanged;
 
     public StatProperty(float baseValue, bool isInverted = false, bool isAllwaysPositive = true)
     {
@@ -89,6 +89,6 @@ public class StatProperty
 
         _value = newValue;
 
-        StatChanged?.Invoke(_value);
+        OnStatChanged?.Invoke(_value);
     }
 }

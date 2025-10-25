@@ -16,7 +16,10 @@ public class MovementComponent : MonoBehaviour
     private bool _secondJump = true;
     private float _lastFrameVelocityY = 0;
 
-    private bool _lookRight = true;
+    private bool _isLookRight = true;
+    public bool IsLookRight { get { return _isLookRight; } }
+
+    private float _interaptionTimer = 0;
 
     private SpriteRenderer _sprite;
     private Rigidbody2D _rb;
@@ -32,7 +35,15 @@ public class MovementComponent : MonoBehaviour
 
     private void Update()
     {
-        _movement.x = Input.GetAxis("Horizontal");
+        if (IsInterrupted())
+        {
+            _interaptionTimer -= Time.deltaTime;
+            _movement.x = 0;
+        }
+        else
+        {
+            _movement.x = Input.GetAxis("Horizontal");
+        }
 
         CheckJumpParameters();
 
@@ -49,20 +60,28 @@ public class MovementComponent : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (IsInterrupted()) return;
+
         if (Input.GetButtonDown("Jump"))
         {
             TryJump();
         }
 
-        //if(Input.GetMouseButtonDown(1))
-        //{
-        //    _playerService.Animator.SetHit();
-        //}
-
-        if ((_lookRight && _movement.x < 0) || (!_lookRight && _movement.x > 0))
+        if ((_isLookRight && _movement.x < 0) || (!_isLookRight && _movement.x > 0))
         {
             Flip();
         }
+    }
+
+    private bool IsInterrupted()
+    {
+        return _interaptionTimer > 0;
+    }
+
+    public void InterruptVelocity(float interaptionTimer)
+    {
+        _rb.velocity = Vector2.zero;
+        _interaptionTimer = interaptionTimer;
     }
 
     private void CheckJumpParameters()
@@ -116,8 +135,8 @@ public class MovementComponent : MonoBehaviour
 
     private void Flip()
     {
-        _lookRight = !_lookRight;
-        _sprite.flipX = !_lookRight;
+        _isLookRight = !_isLookRight;
+        _sprite.flipX = !_isLookRight;
     }
 
     private void UpdateAnimations()
