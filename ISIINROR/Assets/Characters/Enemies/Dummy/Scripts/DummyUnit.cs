@@ -19,6 +19,8 @@ public class DummyUnit : MonoBehaviour, IDamageable
     {
         _spriteRenderer.flipX = damageData.Direction.x < 0;
 
+        FindAnyObjectByType<EffectPool>().GetEffect(point, damageData.Damage, damageData.IsCritical);
+
         if(damageData.IsCritical)
         {
             _animator.SetCritHit();

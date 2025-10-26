@@ -75,6 +75,9 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
         _playerService.Stats.TakeDamage(realDamage);
         _playerService.Animator.SetHit();
         _playerService.MovementComponent.InterruptVelocity(0.1f);
+
+        FindAnyObjectByType<EffectPool>().GetEffect(point, realDamage, damageData.IsCritical);
+
     }
 
     private int GetRealDamage(DamageData damageData, float damageMultiplier)
