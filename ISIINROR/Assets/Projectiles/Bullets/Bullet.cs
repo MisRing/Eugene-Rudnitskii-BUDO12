@@ -8,11 +8,9 @@ public class Bullet : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private SpriteRenderer _spriteRenderer;
-    private float _damage;
+    private DamageData _damageData;
     private float _speed;
-    private Vector2 _direction;
     private bool _isLookRight;
-    private bool _isCritical;
     [SerializeField]
     private LayerMask _targetLayers;
 
@@ -25,17 +23,15 @@ public class Bullet : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Fire(float damage, float speed, Vector2 direction, bool isLookRight, bool isCritical = false, float timer = 3f)
+    public void Fire(DamageData damageData, float speed, bool isLookRight, float timer)
     {
-        _damage = damage;
+        _damageData = damageData;
         _isLookRight = isLookRight;
-        _isCritical = isCritical;
-        _direction = direction;
         _speed = speed;
 
         Flip();
 
-        _rb.velocity = direction * _speed;
+        _rb.velocity = damageData.Direction * _speed;
 
         StartCoroutine(Timer(timer));
     }
@@ -45,6 +41,7 @@ public class Bullet : MonoBehaviour
         if (col.isTrigger) return;
         if ((_targetLayers & (1 << col.gameObject.layer)) == 0) return;
 
+        StopAllCoroutines();
         OnHit?.Invoke(gameObject);
     }
 

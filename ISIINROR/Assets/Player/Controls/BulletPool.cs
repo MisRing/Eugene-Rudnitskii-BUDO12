@@ -4,20 +4,12 @@ using UnityEngine;
 
 public class BulletPool : MonoBehaviour
 {
-    [SerializeField] private Vector2 _spawnPoint;
     [SerializeField] private int _startPool;
 
     [SerializeField] private GameObject _bulletPref;
     private Queue<GameObject> _bulletsQ;
-    private bool _isLookRight = true;
-    private PlayerService _playerService;
 
     private void Awake()
-    {
-        _playerService = GetComponent<PlayerService>();
-    }
-
-    private void Start()
     {
         Initialize();
     }
@@ -32,11 +24,6 @@ public class BulletPool : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        _isLookRight = _playerService.MovementComponent.IsLookRight;
-    }
-
     private void CreateBullet()
     {
         GameObject bullet = Instantiate(_bulletPref);
@@ -47,7 +34,7 @@ public class BulletPool : MonoBehaviour
         _bulletsQ.Enqueue(bullet);
     }
 
-    public Bullet GetBullet(float damage, float speed, bool isCritical = false, float timer = 3f)
+    public Bullet GetBullet(DamageData damageData, float bulletSpeed, bool isLookRight, Vector2 spawnPos, float timer = 3f)
     {
         if(_bulletsQ.Count == 0)
         {
@@ -57,12 +44,9 @@ public class BulletPool : MonoBehaviour
         GameObject bullet = _bulletsQ.Dequeue();
         bullet.SetActive(true);
         bullet.transform.SetParent(null);
-        Vector2 realSpawnPoint = transform.position;
-        realSpawnPoint += _isLookRight ? _spawnPoint : new Vector2(-_spawnPoint.x, _spawnPoint.y);
-        bullet.transform.position = realSpawnPoint;
+        bullet.transform.position = spawnPos;
         Bullet bulletComponent = bullet.GetComponent<Bullet>();
-        Vector2 direction = _isLookRight ? Vector2.right : Vector2.left;
-        bulletComponent.Fire(damage, speed, direction, _isLookRight, isCritical, timer);
+        bulletComponent.Fire(damageData, bulletSpeed, isLookRight, timer);
         bulletComponent.OnHit += ReturnBullet;
 
         return bulletComponent;
@@ -82,11 +66,5 @@ public class BulletPool : MonoBehaviour
         bullet.SetActive(false);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Vector2 realSpawnPoint = transform.position;
-        realSpawnPoint += _isLookRight ? _spawnPoint : new Vector2(-_spawnPoint.x, _spawnPoint.y);
-        Gizmos.DrawWireSphere(realSpawnPoint, 0.2f);
-    }
+    
 }
