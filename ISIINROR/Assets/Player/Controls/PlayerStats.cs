@@ -11,6 +11,7 @@ public class PlayerStats : MonoBehaviour
 
     [Header("Player stats")]
     public StatProperty Damage = new StatProperty(12, false, true, true);
+    public StatProperty CriticalChance = new StatProperty(1, false, true, true);
     public StatProperty AttackSpeed = new StatProperty(0.5f, true);
     public StatProperty MoveSpeed = new StatProperty(30);
     public StatProperty MaxHealth = new StatProperty(200, false, true, true);
@@ -26,9 +27,11 @@ public class PlayerStats : MonoBehaviour
     private void Awake()
     {
         Damage.UpdateStat();
+        CriticalChance.UpdateStat();
         AttackSpeed.UpdateStat();
         MoveSpeed.UpdateStat();
         MaxHealth.UpdateStat();
+        Armor.UpdateStat();
         Jumps.UpdateStat();
 
         _currentHealth = Mathf.FloorToInt(MaxHealth.Value);

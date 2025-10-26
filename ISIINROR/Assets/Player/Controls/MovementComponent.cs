@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -8,12 +9,15 @@ public class MovementComponent : MonoBehaviour
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 3f;
     [SerializeField] private float _hangTime = 0.1f;
+    [SerializeField] private float _groundJumpTimer = 0.05f;
     [SerializeField, Range(5f, 50f)] private float _hightFallVelocity = 40f;
     [SerializeField, Range(5f, 100f)] private float _yVelocityLimit = 50f;
     [SerializeField] private GroundChecker _groundChecker;
 
+    [SerializeField]
+    private int _jumpCount = 0;
+    private float _groundJumpTimerCounter = 0;
     private float _hangTimeCounter = 0f;
-    private bool _secondJump = true;
     private float _lastFrameVelocityY = 0;
 
     private bool _isLookRight = true;
@@ -93,10 +97,16 @@ public class MovementComponent : MonoBehaviour
         }
         _lastFrameVelocityY = _rb.velocity.y;
 
+        _groundJumpTimerCounter -= Time.deltaTime;
+
         if (_groundChecker._isGrounded)
         {
-            _secondJump = true;
             _hangTimeCounter = _hangTime;
+
+            if (_groundJumpTimerCounter <= 0)
+            {
+                _jumpCount = 0;
+            }
         }
         else
         {
@@ -106,15 +116,19 @@ public class MovementComponent : MonoBehaviour
 
     private void TryJump()
     {
+        if (_jumpCount >= _playerService.Stats.Jumps.Value) return;
+
         if (_hangTimeCounter > 0)
         {
             Jump();
         }
-        else if (_secondJump)
+        else
         {
-            _secondJump = false;
             Jump(true);
         }
+
+        _groundJumpTimerCounter = _groundJumpTimer;
+        _jumpCount++;
     }
 
     private void Jump(bool isDoubleJump = false)

@@ -10,6 +10,7 @@ public class UIStatsVisualizer : MonoBehaviour
 
     [Header("Stat text")]
     [SerializeField] private Text _damageText;
+    [SerializeField] private Text _critText;
     [SerializeField] private Text _attackSpeedText;
     [SerializeField] private Text _movementSpeedText;
     [SerializeField] private Text _jumpsText;
@@ -46,6 +47,7 @@ public class UIStatsVisualizer : MonoBehaviour
     public void SubscribeStats()
     {
         _playerService.Stats.Damage.OnStatChanged += StatDMUpdate;
+        _playerService.Stats.CriticalChance.OnStatChanged += StatCCUpdate;
         _playerService.Stats.AttackSpeed.OnStatChanged += StatASUpdate;
         _playerService.Stats.MoveSpeed.OnStatChanged += StatMSUpdate;
         _playerService.Stats.Jumps.OnStatChanged += StatJMUpdate;
@@ -58,6 +60,7 @@ public class UIStatsVisualizer : MonoBehaviour
     private void UnsubscriveStats()
     {
         _playerService.Stats.Damage.OnStatChanged -= StatDMUpdate;
+        _playerService.Stats.CriticalChance.OnStatChanged -= StatCCUpdate;
         _playerService.Stats.AttackSpeed.OnStatChanged -= StatASUpdate;
         _playerService.Stats.MoveSpeed.OnStatChanged -= StatMSUpdate;
         _playerService.Stats.Jumps.OnStatChanged -= StatJMUpdate;
@@ -70,6 +73,7 @@ public class UIStatsVisualizer : MonoBehaviour
     public void ForceStatUpdate()
     {
         StatDMUpdate(_playerService.Stats.Damage.Value);
+        StatCCUpdate(_playerService.Stats.CriticalChance.Value);
         StatASUpdate(_playerService.Stats.AttackSpeed.Value);
         StatMSUpdate(_playerService.Stats.MoveSpeed.Value);
         StatJMUpdate(_playerService.Stats.Jumps.Value);
@@ -85,6 +89,10 @@ public class UIStatsVisualizer : MonoBehaviour
     private void StatDMUpdate(float value)
     {
         _damageText.text = Mathf.RoundToInt(value).ToString();
+    }
+    private void StatCCUpdate(float value)
+    {
+        _critText.text = Mathf.RoundToInt(value).ToString() + "%";
     }
 
     private void StatASUpdate(float value)
