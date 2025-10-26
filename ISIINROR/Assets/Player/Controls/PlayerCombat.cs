@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
@@ -21,12 +18,12 @@ public class PlayerCombat : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            GetHit(UnityEngine.Random.Range(3, 20));
+            GetHit(Random.Range(3, 20));
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _playerService.Stats.Heal(UnityEngine.Random.Range(3, 20));
+            _playerService.Stats.Heal(Random.Range(3, 20));
         }
     }
 

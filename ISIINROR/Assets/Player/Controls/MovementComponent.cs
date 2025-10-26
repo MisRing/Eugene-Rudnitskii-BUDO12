@@ -118,7 +118,7 @@ public class MovementComponent : MonoBehaviour
     {
         if (_jumpCount >= _playerService.Stats.Jumps.Value) return;
 
-        if (_hangTimeCounter > 0)
+        if (_hangTimeCounter > 0 && _jumpCount == 0)
         {
             Jump();
         }
