@@ -41,6 +41,13 @@ public class Bullet : MonoBehaviour
         if (col.isTrigger) return;
         if ((_targetLayers & (1 << col.gameObject.layer)) == 0) return;
 
+        IDamageable target = col.gameObject.GetComponent<IDamageable>();
+
+        if(target != null)
+        {
+            target.GetHit(_damageData);
+        }
+
         StopAllCoroutines();
         OnHit?.Invoke(gameObject);
     }

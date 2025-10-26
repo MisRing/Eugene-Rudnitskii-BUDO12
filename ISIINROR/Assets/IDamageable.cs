@@ -4,21 +4,13 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void GetHit(DamageData damageData);
 }
 
 public interface IDamageDealler
 {
+    void Attack();
+    void GetHitData(HitData hitData);
 
 }
 
@@ -56,5 +48,13 @@ public struct DamageData
         ArmorBreak = 0;
         KnockbackForce = 0f;
     }
+}
+
+public struct HitData
+{
+    public int RealDamage;
+    public IDamageable Source;
+
+    bool IsTargetDead;
 }
 

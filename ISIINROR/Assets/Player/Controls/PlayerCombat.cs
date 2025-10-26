@@ -31,7 +31,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
         }
     }
 
-    private void Attack()
+    public void Attack()
     {
         bool isLookRight = _playerService.MovementComponent.IsLookRight;
 
@@ -39,7 +39,7 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
 
         DamageData damageData = new DamageData(
             Mathf.FloorToInt(_playerService.Stats.Damage.Value),
-            this as IDamageDealler,
+            this,
             _targets,
             isLookRight ? Vector2.right : Vector2.left,
             isCritical
@@ -69,5 +69,15 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
         Vector2 realSpawnPoint = transform.position;
         realSpawnPoint += isLookRight ? _bulletSpawnPoint : new Vector2(-_bulletSpawnPoint.x, _bulletSpawnPoint.y);
         Gizmos.DrawWireSphere(realSpawnPoint, 0.2f);
+    }
+
+    public void GetHitData(HitData hitData)
+    {
+        
+    }
+
+    public void GetHit(DamageData damageData)
+    {
+
     }
 }
