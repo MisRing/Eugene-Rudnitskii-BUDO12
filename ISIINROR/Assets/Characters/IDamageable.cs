@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public void GetHit(DamageData damageData);
+    public void GetHit(DamageData damageData, Vector2 point);
 }
 
 public interface IDamageDealler

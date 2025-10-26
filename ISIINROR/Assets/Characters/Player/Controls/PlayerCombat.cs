@@ -29,7 +29,11 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
                 LayerMask.NameToLayer("Player"),
                 Vector2.zero
                 );
-            GetHit(damageData);
+
+            Vector2 pointHit = transform.position;
+            pointHit += new Vector2(Random.Range(-0.3f, 0.3f), Random.Range(-0.3f, 0.3f));
+
+            GetHit(damageData, pointHit);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -59,25 +63,12 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
         _bulletPool.GetBullet(damageData, 40f, isLookRight, realSpawnPoint);
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        bool isLookRight = true;
-        if (_playerService)
-        {
-            isLookRight = _playerService.MovementComponent.IsLookRight;
-        }
-        Gizmos.color = Color.yellow;
-        Vector2 realSpawnPoint = transform.position;
-        realSpawnPoint += isLookRight ? _bulletSpawnPoint : new Vector2(-_bulletSpawnPoint.x, _bulletSpawnPoint.y);
-        Gizmos.DrawWireSphere(realSpawnPoint, 0.2f);
-    }
-
     public void GetHitData(HitData hitData)
     {
         
     }
 
-    public void GetHit(DamageData damageData)
+    public void GetHit(DamageData damageData, Vector2 point)
     {
         int realDamage = GetRealDamage(damageData, GetArmorResist(_playerService.Stats.Armor.Value, damageData.ArmorBreak));
 
@@ -101,5 +92,18 @@ public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
     private float GetArmorResist(float armor, float armorBrake)
     {
         return 100f / (100f + armor - armorBrake);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        bool isLookRight = true;
+        if (_playerService)
+        {
+            isLookRight = _playerService.MovementComponent.IsLookRight;
+        }
+        Gizmos.color = Color.red;
+        Vector2 realSpawnPoint = transform.position;
+        realSpawnPoint += isLookRight ? _bulletSpawnPoint : new Vector2(-_bulletSpawnPoint.x, _bulletSpawnPoint.y);
+        Gizmos.DrawWireSphere(realSpawnPoint, 0.15f);
     }
 }

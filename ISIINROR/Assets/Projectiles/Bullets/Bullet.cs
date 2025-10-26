@@ -45,7 +45,7 @@ public class Bullet : MonoBehaviour
 
         if(target != null)
         {
-            target.GetHit(_damageData);
+            target.GetHit(_damageData, col.ClosestPoint(transform.position));
         }
 
         StopAllCoroutines();

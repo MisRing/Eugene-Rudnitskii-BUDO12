@@ -15,7 +15,7 @@ public class DummyUnit : MonoBehaviour, IDamageable
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void GetHit(DamageData damageData)
+    public void GetHit(DamageData damageData, Vector2 point)
     {
         _spriteRenderer.flipX = damageData.Direction.x < 0;
 
