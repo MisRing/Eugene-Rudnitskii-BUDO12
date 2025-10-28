@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,8 +25,7 @@ public class BulletPool : MonoBehaviour
 
     private void CreateBullet()
     {
-        GameObject bullet = Instantiate(_bulletPref);
-        bullet.transform.SetParent(transform);
+        GameObject bullet = Instantiate(_bulletPref, transform);
         bullet.transform.localPosition = Vector2.zero;
         bullet.SetActive(false);
 
@@ -52,7 +50,7 @@ public class BulletPool : MonoBehaviour
         return bulletComponent;
     }
 
-    public void ReturnBullet(GameObject bullet)
+    private void ReturnBullet(GameObject bullet)
     {
         if (_bulletsQ.Contains(bullet)) return;
 

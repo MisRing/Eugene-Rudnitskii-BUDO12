@@ -1,5 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
+using Characters.Player;
 
 public class UIStatsVisualizer : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class UIStatsVisualizer : MonoBehaviour
         _playerService.Stats.MaxHealth.OnStatChanged += StatHPUpdate;
         _playerService.Stats.Armor.OnStatChanged += StatARUpdate;
 
-        _playerService.Stats.OnHPChanged += BarHPUpdate;
+        _playerService.Stats.OnHealthChanged += BarHPUpdate;
     }
 
     private void UnsubscriveStats()
@@ -67,7 +68,7 @@ public class UIStatsVisualizer : MonoBehaviour
         _playerService.Stats.MaxHealth.OnStatChanged -= StatHPUpdate;
         _playerService.Stats.Armor.OnStatChanged -= StatARUpdate;
 
-        _playerService.Stats.OnHPChanged -= BarHPUpdate;
+        _playerService.Stats.OnHealthChanged -= BarHPUpdate;
     }
 
     public void ForceStatUpdate()

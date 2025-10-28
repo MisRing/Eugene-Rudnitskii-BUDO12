@@ -20,7 +20,7 @@ public struct DamageData
 
     public IDamageDealler Source;
     public LayerMask Targets;
-    public Vector2 Direction;   // из какого направления пришёл удар — полезно для нокбэков
+    public Vector2 Direction;   // пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     public bool IsCritical;
     public float CriticalMultiplier;
@@ -28,7 +28,7 @@ public struct DamageData
     public bool IgnoreArmor;
     public int ArmorBreak;
 
-    public float KnockbackForce; // если планируешь физическое отбрасывание
+    public float KnockbackForce; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     public DamageData(
         int damage,

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Characters.Player;
 
 [RequireComponent(typeof(Animator))]
 public class CameraAnimator : MonoBehaviour
@@ -10,12 +11,12 @@ public class CameraAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerService.OnHightFall += Drag;
+        _playerService.OnHighFall += Drag;
     }
 
     private void OnDisable()
     {
-        _playerService.OnHightFall -= Drag;
+        _playerService.OnHighFall -= Drag;
     }
 
     private void Awake()

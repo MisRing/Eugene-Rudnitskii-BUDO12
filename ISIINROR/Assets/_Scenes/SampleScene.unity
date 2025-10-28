@@ -1704,55 +1704,6 @@ RectTransform:
   m_AnchoredPosition: {x: 120, y: -30}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
---- !u!1 &1570690829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1570690830}
-  - component: {fileID: 1570690831}
-  m_Layer: 3
-  m_Name: ground Checker
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1570690830
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570690829}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.987, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1979611019}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1570690831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1570690829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c171e36f092beab489015767d7a7726c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _direction: {x: 0, y: -1}
-  _rayDistance: 0.05
-  _groundLayers:
-    serializedVersion: 2
-    m_Bits: 192
 --- !u!1 &1581016063
 GameObject:
   m_ObjectHideFlags: 0
@@ -4385,6 +4336,7 @@ GameObject:
   - component: {fileID: 1979611026}
   - component: {fileID: 1979611025}
   - component: {fileID: 1979611028}
+  - component: {fileID: 1979611029}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -4457,7 +4409,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1570690830}
   - {fileID: 1804397236}
   - {fileID: 2003686872}
   m_Father: {fileID: 0}
@@ -4478,56 +4429,56 @@ MonoBehaviour:
   _characterTitle: Thunderstorm of flies
   Damage:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 1
+    _isPositive: 1
+    _isInt: 1
     _baseValue: 12
     _value: 12
     _percentBuffs: []
     _trueBuffs: []
   CriticalChance:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 1
+    _isPositive: 1
+    _isInt: 1
     _baseValue: 1
     _value: 1
     _percentBuffs: []
     _trueBuffs: []
   AttackSpeed:
     _isInverted: 1
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 0
+    _isPositive: 1
+    _isInt: 0
     _baseValue: 0.9
     _value: 0.9
     _percentBuffs: []
     _trueBuffs: []
   MoveSpeed:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 0
+    _isPositive: 1
+    _isInt: 0
     _baseValue: 8
     _value: 8
     _percentBuffs: []
     _trueBuffs: []
   MaxHealth:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 1
+    _isPositive: 1
+    _isInt: 1
     _baseValue: 200
     _value: 200
     _percentBuffs: []
     _trueBuffs: []
   Armor:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 1
+    _isPositive: 0
+    _isInt: 1
     _baseValue: 10
     _value: 10
     _percentBuffs: []
     _trueBuffs: []
   Jumps:
     _isInverted: 0
-    _isAllwaysPositive: 1
-    _isAllwaysInt: 1
+    _isPositive: 1
+    _isInt: 1
     _baseValue: 1
     _value: 1
     _percentBuffs: []
@@ -4545,6 +4496,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats: {fileID: 0}
+  Conditions: {fileID: 0}
   MovementComponent: {fileID: 0}
   Animator: {fileID: 0}
   PlayerCombat: {fileID: 0}
@@ -4581,8 +4533,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.014999986, y: -0.19}
-  m_Size: {x: 1.36, y: 1.6}
+  m_Offset: {x: 0, y: -0.2}
+  m_Size: {x: 1.35, y: 1.6}
   m_Direction: 0
 --- !u!50 &1979611023
 Rigidbody2D:
@@ -4626,10 +4578,15 @@ MonoBehaviour:
   _jumpForce: 28
   _hangTime: 0.1
   _groundJumpTimer: 0.05
-  _hightFallVelocity: 45
+  _highFallVelocity: 40
   _yVelocityLimit: 50
-  _groundChecker: {fileID: 1570690831}
-  _jumpCount: 0
+  _groundCheckPos: {x: 0, y: -0.985, z: 0}
+  _direction: {x: 0, y: -1}
+  _rayDistance: 0.05
+  _groundLayers:
+    serializedVersion: 2
+    m_Bits: 192
+  _isGrounded: 0
 --- !u!114 &1979611025
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4682,6 +4639,18 @@ MonoBehaviour:
   _targets:
     serializedVersion: 2
     m_Bits: 448
+--- !u!114 &1979611029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979611017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f601cb5bda17ca74faed0ba0d13023b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2003686870
 GameObject:
   m_ObjectHideFlags: 0

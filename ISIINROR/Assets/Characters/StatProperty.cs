@@ -2,21 +2,21 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class StatProperty
 {
     [SerializeField] private bool _isInverted;
-    [SerializeField] private bool _isAllwaysPositive;
-    [SerializeField] private bool _isAllwaysInt;
+    [SerializeField] private bool _isPositive;
+    [SerializeField] private bool _isInt;
 
-    [HideInInspector] public bool IsInverted { get { return _isInverted; } }
+    public bool IsInverted { get { return _isInverted; } }
 
     [SerializeField] private float _baseValue;
     public float BaseValue
     {
         get
         {
-            if (_isAllwaysInt)
+            if (_isInt)
             {
                 return Mathf.FloorToInt(_baseValue);
 
@@ -33,7 +33,7 @@ public class StatProperty
     {
         get
         {
-            if(_isAllwaysInt)
+            if(_isInt)
             {
                 return Mathf.FloorToInt(_value);
 
@@ -52,12 +52,12 @@ public class StatProperty
 
     public event Action<float> OnStatChanged;
 
-    public StatProperty(float baseValue, bool isInverted = false, bool isAllwaysPositive = true, bool isAllwaysInt = false)
+    public StatProperty(float baseValue, bool isInverted = false, bool isPositive = true, bool isInt = false)
     {
         _baseValue = baseValue;
         _isInverted = isInverted;
-        _isAllwaysPositive = isAllwaysPositive;
-        _isAllwaysInt = isAllwaysInt;
+        _isPositive = isPositive;
+        _isInt = isInt;
 
         UpdateStat();
     }
@@ -104,7 +104,7 @@ public class StatProperty
 
         newValue *= newPercent;
 
-        if(_isAllwaysPositive && newValue <= 0)
+        if(_isPositive && newValue <= 0)
         {
             newValue = 0;
         }

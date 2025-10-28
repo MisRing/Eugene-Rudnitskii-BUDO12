@@ -1,0 +1,25 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace Characters.Player
+{
+    public class PlayerConditions : MonoBehaviour
+    {
+        private float _interrupted;
+        private float _invulnerable;
+        
+        public bool IsInterrupted => _interrupted > 0;
+        public  bool IsInvulnerable => _invulnerable > 0;
+
+        private void Update()
+        {
+            _interrupted -= Time.deltaTime;
+            _invulnerable -= Time.deltaTime;
+        }
+        
+        public void Interrupt(float time) => _interrupted = time;
+        public void Invulnerable(float time) => _invulnerable = time;
+    }
+}

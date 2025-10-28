@@ -1,33 +1,39 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerStats))]
-[RequireComponent(typeof(PlayerAnimator))]
-[RequireComponent(typeof(MovementComponent))]
-[RequireComponent(typeof(PlayerCombat))]
-public class PlayerService : MonoBehaviour
+namespace Characters.Player
 {
-    [HideInInspector] public PlayerStats Stats;
-    [HideInInspector] public MovementComponent MovementComponent;
-    [HideInInspector] public PlayerAnimator Animator;
-    [HideInInspector] public PlayerCombat PlayerCombat;
-
-    [HideInInspector] public UIStatsVisualizer StatsVisualizer;
-
-    public event Action OnHightFall;
-
-    private void Awake()
+    [RequireComponent(typeof(PlayerStats))]
+    [RequireComponent(typeof(PlayerConditions))]
+    [RequireComponent(typeof(PlayerAnimator))]
+    [RequireComponent(typeof(MovementComponent))]
+    [RequireComponent(typeof(PlayerCombat))]
+    public class PlayerService : MonoBehaviour
     {
-        Stats = GetComponent<PlayerStats>();
-        MovementComponent = GetComponent<MovementComponent>();
-        Animator = GetComponent<PlayerAnimator>();
-        PlayerCombat = GetComponent<PlayerCombat>();
+        [HideInInspector] public PlayerStats Stats;
+        [HideInInspector] public PlayerConditions Conditions;
+        [HideInInspector] public MovementComponent MovementComponent;
+        [HideInInspector] public PlayerAnimator Animator;
+        [HideInInspector] public PlayerCombat PlayerCombat;
 
-        StatsVisualizer?.SubscribeStats();
-    }
+        [HideInInspector] public UIStatsVisualizer StatsVisualizer;
 
-    public void InvokeOnHightFall()
-    {
-        OnHightFall?.Invoke();
+        public event Action OnHighFall; // Почему оно тут?
+
+        private void Awake()
+        {
+            Stats = GetComponent<PlayerStats>();
+            Conditions =  GetComponent<PlayerConditions>();
+            MovementComponent = GetComponent<MovementComponent>();
+            Animator = GetComponent<PlayerAnimator>();
+            PlayerCombat = GetComponent<PlayerCombat>();
+
+            StatsVisualizer?.SubscribeStats();
+        }
+
+        public void InvokeOnHighFall()
+        {
+            OnHighFall?.Invoke();
+        }
     }
 }

@@ -2,55 +2,58 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
-public class PlayerAnimator : MonoBehaviour
+namespace Characters.Player
 {
-    private Animator _animator;
-
-    [SerializeField]
-    private Transform _bottomSpawnPoint;
-    [SerializeField]
-    private GameObject _jumpEffectPref;
-
-    private void Awake()
+    [RequireComponent(typeof(Animator))]
+    public class PlayerAnimator : MonoBehaviour
     {
-        _animator = GetComponent<Animator>();
-    }
+        private Animator _animator;
 
-    public void SetMove(bool move)
-    {
-        _animator.SetBool("Move", move);
-    }
+        [SerializeField]
+        private Transform _bottomSpawnPoint;
+        [SerializeField]
+        private GameObject _jumpEffectPref;
 
-    public void SetGround(bool onGround)
-    {
-        _animator.SetBool("OnGround", onGround);
-    }
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
-    public void SetHit()
-    {
-        _animator.SetTrigger("Hit");
-    }
+        public void SetMove(bool move)
+        {
+            _animator.SetBool("Move", move);
+        }
 
-    public void SetJump()
-    {
-        _animator.SetTrigger("Jump");
-    }
+        public void SetGround(bool onGround)
+        {
+            _animator.SetBool("OnGround", onGround);
+        }
 
-    public void SetDoubleJump()
-    {
-        Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
+        public void SetHit()
+        {
+            _animator.SetTrigger("Hit");
+        }
 
-        _animator.SetTrigger("DoubleJump");
-    }
+        public void SetJump()
+        {
+            _animator.SetTrigger("Jump");
+        }
 
-    public void SetHightFall()
-    {
-        Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
-    }
+        public void SetDoubleJump()
+        {
+            Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
 
-    public void SetVerticalVelocity(float yVelocity)
-    {
-        _animator.SetFloat("VerticalVelocity", yVelocity);
+            _animator.SetTrigger("DoubleJump");
+        }
+
+        public void SetHighFall()
+        {
+            Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
+        }
+
+        public void SetVerticalVelocity(float yVelocity)
+        {
+            _animator.SetFloat("VerticalVelocity", yVelocity);
+        }
     }
 }
