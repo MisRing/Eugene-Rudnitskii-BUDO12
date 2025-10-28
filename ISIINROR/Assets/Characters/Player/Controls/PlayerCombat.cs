@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Characters.Player
 {
-    public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
+    public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealer
     {
         private PlayerService _playerService;
         

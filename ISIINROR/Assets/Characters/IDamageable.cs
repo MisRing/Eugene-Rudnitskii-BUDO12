@@ -4,21 +4,20 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public void GetHit(DamageData damageData, Vector2 point);
+    void GetHit(DamageData damageData, Vector2 point);
 }
 
-public interface IDamageDealler
+public interface IDamageDealer
 {
     void Attack();
     void GetHitData(HitData hitData);
-
 }
 
 public struct DamageData
 {
     public int Damage;
 
-    public IDamageDealler Source;
+    public IDamageDealer Source;
     public LayerMask Targets;
     public Vector2 Direction;   // �� ������ ����������� ������ ���� � ������� ��� ��������
 
@@ -32,7 +31,7 @@ public struct DamageData
 
     public DamageData(
         int damage,
-        IDamageDealler source,
+        IDamageDealer source,
         LayerMask targets,
         Vector2 direction,
         bool isCritical = false,
@@ -55,6 +54,6 @@ public struct HitData
     public int RealDamage;
     public IDamageable Source;
 
-    bool IsTargetDead;
+    public bool IsTargetDead;
 }
 
