@@ -12,6 +12,8 @@ namespace Characters.Player
         
         public bool IsInterrupted => _interrupted > 0;
         public  bool IsInvulnerable => _invulnerable > 0;
+        
+        public event Action OnInterrupted;
 
         private void Update()
         {
@@ -19,7 +21,13 @@ namespace Characters.Player
             _invulnerable -= Time.deltaTime;
         }
         
-        public void Interrupt(float time) => _interrupted = time;
+        public void Interrupt(float time)
+        {
+            _interrupted = time;
+            
+            OnInterrupted?.Invoke();
+        }
+
         public void Invulnerable(float time) => _invulnerable = time;
     }
 }

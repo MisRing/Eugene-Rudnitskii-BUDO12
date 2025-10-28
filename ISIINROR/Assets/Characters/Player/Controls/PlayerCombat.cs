@@ -5,7 +5,12 @@ namespace Characters.Player
     public class PlayerCombat : MonoBehaviour, IDamageable, IDamageDealler
     {
         private PlayerService _playerService;
+        
+        [Header("Hit")]
+        [SerializeField] private float _interruptTime = 0.5f;
+        [SerializeField] private float _invulnerableTime = 0.5f;
 
+        [Header("Attack")]
         [SerializeField] private Vector2 _bulletSpawnPoint;
         [SerializeField] private BulletPool _bulletPool;
         [SerializeField] private LayerMask _targets;
@@ -72,6 +77,8 @@ namespace Characters.Player
 
         public void GetHit(DamageData damageData, Vector2 point)
         {
+            if (_playerService.Conditions.IsInvulnerable) return;
+            
             int realDamage = GetRealDamage(
                 damageData,
                 GetArmorResist(_playerService.Stats.Armor.Value, damageData.ArmorBreak)
@@ -79,7 +86,8 @@ namespace Characters.Player
 
             _playerService.Stats.TakeDamage(realDamage);
             _playerService.Animator.SetHit();
-            _playerService.MovementComponent.InterruptVelocity(0.1f);
+            _playerService.Conditions.Interrupt(_interruptTime);
+            _playerService.Conditions.Invulnerable(_invulnerableTime);
 
             FindAnyObjectByType<EffectPool>().GetEffect(point, realDamage, damageData.IsCritical);
         }

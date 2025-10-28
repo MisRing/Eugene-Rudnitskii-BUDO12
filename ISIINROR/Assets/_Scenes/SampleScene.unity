@@ -4479,8 +4479,8 @@ MonoBehaviour:
     _isInverted: 0
     _isPositive: 1
     _isInt: 1
-    _baseValue: 1
-    _value: 1
+    _baseValue: 2
+    _value: 2
     _percentBuffs: []
     _trueBuffs: []
 --- !u!114 &1979611021
@@ -4634,6 +4634,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01b8ef1474dd8a44a1929dcdfe2eb8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interruptTime: 0.1
+  _invulnerableTime: 0.3
   _bulletSpawnPoint: {x: 0.75, y: -0.3}
   _bulletPool: {fileID: 2003686871}
   _targets:

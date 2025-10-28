@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -30,12 +31,22 @@ namespace Characters.Player
         private bool _isLookRight = true;
 
         public bool IsLookRight { get { return _isLookRight; } }
-
-        private float _interaptionTimer = 0;
-
+        
         private SpriteRenderer _sprite;
         private Rigidbody2D _rb;
         private PlayerService _playerService;
+
+        private void OnEnable()
+        {
+            if (!_playerService) return;
+
+            _playerService.Conditions.OnInterrupted += InterruptVelocity;
+        }
+
+        private void OnDisable()
+        {
+            _playerService.Conditions.OnInterrupted -= InterruptVelocity;
+        }
 
         private void Awake()
         {
@@ -43,15 +54,16 @@ namespace Characters.Player
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             _sprite = GetComponent<SpriteRenderer>();
             _playerService = GetComponent<PlayerService>();
+            
+            _playerService.Conditions.OnInterrupted += InterruptVelocity;
         }
 
         private void Update()
         {
             GroundCheck();
             
-            if (IsInterrupted())
+            if (_playerService.Conditions.IsInterrupted)
             {
-                _interaptionTimer -= Time.deltaTime;
                 _movement.x = 0;
             }
             else
@@ -66,17 +78,13 @@ namespace Characters.Player
 
         private void FixedUpdate()
         {
-            //��������
-            _rb.velocity = new Vector2(
-                _movement.x * _playerService.Stats.MoveSpeed.Value,
-                Mathf.Clamp(_rb.velocity.y, -_yVelocityLimit, _yVelocityLimit)
-                );
-
+            float yVelocity = Mathf.Clamp(_rb.velocity.y, -_yVelocityLimit, _yVelocityLimit);
+            _rb.velocity = new Vector2(_movement.x * _playerService.Stats.MoveSpeed.Value, yVelocity);
         }
 
         private void LateUpdate()
         {
-            if (IsInterrupted()) return;
+            if (_playerService.Conditions.IsInterrupted) return;
 
             if (Input.GetButtonDown("Jump"))
             {
@@ -94,15 +102,9 @@ namespace Characters.Player
             _isGrounded = Physics2D.Raycast(transform.position + _groundCheckPos, _direction, _rayDistance, _groundLayers);
         }
 
-        private bool IsInterrupted()
-        {
-            return _interaptionTimer > 0;
-        }
-
-        public void InterruptVelocity(float interaptionTimer)
+        public void InterruptVelocity()
         {
             _rb.velocity = Vector2.zero;
-            _interaptionTimer = interaptionTimer;
         }
 
         private void CheckJumpParameters()
