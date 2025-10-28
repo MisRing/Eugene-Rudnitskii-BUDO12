@@ -18,22 +18,15 @@ namespace Characters.Player
 
         [HideInInspector] public UIStatsVisualizer StatsVisualizer;
 
-        public event Action OnHighFall; // Почему оно тут?
-
         private void Awake()
         {
             Stats = GetComponent<PlayerStats>();
-            Conditions =  GetComponent<PlayerConditions>();
+            Conditions = GetComponent<PlayerConditions>();
             MovementComponent = GetComponent<MovementComponent>();
             Animator = GetComponent<PlayerAnimator>();
             PlayerCombat = GetComponent<PlayerCombat>();
 
             StatsVisualizer?.SubscribeStats();
-        }
-
-        public void InvokeOnHighFall()
-        {
-            OnHighFall?.Invoke();
         }
     }
 }

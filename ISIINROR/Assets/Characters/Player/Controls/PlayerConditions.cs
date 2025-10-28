@@ -14,6 +14,7 @@ namespace Characters.Player
         public  bool IsInvulnerable => _invulnerable > 0;
         
         public event Action OnInterrupted;
+        public event Action OnHighFall;
 
         private void Update()
         {
@@ -29,5 +30,6 @@ namespace Characters.Player
         }
 
         public void Invulnerable(float time) => _invulnerable = time;
+        public void InvokeOnHighFall() => OnHighFall?.Invoke();
     }
 }

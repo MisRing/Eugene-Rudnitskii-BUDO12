@@ -38,8 +38,6 @@ namespace Characters.Player
 
         private void OnEnable()
         {
-            if (!_playerService) return;
-
             _playerService.Conditions.OnInterrupted += InterruptVelocity;
         }
 
@@ -54,8 +52,6 @@ namespace Characters.Player
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             _sprite = GetComponent<SpriteRenderer>();
             _playerService = GetComponent<PlayerService>();
-            
-            _playerService.Conditions.OnInterrupted += InterruptVelocity;
         }
 
         private void Update()
@@ -73,7 +69,7 @@ namespace Characters.Player
 
             CheckJumpParameters();
 
-            UpdateAnimations();
+            _playerService.Animator.SetMovementAnimations(_isGrounded,  _movement.x, _rb.velocity.y);
         }
 
         private void FixedUpdate()
@@ -102,17 +98,19 @@ namespace Characters.Player
             _isGrounded = Physics2D.Raycast(transform.position + _groundCheckPos, _direction, _rayDistance, _groundLayers);
         }
 
-        public void InterruptVelocity()
+        private void InterruptVelocity()
         {
             _rb.velocity = Vector2.zero;
         }
 
         private void CheckJumpParameters()
         {
-            if (_isGrounded && _lastFrameVelocityY <= -_highFallVelocity &&
-                _rb.velocity.y > -_highFallVelocity)
+            if (_isGrounded
+                && _lastFrameVelocityY <= -_highFallVelocity
+                && _rb.velocity.y > -_highFallVelocity
+                )
             {
-                _playerService.InvokeOnHighFall();
+                _playerService.Conditions.InvokeOnHighFall();
                 _playerService.Animator.SetHighFall();
             }
             _lastFrameVelocityY = _rb.velocity.y;
@@ -171,15 +169,6 @@ namespace Characters.Player
         {
             _isLookRight = !_isLookRight;
             _sprite.flipX = !_isLookRight;
-        }
-
-        private void UpdateAnimations()
-        {
-            PlayerAnimator animator = _playerService.Animator;
-
-            animator.SetGround(_isGrounded);
-            animator.SetMove(_movement.x != 0);
-            animator.SetVerticalVelocity(_rb.velocity.y);
         }
         
         private void OnDrawGizmosSelected()

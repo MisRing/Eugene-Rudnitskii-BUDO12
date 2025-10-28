@@ -18,14 +18,12 @@ namespace Characters.Player
         public StatProperty Armor = new StatProperty(10, false, false, true);
         public StatProperty Jumps = new StatProperty(1, false, true, true);
 
-        //Current stats
-        private float _attackCooldown = 0;
-        private int _currentHealth = 0;
+        [Header("Current stats")]
+        [SerializeField] private float _attackCooldown = 0;
+        [SerializeField] private int _currentHealth = 0;
 
         public string Name { get { return _name; } }
-
         public string CharacterTitle { get { return _characterTitle; } }
-
         public int CurrentHealth { get { return _currentHealth; } }
 
         //Events

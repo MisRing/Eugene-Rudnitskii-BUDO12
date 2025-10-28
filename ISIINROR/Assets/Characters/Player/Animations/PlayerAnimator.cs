@@ -18,13 +18,20 @@ namespace Characters.Player
         {
             _animator = GetComponent<Animator>();
         }
+        
+        public void SetMovementAnimations(bool isGrounded, float movementX, float velocityY)
+        {
+            SetGround(isGrounded);
+            SetMove(movementX != 0);
+            SetVerticalVelocity(velocityY);
+        }
 
-        public void SetMove(bool move)
+        private void SetMove(bool move)
         {
             _animator.SetBool("Move", move);
         }
 
-        public void SetGround(bool onGround)
+        private void SetGround(bool onGround)
         {
             _animator.SetBool("OnGround", onGround);
         }
@@ -51,7 +58,7 @@ namespace Characters.Player
             Instantiate(_jumpEffectPref, _bottomSpawnPoint.transform.position, Quaternion.identity);
         }
 
-        public void SetVerticalVelocity(float yVelocity)
+        private void SetVerticalVelocity(float yVelocity)
         {
             _animator.SetFloat("VerticalVelocity", yVelocity);
         }

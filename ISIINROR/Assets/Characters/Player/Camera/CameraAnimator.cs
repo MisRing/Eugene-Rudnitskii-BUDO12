@@ -11,12 +11,20 @@ public class CameraAnimator : MonoBehaviour
 
     private void OnEnable()
     {
-        _playerService.OnHighFall += Drag;
+        if (!_playerService || !_playerService.Conditions)
+        {
+            PlayerConditions conditions = FindObjectOfType<PlayerConditions>();
+            conditions.OnHighFall += Drag;
+        }
+        else
+        {
+            _playerService.Conditions.OnHighFall += Drag;
+        }
     }
 
     private void OnDisable()
     {
-        _playerService.OnHighFall -= Drag;
+        _playerService.Conditions.OnHighFall -= Drag;
     }
 
     private void Awake()
@@ -24,7 +32,7 @@ public class CameraAnimator : MonoBehaviour
         _animator = GetComponent<Animator>();
     }
 
-    public void Drag()
+    private void Drag()
     {
         _animator.SetTrigger("Drag");
     }

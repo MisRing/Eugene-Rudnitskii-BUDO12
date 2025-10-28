@@ -23,13 +23,13 @@ public class CameraFollow : MonoBehaviour
 
     private void MoveCamera()
     {
-        float _targetSpeed = _targetRigidbody.velocity.magnitude;
-        float _gap = Vector2.Distance(_target.position, transform.position);
+        float targetSpeed = _targetRigidbody.velocity.magnitude;
+        float gap = Vector2.Distance(_target.position, transform.position);
 
-        float _followSpeed = _gap / _maxGap * _targetSpeed;
-        float _minSpeed = _targetPlayerService.Stats.MoveSpeed.Value * _minSpeedPercent;
-        _followSpeed = Mathf.Clamp(_followSpeed, _minSpeed, float.MaxValue);
+        float followSpeed = gap / _maxGap * targetSpeed;
+        float minSpeed = _targetPlayerService.Stats.MoveSpeed.Value * _minSpeedPercent;
+        followSpeed = Mathf.Clamp(followSpeed, minSpeed, float.MaxValue);
 
-        transform.position = Vector2.Lerp(transform.position, _target.position, _followSpeed * Time.deltaTime);
+        transform.position = Vector2.Lerp(transform.position, _target.position, followSpeed * Time.deltaTime);
     }
 }
