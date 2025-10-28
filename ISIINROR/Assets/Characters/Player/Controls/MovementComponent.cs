@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Characters.Player
         [SerializeField, Range(5f, 100f)] private float _yVelocityLimit = 50f;
 
         [Header("Ground check")]
-        [SerializeField] private Vector3 _groundCheckPos;
+        [SerializeField] private List<Vector3> _groundCheckPos;
         [SerializeField] private Vector2 _direction;
         [SerializeField] private float _rayDistance = 0.15f;
         [SerializeField] private LayerMask _groundLayers;
@@ -95,7 +96,11 @@ namespace Characters.Player
         
         private void GroundCheck()
         {
-            _isGrounded = Physics2D.Raycast(transform.position + _groundCheckPos, _direction, _rayDistance, _groundLayers);
+            foreach (Vector3 groundCheckPos in _groundCheckPos)
+            {
+                _isGrounded = Physics2D.Raycast(transform.position + groundCheckPos, _direction, _rayDistance, _groundLayers);
+                if(_isGrounded) break;
+            }
         }
 
         private void InterruptVelocity()
@@ -174,7 +179,10 @@ namespace Characters.Player
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = _isGrounded ? Color.green : Color.red;
-            Gizmos.DrawRay(transform.position + _groundCheckPos, _direction * _rayDistance);
+            foreach (Vector3 groundCheckPos in _groundCheckPos)
+            {
+                Gizmos.DrawRay(transform.position + groundCheckPos, _direction * _rayDistance);
+            }
         }
     }
 }

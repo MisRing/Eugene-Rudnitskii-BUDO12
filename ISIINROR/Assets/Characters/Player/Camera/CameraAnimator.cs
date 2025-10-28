@@ -7,24 +7,17 @@ using Characters.Player;
 public class CameraAnimator : MonoBehaviour
 {
     [SerializeField] private PlayerService _playerService;
+    [SerializeField] private PlayerConditions _playerConditions; // временно
     private Animator _animator;
 
     private void OnEnable()
     {
-        if (!_playerService || !_playerService.Conditions)
-        {
-            PlayerConditions conditions = FindObjectOfType<PlayerConditions>();
-            conditions.OnHighFall += Drag;
-        }
-        else
-        {
-            _playerService.Conditions.OnHighFall += Drag;
-        }
+        _playerConditions.OnHighFall += Drag;
     }
 
     private void OnDisable()
     {
-        _playerService.Conditions.OnHighFall -= Drag;
+        _playerConditions.OnHighFall -= Drag;
     }
 
     private void Awake()
