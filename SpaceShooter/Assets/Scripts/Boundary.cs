@@ -24,4 +24,13 @@ public class Boundary : MonoBehaviour
 
         return newPosition;
     }
+
+    private void OnTriggerExit(Collider collision)
+    {
+        IReturnable obj = collision.gameObject.GetComponent<IReturnable>();
+        if (obj != null)
+        {
+            obj.ReturnThis();
+        }
+    }
 }

@@ -7,7 +7,10 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _flySpeed = 1f;
     [SerializeField] private float _tilt = 4f;
+    [SerializeField] private float _fireRate = 0.3f;
+    private float _nextFire = 0f;
 
+    [SerializeField] private BulletPool _bulletPool;
     [SerializeField] private Boundary _boundary;
 
     private Rigidbody _rb;
@@ -24,6 +27,14 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        if(_nextFire <= Time.time && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)))
+        {
+            Bullet bullet = _bulletPool.GetBullet().GetComponent<Bullet>();
+            bullet.Fire(transform.forward);
+
+            _nextFire = Time.time + _fireRate;
+        }
     }
 
     private void FixedUpdate()
