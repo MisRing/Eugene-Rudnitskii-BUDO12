@@ -377,20 +377,6 @@
         {
             "m_OutputSlot": {
                 "m_Node": {
-                    "m_Id": "a8275b6ed0b243e4accfad640d840dba"
-                },
-                "m_SlotId": 0
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "557263c6ed994c0093c940fbe3aea084"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
                     "m_Id": "a992d49122b542448729f316bdeb48a2"
                 },
                 "m_SlotId": 3
@@ -505,7 +491,7 @@
     "m_ShaderOutputName": "A",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 0.0,
+        "e00": 1.0,
         "e01": 0.0,
         "e02": 0.0,
         "e03": 0.0,
@@ -2485,7 +2471,7 @@
     "m_ObjectId": "80342cb50b9b481a9c78ed6af0597f36",
     "m_Title": "Stars 1",
     "m_Position": {
-        "x": 277.5999755859375,
+        "x": 277.6000061035156,
         "y": -2024.800048828125
     }
 }
