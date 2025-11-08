@@ -7,6 +7,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour, IReturnable
 {
     [SerializeField] private float _speed = 3f;
+    [SerializeField] private LayerMask _targets;
 
     public event Action<GameObject> Return;
 
@@ -25,6 +26,19 @@ public class Bullet : MonoBehaviour, IReturnable
         transform.LookAt(transform.position + direction);
 
         _rb.velocity = transform.forward * _speed;
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.isTrigger || !other.gameObject || ((1 << other.gameObject.layer) & _targets) == 0) return;
+
+        DestroyByContact objDestr = other.gameObject.GetComponent<DestroyByContact>();
+        if(objDestr)
+        {
+            objDestr.DestroyThis();
+        }
+
+        ReturnThis();
     }
 
     public void ReturnThis()

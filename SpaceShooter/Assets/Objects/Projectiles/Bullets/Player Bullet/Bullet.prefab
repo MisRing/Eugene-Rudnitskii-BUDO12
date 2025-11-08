@@ -181,3 +181,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 15
+  _targets:
+    serializedVersion: 2
+    m_Bits: 320

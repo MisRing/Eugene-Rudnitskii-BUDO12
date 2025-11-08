@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7242927566032584325}
   - component: {fileID: 8698090914065437694}
   - component: {fileID: 5786352188667619762}
-  m_Layer: 7
+  - component: {fileID: -8048705321161869036}
+  m_Layer: 8
   m_Name: Asteroid 2
   m_TagString: Asteroid
   m_Icon: {fileID: 0}
@@ -98,6 +99,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 0.5
+--- !u!114 &-8048705321161869036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897616552503708694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a78c410a53e5b14d966850836971c6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targets:
+    serializedVersion: 2
+    m_Bits: 8
+  _explosionPref: {fileID: 100004, guid: 2857e183f4cd3df4e9096e5b578bd32f, type: 3}
 --- !u!1001 &7039997230183685606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -169,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 4a3247f3801bf504ba603f7e1d0ae9dd,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
