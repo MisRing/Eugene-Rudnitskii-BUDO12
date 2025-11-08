@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerController : MonoBehaviour
+public class PlayerFlyComponent : MonoBehaviour
 {
     [SerializeField] private float _flySpeed = 1f;
     [SerializeField] private float _tilt = 4f;
-    [SerializeField] private float _fireRate = 0.3f;
-    private float _nextFire = 0f;
-
-    [SerializeField] private BulletPool _bulletPool;
+    [SerializeField] private float _dashPower = 5f;
+    [SerializeField] private float _dashTime = 0.3f;
+    
     [SerializeField] private Boundary _boundary;
 
     private Rigidbody _rb;
 
     private Vector3 _movement;
+    private bool _isControlled = true;
 
     private void Awake()
     {
@@ -26,14 +26,14 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-
-        if(_nextFire <= Time.time && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space)))
+        if (_isControlled)
         {
-            Bullet bullet = _bulletPool.GetBullet().GetComponent<Bullet>();
-            bullet.Fire(transform.forward);
+            _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+        }
 
-            _nextFire = Time.time + _fireRate;
+        if(Input.GetKeyDown(KeyCode.LeftShift) && _rb.velocity.x != 0)
+        {
+            StartCoroutine(Dash());
         }
     }
 
@@ -47,5 +47,18 @@ public class PlayerController : MonoBehaviour
         }
 
         _rb.rotation = Quaternion.Euler(0f, 0f, _rb.velocity.x * -_tilt);
+    }
+
+    private IEnumerator Dash()
+    {
+        _isControlled = false;
+
+        _rb.velocity = Vector3.zero;
+
+        _rb.AddForce(Vector3.right * Mathf.Sign(_rb.velocity.x) * _dashPower, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(_dashTime);
+
+        _isControlled = true;
     }
 }

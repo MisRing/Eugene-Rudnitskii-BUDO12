@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 4578261377398279731}
   - component: {fileID: 7803427597773185237}
   - component: {fileID: 7229893140775707814}
+  - component: {fileID: 5326445190043583380}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -121,8 +122,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _flySpeed: 16
   _tilt: 2.5
-  _fireRate: 0.3
-  _bulletPool: {fileID: 6745519923325097682}
   _boundary: {fileID: 0}
 --- !u!54 &7803427597773185237
 Rigidbody:
@@ -167,6 +166,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   _explosionPref: {fileID: 100008, guid: a93496017806b7740910df5fd946f306, type: 3}
+--- !u!114 &5326445190043583380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8980227159583978708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af19f7973a9c44e469a703efb6ce8604, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fireRate: 0.3
+  _bulletPool: {fileID: 6745519923325097682}
 --- !u!1001 &7248853261708789177
 PrefabInstance:
   m_ObjectHideFlags: 0
