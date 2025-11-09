@@ -123,6 +123,10 @@ MonoBehaviour:
   _flySpeed: 16
   _tilt: 2.5
   _boundary: {fileID: 0}
+  _dashForce: 60
+  _dashReduction: 15
+  _dashDuration: 0.3
+  _dashCooldown: 0.1
 --- !u!54 &7803427597773185237
 Rigidbody:
   m_ObjectHideFlags: 0

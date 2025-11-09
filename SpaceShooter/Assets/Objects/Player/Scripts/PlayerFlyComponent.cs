@@ -1,21 +1,25 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerFlyComponent : MonoBehaviour
 {
+    [Header("Movement Settings")]
     [SerializeField] private float _flySpeed = 1f;
     [SerializeField] private float _tilt = 4f;
-    [SerializeField] private float _dashPower = 5f;
-    [SerializeField] private float _dashTime = 0.3f;
-    
     [SerializeField] private Boundary _boundary;
 
-    private Rigidbody _rb;
+    [Header("Dash Settings")]
+    [SerializeField] private float _dashForce = 15f;
+    [SerializeField] private float _dashReduction = 30f;
+    [SerializeField] private float _dashDuration = 0.2f;
+    [SerializeField] private float _dashCooldown = 1f;
 
+    private Rigidbody _rb;
     private Vector3 _movement;
-    private bool _isControlled = true;
+
+    private bool _isDashing = false;
+    private bool _canDash = true;
 
     private void Awake()
     {
@@ -26,39 +30,65 @@ public class PlayerFlyComponent : MonoBehaviour
 
     private void Update()
     {
-        if (_isControlled)
-        {
-            _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
-        }
+        if (_isDashing) return;
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && _rb.velocity.x != 0)
+        _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
         {
-            StartCoroutine(Dash());
+            StartCoroutine(DashRoutine());
         }
     }
 
     private void FixedUpdate()
     {
-        _rb.velocity = _movement * _flySpeed;
+        if (!_isDashing)
+        {
+            _rb.velocity = _movement * _flySpeed;
+            _rb.rotation = Quaternion.Euler(0f, 0f, _rb.velocity.x * -_tilt);
+        }
 
         if (_boundary)
         {
             _rb.position = _boundary.LimitObject(_rb.position);
         }
-
-        _rb.rotation = Quaternion.Euler(0f, 0f, _rb.velocity.x * -_tilt);
     }
 
-    private IEnumerator Dash()
+    private IEnumerator DashRoutine()
     {
-        _isControlled = false;
+        _isDashing = true;
+        _canDash = false;
 
-        _rb.velocity = Vector3.zero;
+        // определяем направление даша (по последнему движению)
+        float dashDir = Mathf.Sign(_movement.x);
+        if (dashDir == 0) dashDir = 1f; // если стоял на месте — рывок вправо
 
-        _rb.AddForce(Vector3.right * Mathf.Sign(_rb.velocity.x) * _dashPower, ForceMode.Impulse);
+        Vector3 dashVelocity = new Vector3(dashDir * _dashForce, 0f, 0f);
+        _rb.velocity = dashVelocity;
 
-        yield return new WaitForSeconds(_dashTime);
+        // вращение по оси Z на 360°
+        float elapsed = 0f;
+        while (elapsed < _dashDuration)
+        {
+            float angle = Mathf.Lerp(0, 360, elapsed / _dashDuration);
+            //_rb.rotation = Quaternion.Euler(0f, 0f, angle);
+            elapsed += Time.deltaTime;
 
-        _isControlled = true;
+            //dashVelocity = new Vector3(Mathf.Clamp(Mathf.Abs(dashVelocity.x) - Time.deltaTime * _dashReduction, 0f, float.MaxValue) * dashDir, 0f, 0f);
+
+            yield return null;
+
+            dashVelocity = Vector3.Lerp(dashVelocity, Vector3.right * dashDir * _flySpeed, _dashReduction * Time.deltaTime);
+
+            _rb.velocity = dashVelocity;
+        }
+
+        // возвращаем поворот
+        transform.localRotation = Quaternion.identity;
+        _isDashing = false;
+
+        // небольшой кулдаун
+        yield return new WaitForSeconds(_dashCooldown);
+        _canDash = true;
     }
 }
