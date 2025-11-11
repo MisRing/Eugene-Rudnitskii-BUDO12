@@ -14,6 +14,12 @@ public class Boundary : MonoBehaviour
     [SerializeField] private bool _drawGizmos = true;
 
     private BoxCollider _boxCollider;
+    
+    public float MinX { get { return _minX + transform.position.x; } }
+    public float MaxX { get { return _maxX + transform.position.x; } }
+    public float MinZ { get { return _minZ + transform.position.z; } }
+    public float MaxZ { get { return _minZ + transform.position.z; } }
+
 
     private void Awake()
     {
@@ -21,20 +27,9 @@ public class Boundary : MonoBehaviour
         _boxCollider.isTrigger = true;
     }
 
-    public Vector3 LimitObject(Vector3 position)
-    {
-        Vector3 currentPos = transform.position;
-
-        Vector3 newPosition = new Vector3(  Mathf.Clamp(position.x, currentPos.x + _minX, currentPos.x + _maxX),
-                                            position.y,
-                                            Mathf.Clamp(position.z, currentPos.z + _minZ, currentPos.z + _maxZ));
-
-        return newPosition;
-    }
-
     private void OnTriggerExit(Collider collision)
     {
-        IReturnable obj = collision.gameObject.GetComponent<IReturnable>();
+        IReturnable obj = collision.gameObject.GetComponent<IReturnable>(); // remake
         if (obj != null)
         {
             obj.ReturnThis();

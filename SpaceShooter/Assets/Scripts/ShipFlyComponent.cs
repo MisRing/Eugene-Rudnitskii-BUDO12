@@ -42,8 +42,18 @@ public abstract class ShipFlyComponent : MonoBehaviour
 
         if (_boundary)
         {
-            _rb.position = _boundary.LimitObject(_rb.position);
+            _rb.position = LimitByBoundary(_rb.position);
         }
+    }
+
+    private Vector3 LimitByBoundary(Vector3 position)
+    {
+        position = new Vector3(
+            Mathf.Clamp(position.x, _boundary.MinX, _boundary.MaxX),
+            position.y,
+            Mathf.Clamp(position.z, _boundary.MinZ, _boundary.MaxZ));
+        
+        return position;
     }
 
     private protected IEnumerator DashRoutine()
