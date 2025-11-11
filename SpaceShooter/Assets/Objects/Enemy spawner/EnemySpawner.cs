@@ -5,23 +5,23 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     private SpawnArea _spawnArea;
-
-    [SerializeField] private List<GameObject> asteroids = new List<GameObject>();
-
+    private EnemyFactory _enemyFactory;
+    
     private void Awake()
     {
         _spawnArea = GetComponent<SpawnArea>();
+        _enemyFactory = GetComponent<EnemyFactory>();
     }
 
-    float nextSpawn = 0f;
+    float _nextSpawn = 0f;
     private void Update()
     {
-        if (nextSpawn <= Time.time)
+        if (_nextSpawn <= Time.time)
         {
-            GameObject asteroid = Instantiate(asteroids[Random.Range(0, asteroids.Count)]);
-            asteroid.transform.position = _spawnArea.GetRandomPosition();
+            
+            IAsteroid asteroid = _enemyFactory.CreateEnemy(EnemyType.asteroid0, _spawnArea.GetRandomPosition());
 
-            nextSpawn = Time.time + 0.5f;
+            _nextSpawn = Time.time + 0.5f;
         }
     }
 }
