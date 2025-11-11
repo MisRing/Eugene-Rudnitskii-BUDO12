@@ -198,6 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9be9864d845bb9468bab529f3643145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _engine: {fileID: 646853748693768542}
+  _baseScale: 1.6
+  _scaleMultiplier: 0.04
 --- !u!114 &7229893140775707814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +227,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_Name
-      value: engines_player
+      value: Engine
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -236,7 +239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.75
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 62ea8a5ca94c546f29ba6dea8f379a7b, type: 3}
       propertyPath: m_LocalRotation.w

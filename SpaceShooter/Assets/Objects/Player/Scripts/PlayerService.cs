@@ -8,8 +8,11 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerAnimator))]
 public class PlayerService : MonoBehaviour
 {
+    [HideInInspector]
     public PlayerFlyComponent FlyComponent;
+    [HideInInspector]
     public PlayerCombat CombatComponent;
+    [HideInInspector]
     public PlayerAnimator Animator;
 
     private void Awake()
