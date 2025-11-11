@@ -6,7 +6,7 @@ public class EnemyFactory : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyPrefabs = new List<GameObject>();
 
-    public IAsteroid CreateEnemy(EnemyType type, Vector3 position)
+    public IEnemy CreateEnemy(EnemyType type, Vector3 position)
     {
         GameObject enemyGameObject = null;
 
@@ -26,12 +26,12 @@ public class EnemyFactory : MonoBehaviour
                 return null;
         }
 
-        IAsteroid asteroid = enemyGameObject.GetComponent<IAsteroid>();
-        if (asteroid != null)
+        IEnemy enemy = enemyGameObject.GetComponent<IEnemy>();
+        if (enemy != null)
         {
-            asteroid.Initialize(new AsteroidData { Size = 2, Speed = 3f }); 
+           // enemy.Initialize(new EnemyData { Size = 2, Speed = 3f }); 
         }
-        return asteroid;
+        return enemy;
     }
 }
 

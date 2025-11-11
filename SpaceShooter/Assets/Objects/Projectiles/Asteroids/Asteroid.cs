@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour, IAsteroid
+public class Asteroid : MonoBehaviour, IEnemy
 {
     private Rigidbody _rb;
     [SerializeField] private float _speed = 0.5f;
@@ -12,7 +12,7 @@ public class Asteroid : MonoBehaviour, IAsteroid
         _rb = GetComponent<Rigidbody>();
     }
 
-    public void Initialize(AsteroidData data)
+    public void Initialize(EnemyData data)
     {
         _speed = data.Speed;
         transform.localScale = Vector3.one * data.Size;
