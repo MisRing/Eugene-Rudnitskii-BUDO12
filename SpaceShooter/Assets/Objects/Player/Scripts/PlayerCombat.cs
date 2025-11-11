@@ -17,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void Fire()
+    private void Fire()
     {
         if (_nextFire > Time.time) return;
 

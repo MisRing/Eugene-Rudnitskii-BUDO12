@@ -41,7 +41,7 @@ public class BulletPool : MonoBehaviour
         return bullet;
     }
 
-    public void ReturnBullet(GameObject bullet)
+    private void ReturnBullet(GameObject bullet)
     {
         bullet.transform.SetParent(transform);
         bullet.transform.position = transform.position;

@@ -16,6 +16,7 @@ public class PlayerFlyComponent : MonoBehaviour
     [SerializeField] private float _dashCooldown = 1f;
 
     private Rigidbody _rb;
+    private Collider _collider;
     private Vector3 _movement;
 
     private bool _isDashing = false;
@@ -26,6 +27,8 @@ public class PlayerFlyComponent : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
         _rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+        
+        _collider = GetComponent<Collider>();
     }
 
     private void Update()
@@ -58,6 +61,8 @@ public class PlayerFlyComponent : MonoBehaviour
     {
         _isDashing = true;
         _canDash = false;
+        
+        _collider.enabled = false;
 
         float dashDir = Mathf.Sign(_movement.x);
 
@@ -81,6 +86,8 @@ public class PlayerFlyComponent : MonoBehaviour
         }
         
         _isDashing = false;
+        
+        _collider.enabled = true;
 
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
