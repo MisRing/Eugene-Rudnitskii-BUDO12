@@ -32,13 +32,17 @@ public class Bullet : MonoBehaviour, IReturnable
     {
         if (other.isTrigger || !other.gameObject || ((1 << other.gameObject.layer) & _targets) == 0) return;
 
-        DestroyByContact objDestr = other.gameObject.GetComponent<DestroyByContact>();
-        if(objDestr)
-        {
-            objDestr.DestroyThis();
-        }
+        
 
         ReturnThis();
+    }
+    
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Boundary")
+        {
+            ReturnThis();
+        }
     }
 
     public void ReturnThis()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,13 @@ public class DestroyByContact : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject || ((1 << collision.gameObject.layer) & _targets) == 0) return;
+
+        DestroyThis();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!other.gameObject || ((1 << other.gameObject.layer) & _targets) == 0) return;
 
         DestroyThis();
     }

@@ -18,22 +18,13 @@ public class Boundary : MonoBehaviour
     public float MinX { get { return _minX + transform.position.x; } }
     public float MaxX { get { return _maxX + transform.position.x; } }
     public float MinZ { get { return _minZ + transform.position.z; } }
-    public float MaxZ { get { return _minZ + transform.position.z; } }
+    public float MaxZ { get { return _maxZ + transform.position.z; } }
 
 
     private void Awake()
     {
         _boxCollider = GetComponent<BoxCollider>();
         _boxCollider.isTrigger = true;
-    }
-
-    private void OnTriggerExit(Collider collision)
-    {
-        IReturnable obj = collision.gameObject.GetComponent<IReturnable>(); // remake
-        if (obj != null)
-        {
-            obj.ReturnThis();
-        }
     }
 
     private void OnDrawGizmos()
