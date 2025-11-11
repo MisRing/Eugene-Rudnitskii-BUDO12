@@ -34,7 +34,7 @@ public class PlayerFlyComponent : MonoBehaviour
 
         _movement = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && _canDash && _movement.x != 0)
         {
             StartCoroutine(DashRoutine());
         }
@@ -59,35 +59,29 @@ public class PlayerFlyComponent : MonoBehaviour
         _isDashing = true;
         _canDash = false;
 
-        // определяем направление даша (по последнему движению)
         float dashDir = Mathf.Sign(_movement.x);
-        if (dashDir == 0) dashDir = 1f; // если стоял на месте — рывок вправо
 
         Vector3 dashVelocity = new Vector3(dashDir * _dashForce, 0f, 0f);
+        Vector3 targetDashVelocity = Vector3.right * (_flySpeed * dashDir);
         _rb.velocity = dashVelocity;
 
-        // вращение по оси Z на 360°
+        float angle = transform.eulerAngles.z;
+        
         float elapsed = 0f;
         while (elapsed < _dashDuration)
         {
-            float angle = Mathf.Lerp(0, 360, elapsed / _dashDuration);
-            //_rb.rotation = Quaternion.Euler(0f, 0f, angle);
-            elapsed += Time.deltaTime;
-
-            //dashVelocity = new Vector3(Mathf.Clamp(Mathf.Abs(dashVelocity.x) - Time.deltaTime * _dashReduction, 0f, float.MaxValue) * dashDir, 0f, 0f);
-
             yield return null;
 
-            dashVelocity = Vector3.Lerp(dashVelocity, Vector3.right * dashDir * _flySpeed, _dashReduction * Time.deltaTime);
-
+            dashVelocity = Vector3.Lerp(dashVelocity, targetDashVelocity, _dashReduction * Time.deltaTime);
             _rb.velocity = dashVelocity;
+            
+            angle = Mathf.Lerp(angle, 360f + _rb.velocity.x * _tilt, _dashReduction * Time.deltaTime);
+            _rb.rotation = Quaternion.Euler(0f, 0f, -angle * dashDir);
+            elapsed += Time.deltaTime;
         }
-
-        // возвращаем поворот
-        transform.localRotation = Quaternion.identity;
+        
         _isDashing = false;
 
-        // небольшой кулдаун
         yield return new WaitForSeconds(_dashCooldown);
         _canDash = true;
     }
