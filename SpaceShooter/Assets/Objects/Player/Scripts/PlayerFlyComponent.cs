@@ -2,35 +2,8 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerFlyComponent : MonoBehaviour
+public class PlayerFlyComponent : ShipFlyComponent
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float _flySpeed = 1f;
-    [SerializeField] private float _tilt = 4f;
-    [SerializeField] private Boundary _boundary;
-
-    [Header("Dash Settings")]
-    [SerializeField] private float _dashForce = 15f;
-    [SerializeField] private float _dashReduction = 30f;
-    [SerializeField] private float _dashDuration = 0.2f;
-    [SerializeField] private float _dashCooldown = 1f;
-
-    private Rigidbody _rb;
-    private Collider _collider;
-    private Vector3 _movement;
-
-    private bool _isDashing = false;
-    private bool _canDash = true;
-
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-        _rb.useGravity = false;
-        _rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
-        
-        _collider = GetComponent<Collider>();
-    }
-
     private void Update()
     {
         if (_isDashing) return;
@@ -41,55 +14,5 @@ public class PlayerFlyComponent : MonoBehaviour
         {
             StartCoroutine(DashRoutine());
         }
-    }
-
-    private void FixedUpdate()
-    {
-        if (!_isDashing)
-        {
-            _rb.velocity = _movement * _flySpeed;
-            _rb.rotation = Quaternion.Euler(0f, 0f, _rb.velocity.x * -_tilt);
-        }
-
-        if (_boundary)
-        {
-            _rb.position = _boundary.LimitObject(_rb.position);
-        }
-    }
-
-    private IEnumerator DashRoutine()
-    {
-        _isDashing = true;
-        _canDash = false;
-        
-        _collider.enabled = false;
-
-        float dashDir = Mathf.Sign(_movement.x);
-
-        Vector3 dashVelocity = new Vector3(dashDir * _dashForce, 0f, 0f);
-        Vector3 targetDashVelocity = Vector3.right * (_flySpeed * dashDir);
-        _rb.velocity = dashVelocity;
-
-        float angle = transform.eulerAngles.z;
-        
-        float elapsed = 0f;
-        while (elapsed < _dashDuration)
-        {
-            yield return null;
-
-            dashVelocity = Vector3.Lerp(dashVelocity, targetDashVelocity, _dashReduction * Time.deltaTime);
-            _rb.velocity = dashVelocity;
-            
-            angle = Mathf.Lerp(angle, 360f + _rb.velocity.x * _tilt, _dashReduction * Time.deltaTime);
-            _rb.rotation = Quaternion.Euler(0f, 0f, -angle * dashDir);
-            elapsed += Time.deltaTime;
-        }
-        
-        _isDashing = false;
-        
-        _collider.enabled = true;
-
-        yield return new WaitForSeconds(_dashCooldown);
-        _canDash = true;
     }
 }
