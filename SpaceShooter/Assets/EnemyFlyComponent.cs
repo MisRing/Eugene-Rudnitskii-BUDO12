@@ -21,23 +21,12 @@ public class EnemyFlyComponent : ShipFlyComponent
         StartAI();
     }
 
-    private IEnumerator FlyToScreen()
-    {
-        _startPosition = new Vector3(Random.Range(-7f, 7f), 0f, 2f);
-        Vector3 finalMovement = GetMovementOnPoint(_startPosition);
+    //private IEnumerator FlyToScreen()
+    //{
+        
+    //    StartAI();
+    //}
 
-        while (true)
-        {
-            _movement = (_startPosition - transform.position).normalized;
-
-            if (Vector3.Distance(_startPosition, transform.position) <= 0.1f)
-                break;
-
-            yield return null;
-        }
-
-        StartAI();
-    }
 
 
     private Vector3 GetMovementOnPoint(Vector3 point)
@@ -78,8 +67,15 @@ public class EnemyFlyComponent : ShipFlyComponent
         while (true)
         {
             _movement = MovementPressets.GetMovementByType(delta, _enemyShipService.MovementType);
+
             yield return null;
+
             delta += Time.deltaTime / (_flySpeed / 2f);
+
+            if (delta > 4f)
+            {
+                delta -= 4f;
+            }
         }
 
     }

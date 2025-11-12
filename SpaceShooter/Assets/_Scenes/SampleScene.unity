@@ -962,7 +962,7 @@ MonoBehaviour:
   _dashReduction: 30
   _dashDuration: 0.2
   _dashCooldown: 1
-  _flyInSpeedMod: 2
+  _flyInSpeedMod: 0.1
   _startPosition: {x: 0, y: 0, z: 2}
 --- !u!54 &1784103662
 Rigidbody:
