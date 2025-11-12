@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(PlayerFlyComponent))]
 [RequireComponent(typeof(PlayerCombat))]
-[RequireComponent(typeof(PlayerAnimator))]
+[RequireComponent(typeof(ShipAnimator))]
 public class PlayerService : MonoBehaviour
 {
     [HideInInspector]
@@ -13,12 +13,12 @@ public class PlayerService : MonoBehaviour
     [HideInInspector]
     public PlayerCombat CombatComponent;
     [HideInInspector]
-    public PlayerAnimator Animator;
+    public ShipAnimator Animator;
 
     private void Awake()
     {
         FlyComponent = GetComponent<PlayerFlyComponent>();
         CombatComponent = GetComponent<PlayerCombat>();
-        Animator = GetComponent<PlayerAnimator>();
+        Animator = GetComponent<ShipAnimator>();
     }
 }

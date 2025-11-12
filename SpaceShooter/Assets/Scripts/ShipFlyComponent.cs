@@ -24,7 +24,7 @@ public abstract class ShipFlyComponent : MonoBehaviour
     private protected bool _isDashing = false;
     private protected bool _dashOnCooldown = false;
 
-    private void Awake()
+    private protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = false;
@@ -38,7 +38,7 @@ public abstract class ShipFlyComponent : MonoBehaviour
         if (!_isDashing)
         {
             _rb.velocity = _movement * _flySpeed;
-            _rb.rotation = Quaternion.Euler(0f, 0f, _rb.velocity.x * -_tilt);
+            _rb.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, _rb.velocity.x * -_tilt);
         }
 
         if (_boundary)
@@ -81,7 +81,7 @@ public abstract class ShipFlyComponent : MonoBehaviour
             _rb.velocity = dashVelocity;
             
             angle = Mathf.Lerp(angle, 360f + _rb.velocity.x * _tilt, _dashReduction * Time.deltaTime);
-            _rb.rotation = Quaternion.Euler(0f, 0f, -angle * dashDir);
+            _rb.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, -angle * dashDir);
             elapsed += Time.deltaTime;
         }
         
