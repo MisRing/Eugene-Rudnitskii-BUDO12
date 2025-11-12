@@ -18,28 +18,36 @@ public static class MovementPressets
 
     public static Vector3 GetLeftRight(float delta)
     {
-        Vector3 direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * delta), 0f, 0f);
+        delta = (delta + 0.5f) % 2f;
+        delta *= Mathf.PI;
+        Vector3 direction = new Vector3(Mathf.Sin(delta), 0f, 0f);
 
         return direction;
     }
 
     public static Vector3 GetCircle(float delta)
     {
-        Vector3 direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * delta), 0f, Mathf.Cos(Mathf.Deg2Rad * delta));
+        delta = (delta + 0.5f) % 2f;
+        delta *= Mathf.PI;
+        Vector3 direction = new Vector3(Mathf.Sin(delta), 0f, Mathf.Cos(delta));
 
         return direction;
     }
 
     public static Vector3 GetEight(float delta)
     {
-        Vector3 direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * delta), 0f, Mathf.Cos(Mathf.Deg2Rad * delta * 2f) * 0.5f);
+        delta = (delta + 0.5f) % 2f;
+        delta *= Mathf.PI;
+        Vector3 direction = new Vector3(Mathf.Sin(delta), 0f, Mathf.Cos(delta * 2f) * 0.5f);
 
         return direction;
     }
 
     public static Vector3 GetDoubleEight(float delta)
     {
-        Vector3 direction = new Vector3(Mathf.Sin(Mathf.Deg2Rad * delta), 0f, Mathf.Cos(Mathf.Deg2Rad * delta * 4f) * 0.5f);
+        delta = (delta + 0.5f) % 2f;
+        delta *= Mathf.PI;
+        Vector3 direction = new Vector3(Mathf.Sin(delta), 0f, Mathf.Cos(delta * 4f) * 0.5f);
 
         return direction;
     }

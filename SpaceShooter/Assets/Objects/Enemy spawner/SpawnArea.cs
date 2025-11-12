@@ -27,7 +27,7 @@ public class SpawnArea : MonoBehaviour
     {
         if (!_drawGizmos) return;
 
-        Gizmos.color = Color.red;
+        Gizmos.color = new Color(0.627f, 0.125f, 0.941f, 1f);
 
         Gizmos.DrawWireCube(transform.position, new Vector3(_maxX - _minX, 5f, _maxZ - _minZ));
     }

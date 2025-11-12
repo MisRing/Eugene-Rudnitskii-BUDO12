@@ -38,7 +38,14 @@ public abstract class ShipFlyComponent : MonoBehaviour
         if (!_isDashing)
         {
             _rb.velocity = _movement * _flySpeed;
-            _rb.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, _rb.velocity.x * -_tilt);
+            if(_rb.rotation.eulerAngles.y == 0)
+            {
+                _rb.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, _rb.velocity.x * -_tilt);
+            }
+            else
+            {
+                _rb.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, _rb.velocity.x * _tilt);
+            }
         }
 
         if (_boundary)

@@ -10,6 +10,8 @@ public class Asteroid : MonoBehaviour, IEnemy
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        StartMove();
+
     }
 
     public void Initialize(EnemyData data)
