@@ -5,7 +5,8 @@ using UnityEngine;
 public class EnemyFlyComponent : ShipFlyComponent
 {
     [Header("Special Fly Settings")]
-    [SerializeField] private float _flyInSpeedMod = 2f;
+    [SerializeField, Range(1f, 10f)] private float _flyInSpeedMod = 2f;
+    [SerializeField] private float _flyInDistance = 0.3f;
     [SerializeField] private Vector3 _startPosition;
     private EnemyShipService _enemyShipService;
 
@@ -17,15 +18,35 @@ public class EnemyFlyComponent : ShipFlyComponent
 
     private void Start()
     {
-        //StartCoroutine(FlyToScreen());
-        StartAI();
+        StartMove(_startPosition);
     }
 
-    //private IEnumerator FlyToScreen()
-    //{
+    public void StartMove(Vector3 startPoint)
+    {
+        StartCoroutine(FlyInLinear(startPoint));
+        //StartAI();
+    }
+
+    private IEnumerator FlyInLinear(Vector3 startPoint)
+    {
+        float maxDistance = Vector3.Distance(startPoint, transform.position);
+        Vector3 finalMovement = GetMovementOnPoint(startPoint);
         
-    //    StartAI();
-    //}
+        transform.position = new Vector3((transform.position.z - startPoint.z) * Mathf.Sin(Vector3.Angle(Vector3.up, finalMovement)) + startPoint.x, 0f, transform.position.z);
+
+        float t = 1;
+
+        while(Vector3.Distance(transform.position, startPoint) > _flyInDistance)
+        {
+            _movement = (startPoint - transform.position).normalized;
+            _movement *= 1 + (1 - Mathf.Pow(1 - t, 2)) * (_flyInSpeedMod - 1);
+            t = Vector3.Distance(startPoint, transform.position) / maxDistance;
+
+            yield return null;
+        }    
+
+        StartAI();
+    }
 
 
 
@@ -35,11 +56,11 @@ public class EnemyFlyComponent : ShipFlyComponent
 
         if (_boundary)
         {
-            delta = ((transform.position.x - _boundary.MinX) / (_boundary.MaxX - _boundary.MinX)) * 2f;
+            delta = ((point.x - _boundary.MinX) / (_boundary.MaxX - _boundary.MinX)) * 2f;
         }
         else
         {
-            delta = ((transform.position.x + 10f) / 20f) * 2f;
+            delta = ((point.x + 10f) / 20f) * 2f;
         }
         Vector3 movement = MovementPressets.GetMovementByType(delta, _enemyShipService.MovementType);
 
@@ -57,11 +78,11 @@ public class EnemyFlyComponent : ShipFlyComponent
 
         if (_boundary)
         {
-            delta = ((transform.position.x - _boundary.MinX) / (_boundary.MaxX - _boundary.MinX)) * 2f;
+            delta = ((_startPosition.x - _boundary.MinX) / (_boundary.MaxX - _boundary.MinX)) * 2f;
         }
         else
         {
-            delta = ((transform.position.x + 10f) / 20f) * 2f;
+            delta = ((_startPosition.x + 10f) / 20f) * 2f;
         }
 
         while (true)
@@ -99,5 +120,8 @@ public class EnemyFlyComponent : ShipFlyComponent
             prevPoint += MovementPressets.GetMovementByType(delta + step / 2, _enemyShipService.MovementType) * _flySpeed * step * 4;
             delta += step;
         }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + _movement * 2);
     }
 }
