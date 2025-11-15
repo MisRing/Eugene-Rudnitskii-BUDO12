@@ -8,12 +8,12 @@ public class EnemyFlyComponent : ShipFlyComponent
     [SerializeField, Range(1f, 10f)] private float _flyInSpeedMod = 2f;
     [SerializeField] private float _flyInDistance = 0.3f;
     [SerializeField] private Vector3 _startPosition;
-    private EnemyShipService _enemyShipService;
+    private EnemyShipService _shipService;
 
     private protected override void Awake()
     {
         base.Awake();
-        _enemyShipService = GetComponent<EnemyShipService>();
+        _shipService = GetComponent<EnemyShipService>();
     }
 
     private void Start()
@@ -62,13 +62,14 @@ public class EnemyFlyComponent : ShipFlyComponent
         {
             delta = ((point.x + 10f) / 20f) * 2f;
         }
-        Vector3 movement = MovementPressets.GetMovementByType(delta, _enemyShipService.MovementType);
+        Vector3 movement = MovementPressets.GetMovementByType(delta, _shipService.MovementType);
 
         return movement;
     }
 
     private void StartAI()
     {
+        _shipService.IsControllable = true;
         StartCoroutine(Fly());
     }
 
@@ -87,7 +88,7 @@ public class EnemyFlyComponent : ShipFlyComponent
 
         while (true)
         {
-            _movement = MovementPressets.GetMovementByType(delta, _enemyShipService.MovementType);
+            _movement = MovementPressets.GetMovementByType(delta, _shipService.MovementType);
 
             yield return null;
 
@@ -103,9 +104,9 @@ public class EnemyFlyComponent : ShipFlyComponent
 
     private void OnDrawGizmosSelected()
     {
-        if(!_enemyShipService)
+        if(!_shipService)
         {
-            _enemyShipService = GetComponent<EnemyShipService>();
+            _shipService = GetComponent<EnemyShipService>();
         }
         Gizmos.color = Color.red;
 
@@ -116,8 +117,8 @@ public class EnemyFlyComponent : ShipFlyComponent
         while (delta <= 2f)
         {
             Gizmos.DrawLine(prevPoint,
-                                prevPoint + MovementPressets.GetMovementByType(delta + step / 2, _enemyShipService.MovementType) * _flySpeed * step * 4);
-            prevPoint += MovementPressets.GetMovementByType(delta + step / 2, _enemyShipService.MovementType) * _flySpeed * step * 4;
+                                prevPoint + MovementPressets.GetMovementByType(delta + step / 2, _shipService.MovementType) * _flySpeed * step * 4);
+            prevPoint += MovementPressets.GetMovementByType(delta + step / 2, _shipService.MovementType) * _flySpeed * step * 4;
             delta += step;
         }
 

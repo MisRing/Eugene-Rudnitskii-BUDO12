@@ -8,7 +8,7 @@ public class PlayerCombat : ShipCombat
     {
         if (Input.GetMouseButton(0) || Input.GetKey(KeyCode.Space))
         {
-            Fire();
+            Fire(Quaternion.identity);
         }
     }
 }

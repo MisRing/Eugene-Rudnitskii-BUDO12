@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7924201206616385953
+--- !u!1 &4185147198693397460
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,21 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4521454501996145571}
-  - component: {fileID: 6745519923325097682}
+  - component: {fileID: 4984132023877215884}
   m_Layer: 3
-  m_Name: BulletPool
+  m_Name: Bullet spawn point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4521454501996145571
+--- !u!4 &4984132023877215884
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7924201206616385953}
+  m_GameObject: {fileID: 4185147198693397460}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1, z: 0.35}
@@ -32,21 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2599439314783072429}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6745519923325097682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7924201206616385953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1037bf621e108f4e8b833492a920fa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minCount: 5
-  _bulletPref: {fileID: 4364104281098882014, guid: 9b0cc96a362d86a42b479a13fdeb343a,
-    type: 3}
 --- !u!1 &8980227159583978708
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,8 +68,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7139226717501579858}
-  - {fileID: 4521454501996145571}
   - {fileID: 646853748693768542}
+  - {fileID: 4984132023877215884}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7803427597773185237
@@ -168,6 +152,7 @@ MonoBehaviour:
   _flySpeed: 16
   _tilt: 2.5
   _boundary: {fileID: 0}
+  _canDash: 1
   _dashForce: 60
   _dashReduction: 15
   _dashDuration: 0.3
@@ -185,7 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fireRate: 0.3
-  _bulletPool: {fileID: 6745519923325097682}
+  _bulletSpawnPoint: {fileID: 4984132023877215884}
+  _bulletPool: {fileID: 0}
 --- !u!114 &2465611885845218514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _targets:
     serializedVersion: 2
-    m_Bits: 320
+    m_Bits: 832
   _explosionPref: {fileID: 100008, guid: a93496017806b7740910df5fd946f306, type: 3}
 --- !u!1001 &646853748693631964
 PrefabInstance:

@@ -24,7 +24,7 @@ public class BulletPool : MonoBehaviour
         _bulletsQ.Enqueue(bullet);
     }
 
-    public GameObject GetBullet()
+    public Bullet GetBullet(Vector3 spawnPosition, Quaternion rotation)
     {
         if(_bulletsQ.Count == 0)
         {
@@ -33,12 +33,13 @@ public class BulletPool : MonoBehaviour
 
         GameObject bullet = _bulletsQ.Dequeue();
         bullet.transform.SetParent(null);
-        bullet.transform.position = transform.position;
+        bullet.transform.position = spawnPosition;
+        bullet.transform.rotation = rotation;
         bullet.SetActive(true);
         Bullet bulletComp = bullet.GetComponent<Bullet>();
         bulletComp.Return += ReturnBullet;
 
-        return bullet;
+        return bulletComp;
     }
 
     private void ReturnBullet(GameObject bullet)
