@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyCombat : ShipCombat
 {
     private EnemyShipService _shipService;
+    [SerializeField] private LayerMask _targets;
 
     private void Awake()
     {
@@ -28,8 +29,7 @@ public class EnemyCombat : ShipCombat
 
     private void FireIfOnLine()
     {
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, -transform.forward, 100f, LayerMask.NameToLayer("Player")))
+        if(Physics.Raycast(transform.position, transform.forward, 100f, _targets))
         {
             Fire(Quaternion.Euler(0f, 180f, 0f));
         }

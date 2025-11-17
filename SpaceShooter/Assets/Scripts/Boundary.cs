@@ -33,6 +33,8 @@ public class Boundary : MonoBehaviour
 
         Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireCube(transform.position, new Vector3(_maxX - _minX, 5f, _maxZ - _minZ));
+        Vector3 center = new Vector3((_maxX + _minX) / 2f, 0f, (_maxZ + _minZ) / 2f) + transform.position;
+
+        Gizmos.DrawWireCube(center, new Vector3(_maxX - _minX, 5f, _maxZ - _minZ));
     }
 }
