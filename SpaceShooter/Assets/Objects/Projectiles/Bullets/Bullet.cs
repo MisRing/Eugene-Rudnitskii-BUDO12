@@ -8,8 +8,9 @@ public class Bullet : MonoBehaviour, IReturnable
 {
     [SerializeField] private float _speed = 3f;
     [SerializeField] private LayerMask _targets;
+    [SerializeField] public PooledObjectType Type { get; set; }
 
-    public event Action<GameObject> Return;
+    public event Action<GameObject, PooledObjectType> Return;
 
     private Rigidbody _rb;
 
@@ -47,6 +48,6 @@ public class Bullet : MonoBehaviour, IReturnable
 
     public void ReturnThis()
     {
-        Return?.Invoke(gameObject);
+        Return?.Invoke(gameObject, Type);
     }
 }

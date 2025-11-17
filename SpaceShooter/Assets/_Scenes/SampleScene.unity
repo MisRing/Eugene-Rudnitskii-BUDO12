@@ -509,53 +509,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1779029004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &895347368
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 895347369}
-  - component: {fileID: 895347370}
-  m_Layer: 3
-  m_Name: Enemy Bullet Pool
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &895347369
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895347368}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1454233800}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &895347370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895347368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1037bf621e108f4e8b833492a920fa6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minCount: 8
-  _objectPref: {fileID: 4364104281098882014, guid: a27b46a60ce51cb429b303864cf31848,
-    type: 3}
 --- !u!1001 &983659549
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -771,7 +724,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2106469995}
-  - {fileID: 895347369}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1589553089
@@ -922,9 +874,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1037bf621e108f4e8b833492a920fa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minCount: 5
-  _objectPref: {fileID: 4364104281098882014, guid: 9b0cc96a362d86a42b479a13fdeb343a,
-    type: 3}
+  _pooledObjects:
+  - StartCount: 6
+    Type: 0
+    Prefab: {fileID: 4364104281098882014, guid: a27b46a60ce51cb429b303864cf31848,
+      type: 3}
+  - StartCount: 6
+    Type: 1
+    Prefab: {fileID: 4364104281098882014, guid: 9b0cc96a362d86a42b479a13fdeb343a,
+      type: 3}
+  - StartCount: 3
+    Type: 2
+    Prefab: {fileID: 100012, guid: 384371afbb4354cc9a3fc68eab303756, type: 3}
+  - StartCount: 3
+    Type: 3
+    Prefab: {fileID: 100004, guid: 2857e183f4cd3df4e9096e5b578bd32f, type: 3}
+  - StartCount: 1
+    Type: 4
+    Prefab: {fileID: 100008, guid: a93496017806b7740910df5fd946f306, type: 3}
 --- !u!1001 &7367743968013331244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -990,7 +957,12 @@ PrefabInstance:
       objectReference: {fileID: 1589553092}
     - target: {fileID: 5326445190043583380, guid: edd14b3ddbb476145bf4fef1ed03ada4,
         type: 3}
-      propertyPath: _bulletPool
+      propertyPath: _objectPool
+      value: 
+      objectReference: {fileID: 2106469996}
+    - target: {fileID: 7229893140775707814, guid: edd14b3ddbb476145bf4fef1ed03ada4,
+        type: 3}
+      propertyPath: _objectPool
       value: 
       objectReference: {fileID: 2106469996}
     - target: {fileID: 8980227159583978708, guid: edd14b3ddbb476145bf4fef1ed03ada4,

@@ -6,7 +6,8 @@ using UnityEngine;
 
 public interface IReturnable
 {
-    public event Action<GameObject> Return;
+    PooledObjectType Type { get; set; }
+    public event Action<GameObject, PooledObjectType> Return;
 
     public void ReturnThis();
 }

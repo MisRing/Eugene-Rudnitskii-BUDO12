@@ -1,39 +1,62 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] private int _minCount;
-    [SerializeField] private GameObject _objectPref;
+    [System.Serializable]
+    private class PooledObject
+    {
+        public int StartCount = 0;
+        public PooledObjectType Type;
+        public GameObject Prefab;
+    }
 
-    private Queue<GameObject> _objectsQ = new Queue<GameObject>();
+    [SerializeField] private List<PooledObject> _pooledObjects;
+    private Dictionary<PooledObjectType, GameObject> _pooledPrefabs;
+
+    private Dictionary<PooledObjectType, Queue<GameObject>> _objectQs;
 
     private void Start()
     {
-        for(int i = 0; i < _minCount; i++)
+        InitializePool();
+    }
+
+    private void InitializePool()
+    {
+        foreach(PooledObject obj in _pooledObjects)
         {
-            CreateObject();
+            _pooledPrefabs[obj.Type] = obj.Prefab;
+            for(int i = 0; i < obj.StartCount; i++)
+            {
+                CreateObject(obj.Type);
+            }
         }
     }
 
-    private void CreateObject()
+    private void CreateObject(PooledObjectType type)
     {
-        GameObject obj = Instantiate(_objectPref, transform);
+        if(!_objectQs.ContainsKey(type))
+        {
+            _objectQs.Add(type, new Queue<GameObject>());
+        }
+
+        GameObject obj = Instantiate(_pooledPrefabs[type], transform);
         obj.SetActive(false);
         IReturnable objReturnable = obj.GetComponent<IReturnable>();
         objReturnable.Return += ReturnObject;
-        _objectsQ.Enqueue(obj);
+        _objectQs[type].Enqueue(obj);
     }
 
-    public GameObject GetObject(Vector3 spawnPosition, Quaternion rotation)
+    public GameObject GetObject(PooledObjectType type, Vector3 spawnPosition, Quaternion rotation)
     {
-        if(_objectsQ.Count == 0)
+        if (_objectQs[type].Count == 0)
         {
-            CreateObject();
+            CreateObject(type);
         }
 
-        GameObject obj = _objectsQ.Dequeue();
+        GameObject obj = _objectQs[type].Dequeue();
         obj.transform.SetParent(null);
         obj.transform.position = spawnPosition;
         obj.transform.rotation = rotation;
@@ -42,11 +65,20 @@ public class ObjectPool : MonoBehaviour
         return obj;
     }
 
-    private void ReturnObject(GameObject obj)
+    private void ReturnObject(GameObject obj, PooledObjectType type)
     {
         obj.transform.SetParent(transform);
         obj.transform.position = transform.position;
         obj.SetActive(false);
-        _objectsQ.Enqueue(obj);
+        _objectQs[type].Enqueue(obj);
     }
+}
+
+public enum PooledObjectType
+{
+    Bullet_Enemy,
+    Bullet_Player,
+    Explosion_Enemy,
+    Explosion_Asteroid,
+    Explosion_Player
 }

@@ -6,7 +6,8 @@ using UnityEngine;
 public class Effect : MonoBehaviour, IReturnable
 {
     [SerializeField] private float _lifeTime = 1f;
-    public event Action<GameObject> Return;
+    [SerializeField] public PooledObjectType Type { get; set; }
+    public event Action<GameObject, PooledObjectType> Return;
 
     private void OnEnable()
     {
@@ -15,6 +16,6 @@ public class Effect : MonoBehaviour, IReturnable
 
     public void ReturnThis()
     {
-        Return?.Invoke(gameObject);
+        Return?.Invoke(gameObject, Type);
     }
 }

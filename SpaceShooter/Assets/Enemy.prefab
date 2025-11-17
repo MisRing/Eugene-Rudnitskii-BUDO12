@@ -144,7 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fireRate: 0.5
   _bulletSpawnPoint: {fileID: 494711480939104373}
-  _bulletPool: {fileID: 0}
+  _bulletType: 0
+  _objectPool: {fileID: 0}
   _targets:
     serializedVersion: 2
     m_Bits: 8
@@ -178,7 +179,8 @@ MonoBehaviour:
   _targets:
     serializedVersion: 2
     m_Bits: 1032
-  _explosionPref: {fileID: 100012, guid: 384371afbb4354cc9a3fc68eab303756, type: 3}
+  _objectType: 2
+  _objectPool: {fileID: 0}
 --- !u!1 &6390446218139527749
 GameObject:
   m_ObjectHideFlags: 0
