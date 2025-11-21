@@ -10,21 +10,21 @@ public class EnemyFactory : MonoBehaviour
     {
         GameObject enemyGameObject = null;
 
-        switch (type)
-        {
-            case EnemyType.asteroid0:
-                enemyGameObject = Instantiate(_enemyPrefabs[0], position, Quaternion.identity);
-                break;
-            case EnemyType.asteroid1:
-                enemyGameObject = Instantiate(_enemyPrefabs[1], position, Quaternion.identity);
-                break;
-            case EnemyType.asteroid2:
-                enemyGameObject = Instantiate(_enemyPrefabs[2], position, Quaternion.identity);
-                break;
-            default:
-                Debug.LogError("Unknown enemy type!");
-                return null;
-        }
+        //switch (type)
+        //{
+        //    case EnemyType.asteroid0:
+        //        enemyGameObject = Instantiate(_enemyPrefabs[0], position, Quaternion.identity);
+        //        break;
+        //    case EnemyType.asteroid1:
+        //        enemyGameObject = Instantiate(_enemyPrefabs[1], position, Quaternion.identity);
+        //        break;
+        //    case EnemyType.asteroid2:
+        //        enemyGameObject = Instantiate(_enemyPrefabs[2], position, Quaternion.identity);
+        //        break;
+        //    default:
+        //        Debug.LogError("Unknown enemy type!");
+        //        return null;
+        //}
 
         IEnemy enemy = enemyGameObject.GetComponent<IEnemy>();
         if (enemy != null)
@@ -35,11 +35,11 @@ public class EnemyFactory : MonoBehaviour
     }
 }
 
-public enum EnemyType
-{
-    asteroid0,
-    asteroid1,
-    asteroid2,
-    ship,
-    bossShip
-}
+//public enum EnemyType
+//{
+//    asteroid0,
+//    asteroid1,
+//    asteroid2,
+//    ship,
+//    bossShip
+//}

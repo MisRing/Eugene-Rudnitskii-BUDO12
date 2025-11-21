@@ -7,7 +7,7 @@ public class DestroyByContact : MonoBehaviour
 {
     [SerializeField] private LayerMask _targets;
     [SerializeField] private PooledObjectType _objectType;
-    [SerializeField] private ObjectPool _objectPool;
+    [HideInInspector] public ObjectPool ObjectPool;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -25,7 +25,7 @@ public class DestroyByContact : MonoBehaviour
 
     public void DestroyThis()
     {
-        _objectPool.GetObject(_objectType, transform.position, Quaternion.identity);
+        ObjectPool.GetObject(_objectType, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
     }

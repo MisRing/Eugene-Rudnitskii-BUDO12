@@ -10,7 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Asteroid_0
+  m_Name: Asteroid 1
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
-  Size: 1
-  Speed: 0.1
+  Name: Asteroid 1
+  Type: 0
+  Prefab: {fileID: 393658743847073107, guid: 751628f0d2309694f8affffa1a0bf791, type: 3}
+  Speed: 3
+  MovementType: 0
+  FireType: 0
+  FireRate: 1

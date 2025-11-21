@@ -19,14 +19,17 @@ public class EnemyShipService : MonoBehaviour, IEnemy
     public FireType FireType;
     public bool IsControllable = false;
 
+    private DestroyByContact _destrByCont;
+
     private void Awake()
     {
         FlyComponent = GetComponent<EnemyFlyComponent>();
         CombatComponent = GetComponent<EnemyCombat>();
         Animator = GetComponent<ShipAnimator>();
+        _destrByCont = new DestroyByContact();
     }
 
-    public void Initialize(EnemyData data)
+    public void Initialize(EnemyData data, ObjectPool objPool)
     {
 
     }

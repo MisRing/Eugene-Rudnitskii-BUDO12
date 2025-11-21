@@ -25,7 +25,8 @@ public class ObjectPool : MonoBehaviour
 
     private void InitializePool()
     {
-        foreach(PooledObject obj in _pooledObjects)
+        _pooledPrefabs = new Dictionary<PooledObjectType, GameObject>();
+        foreach (PooledObject obj in _pooledObjects)
         {
             _pooledPrefabs[obj.Type] = obj.Prefab;
             for(int i = 0; i < obj.StartCount; i++)

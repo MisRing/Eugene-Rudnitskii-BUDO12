@@ -644,6 +644,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cea18001a3f6304ba1ad31c32f598f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _startTime: 3
+  _breakeTime: 3
+  _rounds:
+  - Type: 0
+    Period: 0.5
+    Iterations: 10
+    enemyDatas:
+    - {fileID: 11400000, guid: 265a1cae17eeeab468f0d9e051b5b626, type: 2}
+    - {fileID: 11400000, guid: 8093c165e13da224bb34886a264f665a, type: 2}
+    - {fileID: 11400000, guid: ebc485bbb2874d44698ca7355da91846, type: 2}
+  _objectPool: {fileID: 2106469996}
 --- !u!4 &1432462023
 Transform:
   m_ObjectHideFlags: 0
@@ -841,7 +852,7 @@ GameObject:
   - component: {fileID: 2106469995}
   - component: {fileID: 2106469996}
   m_Layer: 3
-  m_Name: Player Bullet Pool
+  m_Name: ObjectPool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
