@@ -10,6 +10,7 @@ public class CharacterNavigationController : MonoBehaviour
 
     [Header("Navigation Settings")]
     [SerializeField] private Waypoint _nextPoint;
+    private Waypoint _lastWaypoint;
     [SerializeField] private Vector3 _nextPosition;
     [SerializeField] private float _minDistance = 0.1f;
     [SerializeField] private bool _isMovingForvard = true;
@@ -61,27 +62,15 @@ public class CharacterNavigationController : MonoBehaviour
 
         if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _nextPosition) < _minDistance)
         {
-            if (_isMovingForvard)
+            Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(ref _isMovingForvard, _lastWaypoint);
+            _lastWaypoint = _nextPoint;
+            if (nextWaypoint)
             {
-                if (_nextPoint.NextPoint)
-                {
-                    SetNextPoint(_nextPoint.NextPoint);
-                }
-                else
-                {
-                    WayEnds();
-                }
+                SetNextPoint(nextWaypoint);
             }
             else
             {
-                if (_nextPoint.PrevPoint)
-                {
-                    SetNextPoint(_nextPoint.PrevPoint);
-                }
-                else
-                {
-                    WayEnds();
-                }
+                WayEnds();
             }
         }
     }
@@ -94,6 +83,7 @@ public class CharacterNavigationController : MonoBehaviour
             _waitEnds = Time.time + Random.Range(_minWaitTime, _maxWaitTime);
         }
 
+        _lastWaypoint = null;
         _isMovingForvard = !_isMovingForvard;
     }
 

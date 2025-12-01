@@ -1,11 +1,13 @@
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class WaypointEditorComponent : EditorWindow
 {
     private Transform _waypointRoot;
     private float _defaultRadius = 0.5f;
+    private int _defaultPriority = 5;
     private float _creatingStep = 1f;
 
     [MenuItem("Tools/Waypoint Editor")]
@@ -30,6 +32,7 @@ public class WaypointEditorComponent : EditorWindow
         }
 
         _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
+        _defaultPriority = EditorGUILayout.IntField("Priority", _defaultPriority);
         _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
 
         GUILayout.Space(10f);
@@ -82,7 +85,20 @@ public class WaypointEditorComponent : EditorWindow
 
         if (GUILayout.Button("Create New Branch"))
         {
-            
+            Waypoint waypoint = null;
+            if (Selection.activeObject)
+            {
+                waypoint = Selection.activeObject.GetComponent<Waypoint>();
+            }
+
+            if(waypoint)
+            {
+                CreateNewBranch(waypoint);
+            }
+            else
+            {
+                Debug.LogError("Unable to create branch! Select waypoint!!!");
+            }
         }
     }
 
@@ -93,8 +109,9 @@ public class WaypointEditorComponent : EditorWindow
 
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
         waypoint.Radius = _defaultRadius;
+        waypoint.Priority = _defaultPriority;
 
-        if(prevWaypoint != null)
+        if (prevWaypoint != null)
         {
             if(prevWaypoint.NextPoint)
             {
@@ -155,6 +172,7 @@ public class WaypointEditorComponent : EditorWindow
 
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
         waypoint.Radius = _defaultRadius;
+        waypoint.Priority = _defaultPriority;
 
         if (nextWaypoint != null)
         {
@@ -210,8 +228,28 @@ public class WaypointEditorComponent : EditorWindow
         Selection.activeObject = waypointObject;
     }
 
-    public void CreateNewBranch()
+    public void CreateNewBranch(Waypoint startWaypoint)
     {
+        GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, typeof(Waypoint));
+        waypointObject.transform.SetParent(_waypointRoot, false);
 
+        Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
+        waypoint.Radius = _defaultRadius;
+        waypoint.Priority = _defaultPriority;
+
+        if (startWaypoint.Branches == null)
+        {
+            startWaypoint.Branches = new List<Waypoint>();
+        }
+        waypoint.Branches = new List<Waypoint>();
+
+        waypoint.transform.position = (startWaypoint.transform.forward + startWaypoint.transform.right * startWaypoint.Branches.Count)
+                                        * _creatingStep + startWaypoint.transform.position;
+        waypoint.transform.rotation = startWaypoint.transform.rotation;
+
+        startWaypoint.Branches.Add(waypoint);
+        waypoint.Branches.Add(startWaypoint);
+
+        Selection.activeObject = waypointObject;
     }
 }

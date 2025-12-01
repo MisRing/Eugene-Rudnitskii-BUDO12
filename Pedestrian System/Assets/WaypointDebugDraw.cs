@@ -46,5 +46,18 @@ public class WaypointDebugDraw
                             -point.NextPoint.transform.right * point.NextPoint.Radius + point.NextPoint.transform.position,
                             4f * visualMod);
         }
+
+        if (point.Branches != null)
+        {
+            foreach(Waypoint wPoint in point.Branches)
+            {
+                if (!wPoint) continue;
+
+                Handles.color = Color.blue * visualMod;
+                Handles.DrawLine(point.transform.position,
+                                wPoint.transform.position,
+                                2f * visualMod);
+            }
+        }
     }
 }
