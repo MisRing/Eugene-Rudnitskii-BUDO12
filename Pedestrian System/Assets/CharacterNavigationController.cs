@@ -26,8 +26,12 @@ public class CharacterNavigationController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void Start()
+    public void Initialize(float speed, Waypoint nextPoint, bool isMovingForward)
     {
+        _speed = speed;
+        _nextPoint = nextPoint;
+        _isMovingForvard = isMovingForward;
+
         if (!_nextPoint) return;
 
         SetNextPoint(_nextPoint);
