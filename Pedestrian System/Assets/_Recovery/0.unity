@@ -665,8 +665,8 @@ MonoBehaviour:
   _minDistance: 0.2
   _isMovingForvard: 1
   _isWaitOnEnd: 1
-  _minWaitTime: 2
-  _maxWaitTime: 6
+  _minWaitTime: 1
+  _maxWaitTime: 5
 --- !u!54 &692029925
 Rigidbody:
   m_ObjectHideFlags: 0

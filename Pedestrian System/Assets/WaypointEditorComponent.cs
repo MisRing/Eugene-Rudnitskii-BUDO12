@@ -32,11 +32,15 @@ public class WaypointEditorComponent : EditorWindow
         _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
         _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
 
+        GUILayout.Space(10f);
+
         DrawButtons();
     }
 
     public void DrawButtons()
     {
+        GUILayout.Label("Creating");
+
         if (GUILayout.Button("Create Next Waypoint"))
         {
             Waypoint lastWaypoint = null;
@@ -55,6 +59,30 @@ public class WaypointEditorComponent : EditorWindow
                 firstWaypoint = Selection.activeObject.GetComponent<Waypoint>();
             }
             CreatePreviousWaypoint(firstWaypoint);
+        }
+        GUILayout.Space(10f);
+
+        GUILayout.Label("Deletion");
+
+        if (GUILayout.Button("Delete Current Waypoint"))
+        {
+            Waypoint waypoint = null;
+            if (Selection.activeObject)
+            {
+                waypoint = Selection.activeObject.GetComponent<Waypoint>();
+            }
+            if(waypoint)
+            {
+                DestroyImmediate(waypoint.gameObject);
+            }
+        }
+        GUILayout.Space(10f);
+
+        GUILayout.Label("Branches");
+
+        if (GUILayout.Button("Create New Branch"))
+        {
+            
         }
     }
 
