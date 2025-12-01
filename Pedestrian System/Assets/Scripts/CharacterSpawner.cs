@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    public int Count = 5;
-    public GameObject Prefab;
+    [SerializeField] private int _count = 5;
+    [SerializeField] private GameObject _prefab;
 
     public void Start()
     {
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < _count; i++)
         {
-            GameObject ch = Instantiate(Prefab);
+            GameObject ch = Instantiate(_prefab);
             Waypoint point = transform.GetChild(Random.Range(0, transform.childCount)).GetComponent<Waypoint>();
             ch.transform.position = point.transform.position
                 + new Vector3(Random.Range(-point.Radius, point.Radius), 0.11f, Random.Range(-point.Radius, point.Radius)) * 10;
