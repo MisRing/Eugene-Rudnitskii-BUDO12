@@ -14,20 +14,20 @@ public class WaypointDebugDraw
         }
 
         Gizmos.color = Color.yellow * visualMod;
-        Gizmos.DrawSphere(point.transform.position, 0.08f * visualMod);
+        Gizmos.DrawSphere(point.transform.position, 0.2f * visualMod);
 
         Handles.color = Color.white * visualMod;
-        Handles.DrawWireDisc(point.transform.position, Vector3.up, point.Radius, 3f * visualMod);
+        Handles.DrawWireDisc(point.transform.position, Vector3.up, point.Radius, 4f * visualMod);
         Handles.DrawLine(   point.transform.right * point.Radius + point.transform.position,
                             -point.transform.right * point.Radius + point.transform.position,
                             3f * visualMod);
 
-        Handles.DrawLine(   point.transform.right * 0.11f + point.transform.position,
-                            point.transform.forward * 0.2f + point.transform.position,
-                            2f * visualMod);
-        Handles.DrawLine(   -point.transform.right * 0.11f + point.transform.position,
-                            point.transform.forward * 0.2f + point.transform.position,
-                            2f * visualMod);
+        Handles.DrawLine(   point.transform.right * 0.25f + point.transform.position,
+                            point.transform.forward * 0.45f + point.transform.position,
+                            3f * visualMod);
+        Handles.DrawLine(   -point.transform.right * 0.25f + point.transform.position,
+                            point.transform.forward * 0.45f + point.transform.position,
+                            3f * visualMod);
 
         if (point.NextPoint != null)
         {
@@ -39,12 +39,12 @@ public class WaypointDebugDraw
             Handles.color = Color.green * visualMod;
             Handles.DrawLine(point.transform.right * point.Radius + point.transform.position,
                             point.NextPoint.transform.right * point.NextPoint.Radius + point.NextPoint.transform.position,
-                            3f * visualMod);
+                            4f * visualMod);
 
             Handles.color = Color.red * visualMod;
             Handles.DrawLine(-point.transform.right * point.Radius + point.transform.position,
                             -point.NextPoint.transform.right * point.NextPoint.Radius + point.NextPoint.transform.position,
-                            3f * visualMod);
+                            4f * visualMod);
         }
     }
 }

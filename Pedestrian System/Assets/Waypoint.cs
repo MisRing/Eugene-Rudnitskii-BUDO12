@@ -5,9 +5,7 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     public Waypoint PrevPoint, NextPoint;
-    [SerializeField, Range(0.25f, 10f)] private float _radius = 0.5f;
-
-    public float Radius { get { return _radius; }}
+    [Range(0.5f, 10f)] public float Radius = 0.5f;
 
     private void OnDestroy()
     {

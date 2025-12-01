@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaypointEditorComponent : EditorWindow
 {
     private Transform _waypointRoot;
+    private float _defaultRadius = 0.5f;
     private float _creatingStep = 1f;
 
     [MenuItem("Tools/Waypoint Editor")]
@@ -28,6 +29,7 @@ public class WaypointEditorComponent : EditorWindow
             return;
         }
 
+        _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
         _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
 
         DrawButtons();
@@ -62,6 +64,7 @@ public class WaypointEditorComponent : EditorWindow
         waypointObject.transform.SetParent(_waypointRoot, false);
 
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
+        waypoint.Radius = _defaultRadius;
 
         if(prevWaypoint != null)
         {
@@ -89,9 +92,18 @@ public class WaypointEditorComponent : EditorWindow
         {
             prevWaypoint = _waypointRoot.GetChild(_waypointRoot.childCount - 2).GetComponent<Waypoint>();
 
-            while(prevWaypoint.NextPoint)
+            int iterations = 0;
+            while (prevWaypoint.NextPoint)
             {
                 prevWaypoint = prevWaypoint.NextPoint;
+
+                iterations++;
+                if (iterations > _waypointRoot.childCount)
+                {
+                    Debug.LogWarning("Unable to find last Waypoint. Route may be looped.");
+                    Destroy(waypointObject);
+                    return;
+                }
             }
 
             waypoint.transform.position = prevWaypoint.transform.forward * _creatingStep + prevWaypoint.transform.position;
@@ -114,6 +126,7 @@ public class WaypointEditorComponent : EditorWindow
         waypointObject.transform.SetParent(_waypointRoot, false);
 
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
+        waypoint.Radius = _defaultRadius;
 
         if (nextWaypoint != null)
         {
@@ -141,9 +154,18 @@ public class WaypointEditorComponent : EditorWindow
         {
             nextWaypoint = _waypointRoot.GetChild(0).GetComponent<Waypoint>();
 
+            int iterations = 0;
             while (nextWaypoint.PrevPoint)
             {
                 nextWaypoint = nextWaypoint.PrevPoint;
+
+                iterations++;
+                if(iterations > _waypointRoot.childCount)
+                {
+                    Debug.LogWarning("Unable to find first Waypoint. Route may be looped.");
+                    Destroy(waypointObject);
+                    return;
+                }
             }
 
             waypoint.transform.position = -nextWaypoint.transform.forward * _creatingStep + nextWaypoint.transform.position;
