@@ -148,11 +148,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 0}
-  NextPoint: {fileID: 978734436}
+  ConnectedWaypoints:
+  - {fileID: 978734436}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &1924289
 Transform:
   m_ObjectHideFlags: 0
@@ -197,12 +196,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 327319179}
-  NextPoint: {fileID: 927181908}
+  ConnectedWaypoints:
+  - {fileID: 327319179}
+  - {fileID: 927181908}
+  - {fileID: 764869819}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 764869819}
 --- !u!4 &61395044
 Transform:
   m_ObjectHideFlags: 0
@@ -247,12 +246,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 2053824949}
-  NextPoint: {fileID: 0}
+  ConnectedWaypoints:
+  - {fileID: 2053824949}
+  - {fileID: 355912145}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 355912145}
 --- !u!4 &318096552
 Transform:
   m_ObjectHideFlags: 0
@@ -297,11 +295,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 956921030}
-  NextPoint: {fileID: 61395043}
+  ConnectedWaypoints:
+  - {fileID: 956921030}
+  - {fileID: 61395043}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &327319180
 Transform:
   m_ObjectHideFlags: 0
@@ -346,13 +344,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 978734436}
-  NextPoint: {fileID: 956921030}
-  Radius: 2
-  Priority: 5
-  Branches:
+  ConnectedWaypoints:
+  - {fileID: 978734436}
+  - {fileID: 956921030}
   - {fileID: 581399421}
   - {fileID: 318096551}
+  Radius: 2
+  Priority: 5
 --- !u!4 &355912146
 Transform:
   m_ObjectHideFlags: 0
@@ -456,6 +454,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &365216367
 MeshFilter:
@@ -509,12 +508,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 0}
-  NextPoint: {fileID: 1234899330}
+  ConnectedWaypoints:
+  - {fileID: 1234899330}
+  - {fileID: 355912145}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 355912145}
 --- !u!4 &581399422
 Transform:
   m_ObjectHideFlags: 0
@@ -559,11 +557,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1180393018}
-  NextPoint: {fileID: 1131692521}
+  ConnectedWaypoints:
+  - {fileID: 1180393018}
+  - {fileID: 1131692521}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &582267358
 Transform:
   m_ObjectHideFlags: 0
@@ -608,12 +606,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 0}
-  NextPoint: {fileID: 1180393018}
+  ConnectedWaypoints:
+  - {fileID: 1180393018}
+  - {fileID: 916180355}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 916180355}
 --- !u!4 &666977390
 Transform:
   m_ObjectHideFlags: 0
@@ -654,14 +651,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -770,11 +767,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 916180355}
-  NextPoint: {fileID: 1610204754}
+  ConnectedWaypoints:
+  - {fileID: 916180355}
+  - {fileID: 1610204754}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!1 &764869818
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,12 +801,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1234899330}
-  NextPoint: {fileID: 0}
+  ConnectedWaypoints:
+  - {fileID: 1234899330}
+  - {fileID: 61395043}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 61395043}
 --- !u!4 &764869820
 Transform:
   m_ObjectHideFlags: 0
@@ -854,13 +850,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1480893988}
-  NextPoint: {fileID: 760638195}
-  Radius: 2
-  Priority: 5
-  Branches:
+  ConnectedWaypoints:
+  - {fileID: 1480893988}
+  - {fileID: 760638195}
   - {fileID: 1259542726}
   - {fileID: 666977389}
+  Radius: 2
+  Priority: 5
 --- !u!4 &916180356
 Transform:
   m_ObjectHideFlags: 0
@@ -920,11 +916,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 61395043}
-  NextPoint: {fileID: 1191896591}
+  ConnectedWaypoints:
+  - {fileID: 61395043}
+  - {fileID: 1191896591}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!1 &956921029
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,11 +950,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 355912145}
-  NextPoint: {fileID: 327319179}
+  ConnectedWaypoints:
+  - {fileID: 355912145}
+  - {fileID: 327319179}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &956921031
 Transform:
   m_ObjectHideFlags: 0
@@ -1110,11 +1106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1924288}
-  NextPoint: {fileID: 355912145}
+  ConnectedWaypoints:
+  - {fileID: 1924288}
+  - {fileID: 355912145}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!1 &1131692519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,12 +1155,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 582267357}
-  NextPoint: {fileID: 2053824949}
+  ConnectedWaypoints:
+  - {fileID: 582267357}
+  - {fileID: 2053824949}
+  - {fileID: 1610204754}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 1610204754}
 --- !u!1 &1180393017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,11 +1190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 666977389}
-  NextPoint: {fileID: 582267357}
+  ConnectedWaypoints:
+  - {fileID: 666977389}
+  - {fileID: 582267357}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &1180393019
 Transform:
   m_ObjectHideFlags: 0
@@ -1243,11 +1239,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 927181908}
-  NextPoint: {fileID: 1480893988}
+  ConnectedWaypoints:
+  - {fileID: 927181908}
+  - {fileID: 1480893988}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &1191896592
 Transform:
   m_ObjectHideFlags: 0
@@ -1292,11 +1288,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 581399421}
-  NextPoint: {fileID: 764869819}
+  ConnectedWaypoints:
+  - {fileID: 581399421}
+  - {fileID: 764869819}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!4 &1234899331
 Transform:
   m_ObjectHideFlags: 0
@@ -1341,12 +1337,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 0}
-  NextPoint: {fileID: 1470442761}
+  ConnectedWaypoints:
+  - {fileID: 1470442761}
+  - {fileID: 916180355}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 916180355}
 --- !u!4 &1259542727
 Transform:
   m_ObjectHideFlags: 0
@@ -1391,12 +1386,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1259542726}
-  NextPoint: {fileID: 0}
+  ConnectedWaypoints:
+  - {fileID: 1259542726}
+  - {fileID: 2053824949}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 2053824949}
 --- !u!4 &1470442762
 Transform:
   m_ObjectHideFlags: 0
@@ -1456,11 +1450,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1191896591}
-  NextPoint: {fileID: 916180355}
+  ConnectedWaypoints:
+  - {fileID: 1191896591}
+  - {fileID: 916180355}
   Radius: 2
   Priority: 5
-  Branches: []
 --- !u!1 &1610204752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1505,12 +1499,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 760638195}
-  NextPoint: {fileID: 0}
+  ConnectedWaypoints:
+  - {fileID: 760638195}
+  - {fileID: 1131692521}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 1131692521}
 --- !u!1 &1978209667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1578,8 +1571,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 093f014caac1ff34fb7ce3887e3dbc2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterSpawner
-  Count: 200
-  Prefab: {fileID: 3064691228544985095, guid: da97e7b619ebd914f990e9d60a20d733, type: 3}
+  _count: 200
+  _prefab: {fileID: 3064691228544985095, guid: da97e7b619ebd914f990e9d60a20d733, type: 3}
 --- !u!1 &2053824948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1609,12 +1602,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc6a9c009537bed4da896c67b4669949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Waypoint
-  PrevPoint: {fileID: 1131692521}
-  NextPoint: {fileID: 318096551}
+  ConnectedWaypoints:
+  - {fileID: 1131692521}
+  - {fileID: 318096551}
+  - {fileID: 1470442761}
   Radius: 2
   Priority: 5
-  Branches:
-  - {fileID: 1470442761}
 --- !u!4 &2053824950
 Transform:
   m_ObjectHideFlags: 0

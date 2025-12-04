@@ -28,36 +28,12 @@ public class WaypointDebugDraw
         Handles.DrawLine(   -point.transform.right * 0.25f + point.transform.position,
                             point.transform.forward * 0.45f + point.transform.position,
                             3f * visualMod);
-
-        if (point.NextPoint != null)
+        
+        foreach (Waypoint cPoint in point.ConnectedWaypoints)
         {
-            if(Selection.activeObject == point.NextPoint.gameObject)
-            {
-                visualMod = 1f;
-            }
-
-            Handles.color = Color.green * visualMod;
-            Handles.DrawLine(point.transform.right * point.Radius + point.transform.position,
-                            point.NextPoint.transform.right * point.NextPoint.Radius + point.NextPoint.transform.position,
-                            4f * visualMod);
-
-            Handles.color = Color.red * visualMod;
-            Handles.DrawLine(-point.transform.right * point.Radius + point.transform.position,
-                            -point.NextPoint.transform.right * point.NextPoint.Radius + point.NextPoint.transform.position,
-                            4f * visualMod);
-        }
-
-        if (point.Branches != null)
-        {
-            foreach(Waypoint wPoint in point.Branches)
-            {
-                if (!wPoint) continue;
-
-                Handles.color = Color.blue * visualMod;
-                Handles.DrawLine(point.transform.position,
-                                wPoint.transform.position,
-                                2f * visualMod);
-            }
+            Handles.DrawLine(   point.transform.position,
+                cPoint.transform.position,
+                3f * visualMod);
         }
     }
 }

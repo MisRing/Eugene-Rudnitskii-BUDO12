@@ -6,28 +6,14 @@ using System.Linq;
 [ExecuteInEditMode]
 public class Waypoint : MonoBehaviour
 {
-    public Waypoint PrevPoint, NextPoint;
+    public List<Waypoint> ConnectedWaypoints = new List<Waypoint>();
     [Range(0.5f, 10f)] public float Radius = 0.5f;
     public int Priority = 5;
-
-    public List<Waypoint> Branches;
-
-    public Waypoint GetNextWaypoint(ref bool isMoovingForvard, Waypoint fromPoint)
+    
+    public Waypoint GetNextWaypoint(Waypoint fromPoint)
     {
-        List<Waypoint> points = new List<Waypoint>();
-        if(Branches != null)
-        {
-            points.AddRange(Branches);
-        }
-        if (isMoovingForvard && NextPoint)
-        {
-            points.Add(NextPoint);
-        }
-        if (!isMoovingForvard && PrevPoint)
-        {
-            points.Add(PrevPoint);
-        }
-
+        List<Waypoint> points = ConnectedWaypoints.ToList();
+        
         if(fromPoint)
         {
             points.Remove(fromPoint);
@@ -38,9 +24,9 @@ public class Waypoint : MonoBehaviour
             return null;
         }
 
-        int summ = points.Sum(i => i.Priority);
+        int sum = points.Sum(i => i.Priority);
 
-        int random = Random.Range(0, summ);
+        int random = Random.Range(0, sum);
 
         Waypoint choosedPoint = null;
 
@@ -54,7 +40,7 @@ public class Waypoint : MonoBehaviour
                 break;
             }
         }
-        if(choosedPoint == null)
+        if(!choosedPoint)
         {
             choosedPoint = points[points.Count - 1];
         }
@@ -75,26 +61,6 @@ public class Waypoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Branches != null)
-        {
-            foreach (Waypoint wp in Branches)
-            {
-                wp.Branches.Remove(this);
-            }
-        }
-
-        if (PrevPoint && NextPoint)
-        {
-            PrevPoint.NextPoint = NextPoint;
-            NextPoint.PrevPoint = PrevPoint;
-        }
-        else if(NextPoint)
-        {
-            NextPoint.PrevPoint = null;
-        }
-        else if (PrevPoint)
-        {
-            PrevPoint.NextPoint = null;
-        }
+       
     }
 }

@@ -66,7 +66,7 @@ public class CharacterNavigationController : MonoBehaviour
 
         if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _nextPosition) < _minDistance)
         {
-            Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(ref _isMovingForvard, _lastWaypoint);
+            Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
             _lastWaypoint = _nextPoint;
             if (nextWaypoint)
             {
