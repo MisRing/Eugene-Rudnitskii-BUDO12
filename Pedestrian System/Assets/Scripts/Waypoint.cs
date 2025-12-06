@@ -8,7 +8,7 @@ public class Waypoint : MonoBehaviour
 {
     public List<Waypoint> ConnectedWaypoints = new List<Waypoint>();
     [Range(0.5f, 10f)] public float Radius = 0.5f;
-    public int Priority = 5;
+    [Range(0f, 1f)] public float Priority = 0.5f;
     
     public Waypoint GetNextWaypoint(Waypoint fromPoint)
     {
@@ -24,9 +24,9 @@ public class Waypoint : MonoBehaviour
             return null;
         }
 
-        int sum = points.Sum(i => i.Priority);
+        float sum = points.Sum(i => i.Priority);
 
-        int random = Random.Range(0, sum);
+        float random = Random.Range(0f, sum);
 
         Waypoint choosedPoint = null;
 

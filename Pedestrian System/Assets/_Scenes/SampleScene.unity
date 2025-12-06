@@ -151,7 +151,7 @@ MonoBehaviour:
   ConnectedWaypoints:
   - {fileID: 978734436}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &1924289
 Transform:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ MonoBehaviour:
   - {fileID: 927181908}
   - {fileID: 764869819}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &61395044
 Transform:
   m_ObjectHideFlags: 0
@@ -250,7 +250,7 @@ MonoBehaviour:
   - {fileID: 2053824949}
   - {fileID: 355912145}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &318096552
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   - {fileID: 956921030}
   - {fileID: 61395043}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &327319180
 Transform:
   m_ObjectHideFlags: 0
@@ -349,8 +349,8 @@ MonoBehaviour:
   - {fileID: 956921030}
   - {fileID: 581399421}
   - {fileID: 318096551}
-  Radius: 2
-  Priority: 5
+  Radius: 1.25
+  Priority: 0.5
 --- !u!4 &355912146
 Transform:
   m_ObjectHideFlags: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
   - {fileID: 1234899330}
   - {fileID: 355912145}
   Radius: 2
-  Priority: 5
+  Priority: 1
 --- !u!4 &581399422
 Transform:
   m_ObjectHideFlags: 0
@@ -561,7 +561,7 @@ MonoBehaviour:
   - {fileID: 1180393018}
   - {fileID: 1131692521}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &582267358
 Transform:
   m_ObjectHideFlags: 0
@@ -610,7 +610,7 @@ MonoBehaviour:
   - {fileID: 1180393018}
   - {fileID: 916180355}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &666977390
 Transform:
   m_ObjectHideFlags: 0
@@ -771,7 +771,7 @@ MonoBehaviour:
   - {fileID: 916180355}
   - {fileID: 1610204754}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &764869818
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,7 +805,7 @@ MonoBehaviour:
   - {fileID: 1234899330}
   - {fileID: 61395043}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &764869820
 Transform:
   m_ObjectHideFlags: 0
@@ -856,7 +856,7 @@ MonoBehaviour:
   - {fileID: 1259542726}
   - {fileID: 666977389}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &916180356
 Transform:
   m_ObjectHideFlags: 0
@@ -920,7 +920,7 @@ MonoBehaviour:
   - {fileID: 61395043}
   - {fileID: 1191896591}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &956921029
 GameObject:
   m_ObjectHideFlags: 0
@@ -954,7 +954,7 @@ MonoBehaviour:
   - {fileID: 355912145}
   - {fileID: 327319179}
   Radius: 2
-  Priority: 5
+  Priority: 1
 --- !u!4 &956921031
 Transform:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ MonoBehaviour:
   - {fileID: 1924288}
   - {fileID: 355912145}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &1131692519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1160,7 +1160,7 @@ MonoBehaviour:
   - {fileID: 2053824949}
   - {fileID: 1610204754}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &1180393017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1194,7 +1194,7 @@ MonoBehaviour:
   - {fileID: 666977389}
   - {fileID: 582267357}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &1180393019
 Transform:
   m_ObjectHideFlags: 0
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   - {fileID: 927181908}
   - {fileID: 1480893988}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &1191896592
 Transform:
   m_ObjectHideFlags: 0
@@ -1291,8 +1291,8 @@ MonoBehaviour:
   ConnectedWaypoints:
   - {fileID: 581399421}
   - {fileID: 764869819}
-  Radius: 2
-  Priority: 5
+  Radius: 3.23
+  Priority: 0.5
 --- !u!4 &1234899331
 Transform:
   m_ObjectHideFlags: 0
@@ -1341,7 +1341,7 @@ MonoBehaviour:
   - {fileID: 1470442761}
   - {fileID: 916180355}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &1259542727
 Transform:
   m_ObjectHideFlags: 0
@@ -1390,7 +1390,7 @@ MonoBehaviour:
   - {fileID: 1259542726}
   - {fileID: 2053824949}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &1470442762
 Transform:
   m_ObjectHideFlags: 0
@@ -1454,7 +1454,7 @@ MonoBehaviour:
   - {fileID: 1191896591}
   - {fileID: 916180355}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &1610204752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,7 +1503,7 @@ MonoBehaviour:
   - {fileID: 760638195}
   - {fileID: 1131692521}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!1 &1978209667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,7 +1607,7 @@ MonoBehaviour:
   - {fileID: 318096551}
   - {fileID: 1470442761}
   Radius: 2
-  Priority: 5
+  Priority: 0.5
 --- !u!4 &2053824950
 Transform:
   m_ObjectHideFlags: 0
