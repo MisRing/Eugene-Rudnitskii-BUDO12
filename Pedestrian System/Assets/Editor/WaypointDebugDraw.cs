@@ -26,6 +26,7 @@ public class WaypointDebugDraw
     {
         float visualMod = 1f;
         bool isSelected = (gizmoType & GizmoType.Selected) != 0;
+        Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
 
         if (!isSelected)
         {
