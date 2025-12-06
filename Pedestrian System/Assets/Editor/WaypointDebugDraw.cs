@@ -4,14 +4,22 @@ using UnityEngine;
 [InitializeOnLoad]
 public class WaypointDebugDraw
 {
+    [Header("Point settings")]
     private static float POINT_SIZE = 0.3f;
     private static float RADIUS_THICKNESS = 5f;
+
+    [Header("Arrows settings")]
     private static float ARROW_OFFSET = 0.45f;
     private static float ARROW_CENTER_OFFSET = 0.15f;
     private static float ARROW_SIZE = 0.5f;
     private static float ARROW_THICKNESS = 4f;
+
+    [Header("Way settings")]
     private static float WAY_THICKNESS_MIN = 1f;
     private static float WAY_THICKNESS_MAX = 6f;
+
+    [Header("Text settings")]
+    private static float TEXT_SIZE = 20f;
 
 
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
@@ -93,7 +101,7 @@ public class WaypointDebugDraw
         Handles.DrawLine(from, to, wayWeight * visualMod);
 
         GUIStyle labelStyle = new GUIStyle();
-        labelStyle.fontSize = Mathf.RoundToInt(20f);
+        labelStyle.fontSize = Mathf.RoundToInt(TEXT_SIZE);
         labelStyle.normal.textColor = Color.black;
         labelStyle.fontStyle = FontStyle.Bold;
 
