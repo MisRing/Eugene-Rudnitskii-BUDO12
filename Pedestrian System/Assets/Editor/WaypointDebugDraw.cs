@@ -19,8 +19,7 @@ public class WaypointDebugDraw
     private static float WAY_THICKNESS_MAX = 6f;
 
     [Header("Text settings")]
-    private static float TEXT_SIZE = 20f;
-
+    private static float TEXT_SIZE = 16f;
 
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
     public static void OnDrawGizmo(Waypoint point, GizmoType gizmoType)
@@ -30,23 +29,23 @@ public class WaypointDebugDraw
 
         if (!isSelected)
         {
-            visualMod = 0.9f;
+            visualMod = 0.95f;
         }
 
-        Color pointColor = Color.black;
+        Color pointColor = Color.darkBlue;
         if (isSelected)
         {
-            pointColor = Color.green;
+            pointColor = Color.darkGreen;
         }
 
         DrawPointMarker(point, visualMod, pointColor);
         DrawPointRadius(point, visualMod, pointColor);
-        DrawPointDirection(point, visualMod, Color.orangeRed, 2, Color.yellow);
+        DrawPointDirection(point, visualMod, Color.black, 2, Color.yellow);
 
-        Color wayColor = Color.darkBlue;
+        Color wayColor = Color.darkOrange;
         if (isSelected)
         {
-            wayColor = Color.green;
+            wayColor = Color.darkGreen;
         }
 
         foreach (Waypoint cPoint in point.ConnectedWaypoints)
