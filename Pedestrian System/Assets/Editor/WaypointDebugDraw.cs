@@ -12,11 +12,11 @@ public class WaypointDebugDraw
     private static float ARROW_OFFSET = 0.45f;
     private static float ARROW_CENTER_OFFSET = 0.15f;
     private static float ARROW_SIZE = 0.5f;
-    private static float ARROW_THICKNESS = 4f;
+    private static float ARROW_THICKNESS = 3f;
 
     [Header("Way settings")]
     private static float WAY_THICKNESS_MIN = 1f;
-    private static float WAY_THICKNESS_MAX = 6f;
+    private static float WAY_THICKNESS_MAX = 5f;
 
     [Header("Text settings")]
     private static float TEXT_SIZE = 16f;
@@ -41,7 +41,7 @@ public class WaypointDebugDraw
 
         DrawPointMarker(point, visualMod, pointColor);
         DrawPointRadius(point, visualMod, pointColor);
-        DrawPointDirection(point, visualMod, Color.black, 2, Color.yellow);
+        DrawPointDirection(point, visualMod, Color.black, 2, Color.darkRed);
 
         Color wayColor = Color.darkOrange;
         if (isSelected)
@@ -51,7 +51,7 @@ public class WaypointDebugDraw
 
         foreach (Waypoint cPoint in point.ConnectedWaypoints)
         {
-            DrawWay(point, cPoint, visualMod, wayColor, isSelected, 1, Color.yellow);
+            DrawWay(point, cPoint, visualMod, wayColor, isSelected, 1, Color.darkRed);
         }
     }
 
