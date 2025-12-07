@@ -50,17 +50,20 @@ public class Waypoint : MonoBehaviour
 
     public Vector3 GetPoint()
     {
-        Vector3 leftBounds = -transform.right * Radius + transform.position;
-        Vector3 rightBounds = transform.right * Radius + transform.position;
-
-        Vector3 randomPoint = Vector3.Lerp(leftBounds, rightBounds, Random.Range(0f, 1f));
+        float randomX = Random.Range(-1f, 1f);
+        float randomZ = Random.Range(-1f, 1f);
+        Vector3 randomPoint = transform.right * randomX + transform.forward * randomZ;
         randomPoint.y = 0f;
+        randomPoint = randomPoint.normalized * Radius + transform.position;
 
         return randomPoint;
     }
 
     private void OnDestroy()
     {
-       
+        foreach (Waypoint point in ConnectedWaypoints)
+        {
+            point.ConnectedWaypoints.Remove(this);
+        }
     }
 }

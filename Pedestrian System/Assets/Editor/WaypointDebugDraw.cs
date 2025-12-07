@@ -51,7 +51,10 @@ public class WaypointDebugDraw
 
         foreach (Waypoint cPoint in point.ConnectedWaypoints)
         {
-            DrawWay(point, cPoint, visualMod, wayColor, isSelected, 1, Color.darkRed);
+            if (cPoint != null)
+            {
+                DrawWay(point, cPoint, visualMod, wayColor, isSelected, 1, Color.darkRed);
+            }
         }
     }
 

@@ -7,8 +7,9 @@ public class WaypointEditorComponent : EditorWindow
 {
     private Transform _waypointRoot;
     private float _defaultRadius = 0.5f;
-    private int _defaultPriority = 5;
+    [Range(0f, 1f)] private float _defaultPriority = 0.5f;
     private float _creatingStep = 1f;
+    private bool _bilateralWays = true;
 
     [MenuItem("Tools/Waypoint Editor")]
     public static void OnOpen()
@@ -32,8 +33,12 @@ public class WaypointEditorComponent : EditorWindow
         }
 
         _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
-        _defaultPriority = EditorGUILayout.IntField("Priority", _defaultPriority);
+        _defaultPriority = EditorGUILayout.FloatField("Priority", _defaultPriority);
         _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
+
+        GUILayout.Space(5f);
+
+        _bilateralWays = EditorGUILayout.Toggle("Bilateral Ways", _bilateralWays);
 
         GUILayout.Space(10f);
 
@@ -42,169 +47,186 @@ public class WaypointEditorComponent : EditorWindow
 
     public void DrawButtons()
     {
-        GUILayout.Label("Creating");
+        GUILayout.Label("Creating Waypoints");
 
-        if (GUILayout.Button("Create Next Waypoint"))
+        if (GUILayout.Button("Create Waypoint"))
         {
-            Waypoint lastWaypoint = null;
-            if (Selection.activeObject)
-            {
-                lastWaypoint = Selection.activeObject.GetComponent<Waypoint>();
-            }
-            CreateNextWaypoint(lastWaypoint);
+            CreateSoloWaypoint();
         }
 
-        if (GUILayout.Button("Create Previous Waypoint"))
+        if (GUILayout.Button("Create Connected Waypoint"))
         {
-            Waypoint firstWaypoint = null;
-            if (Selection.activeObject)
-            {
-                firstWaypoint = Selection.activeObject.GetComponent<Waypoint>();
-            }
-            CreatePreviousWaypoint(firstWaypoint);
+            CreateConnectedWaypoint();
+        }
+
+        if (GUILayout.Button("Create Intermediate Waypoint"))
+        {
+            CreateIntermediateWaypoint();
         }
         GUILayout.Space(10f);
 
-        GUILayout.Label("Deletion");
+        GUILayout.Label("Creating Ways");
+
+        if (GUILayout.Button("Create Way"))
+        {
+            CreateWay();
+        }
+        GUILayout.Space(10f);
+
+        GUILayout.Label("Deletion Waypoints");
 
         if (GUILayout.Button("Delete Current Waypoint"))
         {
-            Waypoint waypoint = null;
-            if (Selection.activeObject)
-            {
-                waypoint = Selection.activeObject.GetComponent<Waypoint>();
-            }
-            if(waypoint)
-            {
-                DestroyImmediate(waypoint.gameObject);
-            }
+            DeleteWaypoint();
         }
         GUILayout.Space(10f);
     }
 
-    public void CreateNextWaypoint(Waypoint prevWaypoint)
+    public Waypoint CreateWaypoint()
     {
-        // GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, typeof(Waypoint));
-        // waypointObject.transform.SetParent(_waypointRoot, false);
-        //
-        // Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
-        // waypoint.Radius = _defaultRadius;
-        // waypoint.Priority = _defaultPriority;
-        //
-        // if (prevWaypoint)
-        // {
-        //     if(prevWaypoint.NextPoint)
-        //     {
-        //         waypoint.transform.position = Vector3.Lerp(prevWaypoint.transform.position, prevWaypoint.NextPoint.transform.position, 0.5f);
-        //         waypoint.transform.rotation = Quaternion.Lerp(prevWaypoint.transform.rotation, prevWaypoint.NextPoint.transform.rotation, 0.5f);
-        //
-        //         waypoint.NextPoint = prevWaypoint.NextPoint;
-        //         waypoint.NextPoint.PrevPoint = waypoint;
-        //
-        //         prevWaypoint.NextPoint = waypoint;
-        //         waypoint.PrevPoint = prevWaypoint;
-        //     }
-        //     else
-        //     {
-        //         waypoint.transform.position = prevWaypoint.transform.forward * _creatingStep + prevWaypoint.transform.position;
-        //         waypoint.transform.rotation = prevWaypoint.transform.rotation;
-        //
-        //         prevWaypoint.NextPoint = waypoint;
-        //         waypoint.PrevPoint = prevWaypoint;
-        //     }
-        // }
-        // else if(_waypointRoot.childCount > 1)
-        // {
-        //     prevWaypoint = _waypointRoot.GetChild(_waypointRoot.childCount - 2).GetComponent<Waypoint>();
-        //
-        //     int iterations = 0;
-        //     while (prevWaypoint.NextPoint)
-        //     {
-        //         prevWaypoint = prevWaypoint.NextPoint;
-        //
-        //         iterations++;
-        //         if (iterations > _waypointRoot.childCount)
-        //         {
-        //             Debug.LogWarning("Unable to find last Waypoint. Route may be looped.");
-        //             Destroy(waypointObject);
-        //             return;
-        //         }
-        //     }
-        //
-        //     waypoint.transform.position = prevWaypoint.transform.forward * _creatingStep + prevWaypoint.transform.position;
-        //     waypoint.transform.rotation = prevWaypoint.transform.rotation;
-        //
-        //     prevWaypoint.NextPoint = waypoint;
-        //     waypoint.PrevPoint = prevWaypoint;
-        // }
-        // else
-        // {
-        //     waypoint.transform.localPosition = Vector3.zero;
-        // }
-        //
-        // Selection.activeObject = waypointObject;
+        GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, typeof(Waypoint));
+        waypointObject.transform.SetParent(_waypointRoot, false);
+
+        Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
+        waypoint.Radius = _defaultRadius;
+        waypoint.Priority = _defaultPriority;
+
+        return waypoint;
     }
 
-    public void CreatePreviousWaypoint(Waypoint nextWaypoint)
+    public void CreateSoloWaypoint()
     {
-        // GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, typeof(Waypoint));
-        // waypointObject.transform.SetParent(_waypointRoot, false);
-        //
-        // Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
-        // waypoint.Radius = _defaultRadius;
-        // waypoint.Priority = _defaultPriority;
-        //
-        // if (nextWaypoint != null)
-        // {
-        //     if (nextWaypoint.PrevPoint)
-        //     {
-        //         waypoint.transform.position = Vector3.Lerp(nextWaypoint.transform.position, nextWaypoint.PrevPoint.transform.position, 0.5f);
-        //         waypoint.transform.rotation = Quaternion.Lerp(nextWaypoint.transform.rotation, nextWaypoint.PrevPoint.transform.rotation, 0.5f);
-        //
-        //         waypoint.PrevPoint = nextWaypoint.PrevPoint;
-        //         waypoint.PrevPoint.NextPoint = waypoint;
-        //
-        //         waypoint.NextPoint = nextWaypoint;
-        //         waypoint.NextPoint.PrevPoint = waypoint;
-        //     }
-        //     else
-        //     {
-        //         waypoint.transform.position = -nextWaypoint.transform.forward * _creatingStep + nextWaypoint.transform.position;
-        //         waypoint.transform.rotation = nextWaypoint.transform.rotation;
-        //
-        //         nextWaypoint.PrevPoint = waypoint;
-        //         waypoint.NextPoint = nextWaypoint;
-        //     }
-        // }
-        // else if (_waypointRoot.childCount > 1)
-        // {
-        //     nextWaypoint = _waypointRoot.GetChild(0).GetComponent<Waypoint>();
-        //
-        //     int iterations = 0;
-        //     while (nextWaypoint.PrevPoint)
-        //     {
-        //         nextWaypoint = nextWaypoint.PrevPoint;
-        //
-        //         iterations++;
-        //         if(iterations > _waypointRoot.childCount)
-        //         {
-        //             Debug.LogWarning("Unable to find first Waypoint. Route may be looped.");
-        //             Destroy(waypointObject);
-        //             return;
-        //         }
-        //     }
-        //
-        //     waypoint.transform.position = -nextWaypoint.transform.forward * _creatingStep + nextWaypoint.transform.position;
-        //     waypoint.transform.rotation = nextWaypoint.transform.rotation;
-        //
-        //     nextWaypoint.PrevPoint = waypoint;
-        //     waypoint.NextPoint = nextWaypoint;
-        // }
-        // else
-        // {
-        //     waypoint.transform.localPosition = Vector3.zero;
-        // }
-        //
-        // Selection.activeObject = waypointObject;
+        Waypoint waypoint = CreateWaypoint();
+
+        waypoint.transform.localPosition = Vector3.zero;
+
+        SortWaypoints();
+        Selection.activeGameObject = waypoint.gameObject;
+    }
+
+    public void CreateConnectedWaypoint()
+    {
+        Waypoint selectedWaypoint = null;
+        if (Selection.activeGameObject)
+        {
+            selectedWaypoint = Selection.activeGameObject.GetComponent<Waypoint>();
+        }
+
+        if (!selectedWaypoint && _waypointRoot.childCount <= 1)
+        {
+            CreateSoloWaypoint();
+            return;
+        }
+
+        Waypoint waypoint = CreateWaypoint();
+
+        if (!selectedWaypoint && _waypointRoot.childCount > 1)
+        {
+            selectedWaypoint = _waypointRoot.GetChild(_waypointRoot.childCount - 2).GetComponent<Waypoint>();
+        }
+
+        if (selectedWaypoint.ConnectedWaypoints == null)
+        {
+            selectedWaypoint.ConnectedWaypoints = new List<Waypoint>();
+        }
+
+        waypoint.transform.eulerAngles = selectedWaypoint.transform.eulerAngles
+                                        + new Vector3(0f, 40f * selectedWaypoint.ConnectedWaypoints.Count, 0f);
+        waypoint.transform.position = waypoint.transform.forward * _creatingStep + selectedWaypoint.transform.position;
+
+        if (_bilateralWays)
+        {
+            waypoint.ConnectedWaypoints.Add(selectedWaypoint);
+        }
+        selectedWaypoint.ConnectedWaypoints.Add(waypoint);
+
+        SortWaypoints();
+        Selection.activeGameObject = waypoint.gameObject;
+    }
+
+    public void CreateIntermediateWaypoint()
+    {
+        if (Selection.gameObjects.Length != 2
+            || !Selection.gameObjects[0].GetComponent<Waypoint>()
+            || !Selection.gameObjects[1].GetComponent<Waypoint>())
+        {
+            Debug.LogWarning("Select two waypoints to create way!");
+            return;
+        }
+
+        Waypoint fromWP = Selection.gameObjects[0].GetComponent<Waypoint>();
+        Waypoint toWP = Selection.gameObjects[1].GetComponent<Waypoint>();
+
+        fromWP.ConnectedWaypoints.Remove(toWP);
+        toWP.ConnectedWaypoints.Remove(fromWP);
+
+        Waypoint waypoint = CreateWaypoint();
+
+        waypoint.transform.position = (fromWP.transform.position + toWP.transform.position) / 2f;
+        waypoint.transform.LookAt(toWP.transform);
+
+        fromWP.ConnectedWaypoints.Add(waypoint);
+        waypoint.ConnectedWaypoints.Add(toWP);
+        if (_bilateralWays)
+        {
+            waypoint.ConnectedWaypoints.Add(fromWP);
+            toWP.ConnectedWaypoints.Add(waypoint);
+        }
+
+        SortWaypoints();
+        Selection.activeGameObject = waypoint.gameObject;
+    }
+
+    public void DeleteWaypoint()
+    {
+        Waypoint waypoint = null;
+        if (Selection.activeGameObject)
+        {
+            waypoint = Selection.activeGameObject.GetComponent<Waypoint>();
+        }
+        if (waypoint)
+        {
+            DestroyImmediate(waypoint.gameObject);
+            SortWaypoints();
+            return;
+        }
+
+        Debug.LogWarning("The selected object is missing or does not have a `Waypoint` component.");
+    }
+
+    public void CreateWay()
+    {
+        if(Selection.gameObjects.Length != 2
+            || !Selection.gameObjects[0].GetComponent<Waypoint>()
+            || !Selection.gameObjects[1].GetComponent<Waypoint>())
+        {
+            Debug.LogWarning("Select two waypoints to create way!");
+            return;
+        }
+
+        Waypoint fromWP = Selection.gameObjects[0].GetComponent<Waypoint>();
+        Waypoint toWP = Selection.gameObjects[1].GetComponent<Waypoint>();
+
+        fromWP.ConnectedWaypoints.Remove(toWP);
+        toWP.ConnectedWaypoints.Remove(fromWP);
+
+        if (_bilateralWays)
+        {
+            toWP.ConnectedWaypoints.Add(fromWP);
+        }
+        fromWP.ConnectedWaypoints.Add(toWP);
+    }
+
+    public void SortWaypoints()
+    {
+        int n = 0;
+        for (int i = 0; i < _waypointRoot.childCount; i++)
+        {
+            if (_waypointRoot.GetChild(i).GetComponent<Waypoint>() != null)
+            {
+                _waypointRoot.GetChild(i).gameObject.name = "Waypoint " + n;
+                n++;
+            }
+        }
     }
 }
