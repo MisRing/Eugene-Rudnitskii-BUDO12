@@ -1,99 +1,76 @@
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CharacterController))]
 public class CharacterNavigationController : MonoBehaviour
 {
-    [Header("Main Settings")]
-    [SerializeField] private float _speed = 2f;
-    [SerializeField] private float _rotationSpeed = 1f;
-
     [Header("Navigation Settings")]
-    [SerializeField] private Waypoint _nextPoint;
-    private Waypoint _lastWaypoint;
-    [SerializeField] private Vector3 _nextPosition;
     [SerializeField] private float _minDistance = 0.1f;
-    [SerializeField] private bool _isMovingForvard = true;
     [SerializeField] private bool _isWaitOnEnd = true;
     [SerializeField] private float _minWaitTime = 1f, _maxWaitTime = 5f;
-    private bool _isWaiting = false;
     private float _waitEnds = 0f;
 
-    private Rigidbody _rb;
+    private CharacterController _characterController;
+
+    private Waypoint _nextPoint;
+    private Waypoint _lastWaypoint;
 
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
     }
 
-    public void Initialize(float speed, Waypoint nextPoint, bool isMovingForward)
+    public void Initialize(float speed, Waypoint nextPoint, bool isWaitOnEnd)
     {
-        _speed = speed;
+        _characterController.Initialize(speed);
         _nextPoint = nextPoint;
-        _isMovingForvard = isMovingForward;
+        _isWaitOnEnd = isWaitOnEnd;
 
         if (!_nextPoint) return;
 
-        SetNextPoint(_nextPoint);
+        _characterController.TargetPosition = _nextPoint.GetPoint();
+        _characterController.IsMoving = true;
     }
 
-    public void Update()
+    private void LateUpdate()
     {
         CheckWay();
     }
 
-    private void FixedUpdate()
-    {
-        if (_isWaiting) return;
-
-        _rb.linearVelocity = transform.forward * _speed;
-
-        Vector3 direction = (_nextPosition - new Vector3(transform.position.x, 0f, transform.position.z)).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        _rb.MoveRotation(Quaternion.Slerp(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime));
-    }
-
     private void CheckWay()
     {
-        if (_isWaiting)
+        if (!_characterController.IsMoving)
         {
             if (_waitEnds <= Time.time)
             {
-                _isWaiting = false;
+                SetNextPoint();
             }
             else return;
         }
 
-        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _nextPosition) < _minDistance)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _characterController.TargetPosition) < _minDistance)
         {
-            Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
-            _lastWaypoint = _nextPoint;
-            if (nextWaypoint)
-            {
-                SetNextPoint(nextWaypoint);
-            }
-            else
-            {
-                WayEnds();
-            }
+            SetNextPoint();
         }
     }
 
-    private void WayEnds()
+    private void SetNextPoint()
     {
-        if(_isWaitOnEnd)
+        Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
+        _lastWaypoint = _nextPoint;
+        if (nextWaypoint == null)
         {
-            _isWaiting = true;
-            _waitEnds = Time.time + Random.Range(_minWaitTime, _maxWaitTime);
+            if (_isWaitOnEnd)
+            {
+                _characterController.IsMoving = false;
+                _waitEnds = Time.time + Random.Range(_minWaitTime, _maxWaitTime);
+                return;
+            }
+            _lastWaypoint = null;
+            nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
         }
 
-        _lastWaypoint = null;
-        _isMovingForvard = !_isMovingForvard;
-    }
-
-    private void SetNextPoint(Waypoint nextPoint)
-    {
-        _nextPoint = nextPoint;
-        _nextPosition = _nextPoint.GetPoint();
+        _nextPoint = nextWaypoint;
+        _characterController.TargetPosition = _nextPoint.GetPoint();
+        _characterController.IsMoving = true;
     }
 }
