@@ -26,23 +26,28 @@ public class WaypointEditorComponent : EditorWindow
             true
         );
 
-        if(_waypointRoot == null)
+        if (_waypointRoot == null)
         {
             EditorGUILayout.HelpBox("Choose Waypoint Root!", MessageType.Warning);
-            return;
         }
+        else
+        {
+            _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
+            _defaultPriority = EditorGUILayout.FloatField("Priority", _defaultPriority);
+            _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
 
-        _defaultRadius = EditorGUILayout.FloatField("Radius", _defaultRadius);
-        _defaultPriority = EditorGUILayout.FloatField("Priority", _defaultPriority);
-        _creatingStep = EditorGUILayout.FloatField("Step", _creatingStep);
+            GUILayout.Space(5f);
 
-        GUILayout.Space(5f);
+            _bilateralWays = EditorGUILayout.Toggle("Bilateral Ways", _bilateralWays);
 
-        _bilateralWays = EditorGUILayout.Toggle("Bilateral Ways", _bilateralWays);
+            GUILayout.Space(10f);
+
+            DrawButtons();
+        }
 
         GUILayout.Space(10f);
 
-        DrawButtons();
+        WaypointDebugDraw.IsDebugGizmo = EditorGUILayout.Toggle("Show Waypoints Debug", WaypointDebugDraw.IsDebugGizmo);
     }
 
     public void DrawButtons()
@@ -84,12 +89,13 @@ public class WaypointEditorComponent : EditorWindow
 
     public Waypoint CreateWaypoint()
     {
-        GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, typeof(Waypoint));
+        GameObject waypointObject = new GameObject("Waypoint " + _waypointRoot.childCount, new System.Type[] { typeof(Waypoint), typeof(WaypointConnection) });
         waypointObject.transform.SetParent(_waypointRoot, false);
 
         Waypoint waypoint = waypointObject.GetComponent<Waypoint>();
+        waypoint.ConnectionComponent = waypoint.GetComponent<WaypointConnection>();
         waypoint.Radius = _defaultRadius;
-        waypoint.Priority = _defaultPriority;
+        waypoint.ConnectionComponent.Priority = _defaultPriority;
 
         return waypoint;
     }
@@ -125,20 +131,20 @@ public class WaypointEditorComponent : EditorWindow
             selectedWaypoint = _waypointRoot.GetChild(_waypointRoot.childCount - 2).GetComponent<Waypoint>();
         }
 
-        if (selectedWaypoint.ConnectedWaypoints == null)
+        if (selectedWaypoint.ConnectionComponent.ConnectedWaypoints == null)
         {
-            selectedWaypoint.ConnectedWaypoints = new List<Waypoint>();
+            selectedWaypoint.ConnectionComponent.ConnectedWaypoints = new List<Waypoint>();
         }
 
         waypoint.transform.eulerAngles = selectedWaypoint.transform.eulerAngles
-                                        + new Vector3(0f, 40f * selectedWaypoint.ConnectedWaypoints.Count, 0f);
+                                        + new Vector3(0f, 40f * selectedWaypoint.ConnectionComponent.ConnectedWaypoints.Count, 0f);
         waypoint.transform.position = waypoint.transform.forward * _creatingStep + selectedWaypoint.transform.position;
 
         if (_bilateralWays)
         {
-            waypoint.ConnectedWaypoints.Add(selectedWaypoint);
+            waypoint.ConnectionComponent.ConnectedWaypoints.Add(selectedWaypoint);
         }
-        selectedWaypoint.ConnectedWaypoints.Add(waypoint);
+        selectedWaypoint.ConnectionComponent.ConnectedWaypoints.Add(waypoint);
 
         SortWaypoints();
         Selection.activeGameObject = waypoint.gameObject;
@@ -157,20 +163,20 @@ public class WaypointEditorComponent : EditorWindow
         Waypoint fromWP = Selection.gameObjects[0].GetComponent<Waypoint>();
         Waypoint toWP = Selection.gameObjects[1].GetComponent<Waypoint>();
 
-        fromWP.ConnectedWaypoints.Remove(toWP);
-        toWP.ConnectedWaypoints.Remove(fromWP);
+        fromWP.ConnectionComponent.ConnectedWaypoints.Remove(toWP);
+        toWP.ConnectionComponent.ConnectedWaypoints.Remove(fromWP);
 
         Waypoint waypoint = CreateWaypoint();
 
         waypoint.transform.position = (fromWP.transform.position + toWP.transform.position) / 2f;
         waypoint.transform.LookAt(toWP.transform);
 
-        fromWP.ConnectedWaypoints.Add(waypoint);
-        waypoint.ConnectedWaypoints.Add(toWP);
+        fromWP.ConnectionComponent.ConnectedWaypoints.Add(waypoint);
+        waypoint.ConnectionComponent.ConnectedWaypoints.Add(toWP);
         if (_bilateralWays)
         {
-            waypoint.ConnectedWaypoints.Add(fromWP);
-            toWP.ConnectedWaypoints.Add(waypoint);
+            waypoint.ConnectionComponent.ConnectedWaypoints.Add(fromWP);
+            toWP.ConnectionComponent.ConnectedWaypoints.Add(waypoint);
         }
 
         SortWaypoints();
@@ -207,14 +213,14 @@ public class WaypointEditorComponent : EditorWindow
         Waypoint fromWP = Selection.gameObjects[0].GetComponent<Waypoint>();
         Waypoint toWP = Selection.gameObjects[1].GetComponent<Waypoint>();
 
-        fromWP.ConnectedWaypoints.Remove(toWP);
-        toWP.ConnectedWaypoints.Remove(fromWP);
+        fromWP.ConnectionComponent.ConnectedWaypoints.Remove(toWP);
+        toWP.ConnectionComponent.ConnectedWaypoints.Remove(fromWP);
 
         if (_bilateralWays)
         {
-            toWP.ConnectedWaypoints.Add(fromWP);
+            toWP.ConnectionComponent.ConnectedWaypoints.Add(fromWP);
         }
-        fromWP.ConnectedWaypoints.Add(toWP);
+        fromWP.ConnectionComponent.ConnectedWaypoints.Add(toWP);
     }
 
     public void SortWaypoints()

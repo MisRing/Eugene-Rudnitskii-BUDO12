@@ -27,7 +27,7 @@ public class CharacterNavigationController : MonoBehaviour
 
         if (!_nextPoint) return;
 
-        _characterController.TargetPosition = _nextPoint.GetPoint();
+        _characterController.TargetPosition = _nextPoint.GetPointPosition();
         _characterController.IsMoving = true;
     }
 
@@ -55,7 +55,7 @@ public class CharacterNavigationController : MonoBehaviour
 
     private void SetNextPoint()
     {
-        Waypoint nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
+        Waypoint nextWaypoint = _nextPoint.ConnectionComponent.GetNextWaypoint(_lastWaypoint);
         _lastWaypoint = _nextPoint;
         if (nextWaypoint == null)
         {
@@ -66,11 +66,11 @@ public class CharacterNavigationController : MonoBehaviour
                 return;
             }
             _lastWaypoint = null;
-            nextWaypoint = _nextPoint.GetNextWaypoint(_lastWaypoint);
+            nextWaypoint = _nextPoint.ConnectionComponent.GetNextWaypoint(_lastWaypoint);
         }
 
         _nextPoint = nextWaypoint;
-        _characterController.TargetPosition = _nextPoint.GetPoint();
+        _characterController.TargetPosition = _nextPoint.GetPointPosition();
         _characterController.IsMoving = true;
     }
 }

@@ -21,9 +21,13 @@ public class WaypointDebugDraw
     [Header("Text settings")]
     private static float TEXT_SIZE = 16f;
 
+    public static bool IsDebugGizmo = true;
+
     [DrawGizmo(GizmoType.NonSelected | GizmoType.Selected | GizmoType.Pickable)]
     public static void OnDrawGizmo(Waypoint point, GizmoType gizmoType)
     {
+        if (!IsDebugGizmo) return;
+
         float visualMod = 1f;
         bool isSelected = (gizmoType & GizmoType.Selected) != 0;
         Handles.zTest = UnityEngine.Rendering.CompareFunction.LessEqual;
@@ -49,7 +53,7 @@ public class WaypointDebugDraw
             wayColor = Color.darkGreen;
         }
 
-        foreach (Waypoint cPoint in point.ConnectedWaypoints)
+        foreach (Waypoint cPoint in point.ConnectionComponent.ConnectedWaypoints)
         {
             if (cPoint != null)
             {
@@ -94,7 +98,7 @@ public class WaypointDebugDraw
     {
         Handles.color = color * visualMod;
 
-        float wayWeight = WAY_THICKNESS_MIN + toP.Priority * (WAY_THICKNESS_MAX - WAY_THICKNESS_MIN);
+        float wayWeight = WAY_THICKNESS_MIN + toP.ConnectionComponent.Priority * (WAY_THICKNESS_MAX - WAY_THICKNESS_MIN);
 
         Vector3 offsetDirection = Vector3.Cross(Vector3.up, (toP.transform.position - fromP.transform.position).normalized);
 
@@ -117,7 +121,7 @@ public class WaypointDebugDraw
             DrawDirectionArrow(arrowCenter, arrowDirection, visualMod, arrowColor, 0.75f);
             if (isSelected)
             {
-                Handles.Label(wayCenter + Vector3.up * 0.1f, toP.Priority.ToString(), labelStyle);
+                Handles.Label(wayCenter + Vector3.up * 0.1f, toP.ConnectionComponent.Priority.ToString(), labelStyle);
             }
         }
     }
