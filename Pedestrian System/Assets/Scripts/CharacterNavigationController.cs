@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterMovementComponent))]
 public class CharacterNavigationController : MonoBehaviour
 {
     [Header("Navigation Settings")]
@@ -9,14 +9,14 @@ public class CharacterNavigationController : MonoBehaviour
     [SerializeField] private float _minWaitTime = 1f, _maxWaitTime = 5f;
     private float _waitEnds = 0f;
 
-    private CharacterController _characterController;
+    private CharacterMovementComponent _characterController;
 
     private Waypoint _nextPoint;
     private Waypoint _lastWaypoint;
 
     private void Awake()
     {
-        _characterController = GetComponent<CharacterController>();
+        _characterController = GetComponent<CharacterMovementComponent>();
     }
 
     public void Initialize(float speed, Waypoint nextPoint, bool isWaitOnEnd)

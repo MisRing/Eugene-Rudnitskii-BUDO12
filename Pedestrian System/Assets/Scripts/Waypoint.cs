@@ -13,9 +13,9 @@ public class Waypoint : MonoBehaviour
     {
         float randomX = Random.Range(-1f, 1f);
         float randomZ = Random.Range(-1f, 1f);
-        Vector3 randomPoint = transform.right * randomX + transform.forward * randomZ;
-        randomPoint.y = 0f;
+        Vector3 randomPoint = Vector3.right * randomX + Vector3.forward * randomZ;
         randomPoint = randomPoint.normalized * Radius + transform.position;
+        randomPoint.y = 0f;
 
         return randomPoint;
     }
