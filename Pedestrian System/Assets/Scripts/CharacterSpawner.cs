@@ -17,17 +17,22 @@ public class CharacterSpawner : MonoBehaviour
     {
         for (int i = 0; i < _count; i++)
         {
-            GameObject ch = Instantiate(_prefab);
-            Waypoint point = _waypointRoot.GetChild(Random.Range(0, _waypointRoot.childCount)).GetComponent<Waypoint>();
-            ch.transform.position = point.transform.position
-                + new Vector3(Random.Range(-point.Radius, point.Radius), 0.11f, Random.Range(-point.Radius, point.Radius)) * 10;
+            CreateCharacter();
+        }
+    }
 
-            ch.GetComponent<CharacterNavigationController>().Initialize(Random.Range(2f, 6f), point, Mathf.RoundToInt(Random.Range(0, 5)) != 0);
+    private void CreateCharacter()
+    {
+        GameObject ch = Instantiate(_prefab);
+        Waypoint point = _waypointRoot.GetChild(Random.Range(0, _waypointRoot.childCount)).GetComponent<Waypoint>();
+        ch.transform.position = point.transform.position
+            + new Vector3(Random.Range(-point.Radius, point.Radius), 0.11f, Random.Range(-point.Radius, point.Radius)) * 10;
 
-            if(_materials != null && _materials.Count > 0)
-            {
-                ch.GetComponent<MeshRenderer>().material = _materials[Random.Range(0, _materials.Count)];
-            }
+        ch.GetComponent<CharacterService>().Initialize(Random.Range(2f, 6f), point, Mathf.RoundToInt(Random.Range(0, 5)) != 0);
+
+        if (_materials != null && _materials.Count > 0)
+        {
+            ch.GetComponent<MeshRenderer>().material = _materials[Random.Range(0, _materials.Count)];
         }
     }
 }

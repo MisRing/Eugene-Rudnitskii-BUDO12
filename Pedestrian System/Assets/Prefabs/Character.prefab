@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 7935982721976701130}
   - component: {fileID: 8470863709314579282}
   - component: {fileID: 4800504115534762198}
+  - component: {fileID: -5078316718340798744}
   - component: {fileID: 7426883410547247468}
   - component: {fileID: 1450779284594255407}
   m_Layer: 3
@@ -257,6 +258,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &-5078316718340798744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3064691228544985095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebfbf4b9cdc79cd4097b2838c618d614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!114 &7426883410547247468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,8 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CharacterController
   _speed: 6
   _rotationSpeed: 10
-  _targetPosition: {x: 0, y: 0, z: 0}
-  _isMoving: 0
+  TargetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &1450779284594255407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,12 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcf5cb4cee508b479bbbe7e8d975181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterNavigationController
-  _speed: 6
-  _rotationSpeed: 10
-  _nextPoint: {fileID: 0}
-  _nextPosition: {x: 0, y: 0, z: 0}
   _minDistance: 0.2
-  _isMovingForvard: 1
   _isWaitOnEnd: 1
   _minWaitTime: 2
   _maxWaitTime: 6

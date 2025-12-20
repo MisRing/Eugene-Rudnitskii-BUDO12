@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterMovementComponent))]
 public class CharacterNavigationController : MonoBehaviour
 {
     [Header("Navigation Settings")]
@@ -9,26 +8,22 @@ public class CharacterNavigationController : MonoBehaviour
     [SerializeField] private float _minWaitTime = 1f, _maxWaitTime = 5f;
     private float _waitEnds = 0f;
 
-    private CharacterMovementComponent _characterController;
-
     private Waypoint _nextPoint;
     private Waypoint _lastWaypoint;
 
-    private void Awake()
-    {
-        _characterController = GetComponent<CharacterMovementComponent>();
-    }
+    private CharacterService _characterService;
 
-    public void Initialize(float speed, Waypoint nextPoint, bool isWaitOnEnd)
+    public void Initialize(Waypoint nextPoint, bool isWaitOnEnd, CharacterService characterService)
     {
-        _characterController.Initialize(speed);
+        _characterService = characterService;
+
         _nextPoint = nextPoint;
         _isWaitOnEnd = isWaitOnEnd;
 
         if (!_nextPoint) return;
 
-        _characterController.TargetPosition = _nextPoint.GetPointPosition();
-        _characterController.IsMoving = true;
+        _characterService.CharacterMovementComponent.TargetPosition = _nextPoint.GetPointPosition();
+        _characterService.CharacterMovementComponent.IsMoving = true;
     }
 
     private void LateUpdate()
@@ -38,7 +33,7 @@ public class CharacterNavigationController : MonoBehaviour
 
     private void CheckWay()
     {
-        if (!_characterController.IsMoving)
+        if (!_characterService.CharacterMovementComponent.IsMoving)
         {
             if (_waitEnds <= Time.time)
             {
@@ -47,7 +42,7 @@ public class CharacterNavigationController : MonoBehaviour
             else return;
         }
 
-        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _characterController.TargetPosition) < _minDistance)
+        if (Vector3.Distance(new Vector3(transform.position.x, 0f, transform.position.z), _characterService.CharacterMovementComponent.TargetPosition) < _minDistance)
         {
             SetNextPoint();
         }
@@ -61,7 +56,7 @@ public class CharacterNavigationController : MonoBehaviour
         {
             if (_isWaitOnEnd)
             {
-                _characterController.IsMoving = false;
+                _characterService.CharacterMovementComponent.IsMoving = false;
                 _waitEnds = Time.time + Random.Range(_minWaitTime, _maxWaitTime);
                 return;
             }
@@ -70,7 +65,7 @@ public class CharacterNavigationController : MonoBehaviour
         }
 
         _nextPoint = nextWaypoint;
-        _characterController.TargetPosition = _nextPoint.GetPointPosition();
-        _characterController.IsMoving = true;
+        _characterService.CharacterMovementComponent.TargetPosition = _nextPoint.GetPointPosition();
+        _characterService.CharacterMovementComponent.IsMoving = true;
     }
 }
