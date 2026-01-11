@@ -29,9 +29,9 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
-    public void AddOrder(Vector3 point, bool newQueue)
+    public void AddOrder(Vector3 point, bool addToQ)
     {
-        if(newQueue)
+        if(!addToQ)
         {
             _movementQs.Clear();
         }
