@@ -4,7 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class UnitMovement : MonoBehaviour
 {
-    [SerializeField] private float _speed = 5f;
+    [HideInInspector] public Unit UnitController;
+
     [SerializeField] private float _endThreshold = 0.1f;
     private Rigidbody _rb;
 
@@ -21,9 +22,14 @@ public class UnitMovement : MonoBehaviour
 
         Vector3 direction = _movementQs.Peek() - transform.position;
         direction.y = 0;
-        _rb.linearVelocity = direction.normalized * _speed * Time.fixedDeltaTime;
+        _rb.linearVelocity = direction.normalized * UnitController.Stats.MoveSpeed * Time.fixedDeltaTime;
 
-        if(Vector3.Distance(transform.position, _movementQs.Peek()) <= _endThreshold)
+        if (direction != Vector3.zero)
+        {
+            _rb.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        }
+
+        if (Vector3.Distance(transform.position, _movementQs.Peek()) <= _endThreshold)
         {
             _movementQs.Dequeue();
         }

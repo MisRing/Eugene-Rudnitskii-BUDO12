@@ -6,6 +6,7 @@ public class CameraDebug
 {
     [Header("Debug settings")]
     private static Color LINE_COLOR = Color.white;
+    private static Color VIEW_COLOR = Color.lightYellow;
     private static float LINE_THICKNESS = 3f;
     private static float POSITION_RADIUS = 0.75f;
 
@@ -17,21 +18,35 @@ public class CameraDebug
         Vector3 cameraGroundedPos = new Vector3(cameraPos.x, 0f, cameraPos.z);
 
         Handles.color = LINE_COLOR;
-        Handles.DrawLine(cameraPos, cameraGroundedPos, LINE_THICKNESS);
-        Handles.DrawWireDisc(cameraGroundedPos, Vector3.up, POSITION_RADIUS, LINE_THICKNESS);
+        Handles.DrawLine(cameraPos, cameraGroundedPos, LINE_THICKNESS * 0.5f);
+        Handles.DrawWireDisc(cameraGroundedPos, Vector3.up, POSITION_RADIUS, LINE_THICKNESS * 0.5f);
 
-        Vector2 pos1 = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, cameraPos.y));
-        Vector2 pos2 = Camera.main.ViewportToWorldPoint(new Vector3(1, 0, cameraPos.y));
-        Vector2 pos3 = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 10));
-        Vector2 pos4 = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 10));
+        Camera cam = Camera.main;
 
-        Handles.color = Color.red;
+        Vector3 leftBot = GetGroundPoint(cam, new Vector2(0f, 0f));
+        Vector3 rightBot = GetGroundPoint(cam, new Vector2(1f, 0f));
+        Vector3 rightTop = GetGroundPoint(cam, new Vector2(1f, 1f));
+        Vector3 leftTop = GetGroundPoint(cam, new Vector2(0f, 1f));
 
-        Handles.DrawLine(pos1, pos2, LINE_THICKNESS);
-        Handles.DrawLine(pos2, pos3, LINE_THICKNESS);
-        Handles.DrawLine(pos3, pos4, LINE_THICKNESS);
-        Handles.DrawLine(pos4, pos1, LINE_THICKNESS);
+        Handles.color = VIEW_COLOR;
 
+        Handles.DrawLine(leftBot, rightBot, LINE_THICKNESS);
+        Handles.DrawLine(rightBot, rightTop, LINE_THICKNESS);
+        Handles.DrawLine(rightTop, leftTop, LINE_THICKNESS);
+        Handles.DrawLine(leftTop, leftBot, LINE_THICKNESS);
+    }
 
+    static Vector3 GetGroundPoint(Camera cam, Vector2 viewportPos)
+    {
+        Ray ray = cam.ViewportPointToRay(new Vector3(viewportPos.x, viewportPos.y, 0f));
+
+        Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
+
+        if (groundPlane.Raycast(ray, out float enter))
+        {
+            return ray.GetPoint(enter);
+        }
+
+        return Vector3.zero;
     }
 }

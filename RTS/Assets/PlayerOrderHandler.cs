@@ -3,7 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerOrderHandler : MonoBehaviour
 {
-    public UnitMovement unit;
+    public Unit unit;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private GameObject cursorPref;
     private RTS_InputActions _inputControls;
 
     private void Awake()
@@ -25,7 +27,15 @@ public class PlayerOrderHandler : MonoBehaviour
 
     private void MoveOrder(InputAction.CallbackContext context)
     {
-        bool addToOrderQ = _inputControls.PlayerControls.LeftShift.IsPressed();
-        unit.AddOrder(new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f)), addToOrderQ);
+        Ray ray = Camera.main.ScreenPointToRay(_inputControls.CameraControls.MousePosition.ReadValue<Vector2>());
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 100f, groundLayer))
+        {
+            Vector3 point = hit.point;
+            bool addToOrderQ = _inputControls.PlayerControls.LeftShift.IsPressed();
+            unit.Movement.AddOrder(point, addToOrderQ);
+
+            GameObject.Instantiate(cursorPref, point, Quaternion.identity);
+        }
     }
 }
