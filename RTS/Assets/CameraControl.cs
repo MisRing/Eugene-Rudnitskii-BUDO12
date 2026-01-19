@@ -43,25 +43,17 @@ public class CameraControl : MonoBehaviour
         Vector2 mousePos = _inputControls.CameraControls.MousePosition.ReadValue<Vector2>();
         float screenSizeX = Screen.width;
         float screenSizeY = Screen.height;
+        
+        if (mousePos.x < 0 || mousePos.x > screenSizeX || mousePos.y < 0 || mousePos.y > screenSizeY)
+            return Vector2.zero;
 
         Vector2 mouseDirection = Vector2.zero;
 
-        if ((mousePos.x < 0 || mousePos.x > screenSizeX) && (mousePos.y < 0 || mousePos.y > screenSizeY))
-            return Vector2.zero;
+        mouseDirection.x =  mousePos.x <= screenSizeX * _moveBorderPercent ? -1
+                            : mousePos.x >= screenSizeX * (1 - _moveBorderPercent) ? 1 : 0;
 
-        mouseDirection.x =  (mousePos.x <= screenSizeX * _moveBorderPercent
-                            && mousePos.x >= 0)
-                            ? -1
-                            : (mousePos.x >= screenSizeX * (1 - _moveBorderPercent)
-                            && mousePos.x <= screenSizeX)
-                            ? 1 : 0;
-
-        mouseDirection.y =  (mousePos.y <= screenSizeY * _moveBorderPercent
-                            && mousePos.y >= 0)
-                            ? -1
-                            : (mousePos.y >= screenSizeY * (1 - _moveBorderPercent)
-                            && mousePos.y <= screenSizeY)
-                            ? 1 : 0;
+        mouseDirection.y =  mousePos.y <= screenSizeY * _moveBorderPercent ? -1
+                            : mousePos.y >= screenSizeY * (1 - _moveBorderPercent) ? 1 : 0;
 
         return mouseDirection;
     }

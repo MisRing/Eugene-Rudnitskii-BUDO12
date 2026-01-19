@@ -26,7 +26,9 @@ public class UnitMovement : MonoBehaviour
 
         if (direction != Vector3.zero)
         {
-            _rb.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
+
+            _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, UnitController.Stats.RotationSpeed * Time.fixedDeltaTime);
         }
 
         if (Vector3.Distance(transform.position, _movementQs.Peek()) <= _endThreshold)

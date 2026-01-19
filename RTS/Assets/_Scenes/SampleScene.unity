@@ -664,8 +664,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitStats
   UnitController: {fileID: 0}
-  MoveSpeed: 30
-  RotationSpeed: 20
+  MoveSpeed: 300
+  RotationSpeed: 7.5
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
