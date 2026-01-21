@@ -93,9 +93,18 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
             ""id"": ""a9e24bcb-8925-4165-a2c1-6aa17241414a"",
             ""actions"": [
                 {
-                    ""name"": ""MouseClick"",
+                    ""name"": ""MouseRightClick"",
                     ""type"": ""Button"",
                     ""id"": ""084eae02-3cd0-4f3a-baf3-606de20c6282"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseLeftClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""3bb93348-9028-4dce-9f28-3841fbd260c9"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -119,7 +128,18 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""MouseClick"",
+                    ""action"": ""MouseRightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9b547a3d-d8ed-4b09-937f-e29698af7fff"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseLeftClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -319,7 +339,8 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
 }");
         // PlayerControls
         m_PlayerControls = asset.FindActionMap("PlayerControls", throwIfNotFound: true);
-        m_PlayerControls_MouseClick = m_PlayerControls.FindAction("MouseClick", throwIfNotFound: true);
+        m_PlayerControls_MouseRightClick = m_PlayerControls.FindAction("MouseRightClick", throwIfNotFound: true);
+        m_PlayerControls_MouseLeftClick = m_PlayerControls.FindAction("MouseLeftClick", throwIfNotFound: true);
         m_PlayerControls_LeftShift = m_PlayerControls.FindAction("LeftShift", throwIfNotFound: true);
         // CameraControls
         m_CameraControls = asset.FindActionMap("CameraControls", throwIfNotFound: true);
@@ -407,7 +428,8 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
     // PlayerControls
     private readonly InputActionMap m_PlayerControls;
     private List<IPlayerControlsActions> m_PlayerControlsActionsCallbackInterfaces = new List<IPlayerControlsActions>();
-    private readonly InputAction m_PlayerControls_MouseClick;
+    private readonly InputAction m_PlayerControls_MouseRightClick;
+    private readonly InputAction m_PlayerControls_MouseLeftClick;
     private readonly InputAction m_PlayerControls_LeftShift;
     /// <summary>
     /// Provides access to input actions defined in input action map "PlayerControls".
@@ -421,9 +443,13 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public PlayerControlsActions(@RTS_InputActions wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "PlayerControls/MouseClick".
+        /// Provides access to the underlying input action "PlayerControls/MouseRightClick".
         /// </summary>
-        public InputAction @MouseClick => m_Wrapper.m_PlayerControls_MouseClick;
+        public InputAction @MouseRightClick => m_Wrapper.m_PlayerControls_MouseRightClick;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerControls/MouseLeftClick".
+        /// </summary>
+        public InputAction @MouseLeftClick => m_Wrapper.m_PlayerControls_MouseLeftClick;
         /// <summary>
         /// Provides access to the underlying input action "PlayerControls/LeftShift".
         /// </summary>
@@ -454,9 +480,12 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_PlayerControlsActionsCallbackInterfaces.Add(instance);
-            @MouseClick.started += instance.OnMouseClick;
-            @MouseClick.performed += instance.OnMouseClick;
-            @MouseClick.canceled += instance.OnMouseClick;
+            @MouseRightClick.started += instance.OnMouseRightClick;
+            @MouseRightClick.performed += instance.OnMouseRightClick;
+            @MouseRightClick.canceled += instance.OnMouseRightClick;
+            @MouseLeftClick.started += instance.OnMouseLeftClick;
+            @MouseLeftClick.performed += instance.OnMouseLeftClick;
+            @MouseLeftClick.canceled += instance.OnMouseLeftClick;
             @LeftShift.started += instance.OnLeftShift;
             @LeftShift.performed += instance.OnLeftShift;
             @LeftShift.canceled += instance.OnLeftShift;
@@ -471,9 +500,12 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="PlayerControlsActions" />
         private void UnregisterCallbacks(IPlayerControlsActions instance)
         {
-            @MouseClick.started -= instance.OnMouseClick;
-            @MouseClick.performed -= instance.OnMouseClick;
-            @MouseClick.canceled -= instance.OnMouseClick;
+            @MouseRightClick.started -= instance.OnMouseRightClick;
+            @MouseRightClick.performed -= instance.OnMouseRightClick;
+            @MouseRightClick.canceled -= instance.OnMouseRightClick;
+            @MouseLeftClick.started -= instance.OnMouseLeftClick;
+            @MouseLeftClick.performed -= instance.OnMouseLeftClick;
+            @MouseLeftClick.canceled -= instance.OnMouseLeftClick;
             @LeftShift.started -= instance.OnLeftShift;
             @LeftShift.performed -= instance.OnLeftShift;
             @LeftShift.canceled -= instance.OnLeftShift;
@@ -636,12 +668,19 @@ public partial class @RTS_InputActions: IInputActionCollection2, IDisposable
     public interface IPlayerControlsActions
     {
         /// <summary>
-        /// Method invoked when associated input action "MouseClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "MouseRightClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnMouseClick(InputAction.CallbackContext context);
+        void OnMouseRightClick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MouseLeftClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseLeftClick(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "LeftShift" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

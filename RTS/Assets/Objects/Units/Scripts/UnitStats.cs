@@ -7,4 +7,5 @@ public class UnitStats : MonoBehaviour
     [Header("Stats")]
     public float MoveSpeed = 15f;
     public float RotationSpeed = 20f;
+    public float Size = 1f;
 }
