@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnitMovement : MonoBehaviour
 {
     [HideInInspector] public Unit UnitController;
+    [HideInInspector] public Vector3 MovementDirection = Vector3.zero;
 
     [SerializeField] private float _endThreshold = 0.1f;
     private Rigidbody _rb;
@@ -22,7 +23,9 @@ public class UnitMovement : MonoBehaviour
 
         Vector3 direction = _movementQs.Peek() - transform.position;
         direction.y = 0;
-        _rb.linearVelocity = direction.normalized * UnitController.Stats.MoveSpeed * Time.fixedDeltaTime;
+        direction = direction.normalized * Mathf.Clamp(direction.magnitude * 3, 1.8f, 3f) / 3f;
+
+        _rb.linearVelocity = direction * UnitController.Stats.MoveSpeed * Time.fixedDeltaTime;
 
         if (direction != Vector3.zero)
         {
@@ -31,9 +34,13 @@ public class UnitMovement : MonoBehaviour
             _rb.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, UnitController.Stats.RotationSpeed * Time.fixedDeltaTime);
         }
 
+        MovementDirection = transform.InverseTransformDirection(direction);
+
         if (Vector3.Distance(transform.position, _movementQs.Peek()) <= _endThreshold)
         {
             _movementQs.Dequeue();
+            MovementDirection = Vector3.zero;
+            _rb.linearVelocity = Vector3.zero;
         }
     }
 

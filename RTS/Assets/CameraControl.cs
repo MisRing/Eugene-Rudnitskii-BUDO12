@@ -30,7 +30,7 @@ public class CameraControl : MonoBehaviour
                                         0f,
                                         _inputControls.CameraControls.MoveVertical.ReadValue<float>());
 
-        Vector2 mouseDirection = GetMouseDirection();
+        Vector2 mouseDirection = Vector2.zero;// = GetMouseDirection();
 
         direction.x = direction.x == 0 ? mouseDirection.x : direction.x;
         direction.z = direction.z == 0 ? mouseDirection.y : direction.z;
