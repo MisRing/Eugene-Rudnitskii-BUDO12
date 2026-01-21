@@ -46,17 +46,18 @@ public class PlayerOrderHandler : MonoBehaviour
 
     private void LeftClick(InputAction.CallbackContext context)
     {
+        if (_unit)
+        {
+            _unit.Unsellect();
+            _unit = null;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(_inputControls.CameraControls.MousePosition.ReadValue<Vector2>());
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 100f, unitsLayer))
         {
             _unit = hit.collider.gameObject.GetComponent<Unit>();
             _unit.Sellect();
-        }
-        else if(_unit)
-        {
-            _unit.Unsellect();
-            _unit = null;
         }
     }
 }

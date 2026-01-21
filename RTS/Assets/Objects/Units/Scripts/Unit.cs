@@ -34,7 +34,10 @@ public class Unit : MonoBehaviour
         HUDController.UnitController = this;
         Movement.UnitController = this;
         Combat.UnitController = this;
+    }
 
+    private void Start()
+    {
         HUDController.Initialize();
     }
 
